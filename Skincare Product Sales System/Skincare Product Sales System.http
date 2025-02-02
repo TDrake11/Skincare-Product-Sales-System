@@ -1,0 +1,6 @@
+@Skincare_Product_Sales_System_HostAddress = http://localhost:5187
+
+GET {{Skincare_Product_Sales_System_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
