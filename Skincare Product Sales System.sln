@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skincare Product Sales System", "Skincare Product Sales System\Skincare Product Sales System.csproj", "{D65CA83E-F65B-4B1B-9F28-8373ED3B2280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skincare Product Sales System", "Skincare Product Sales System\Skincare Product Sales System.csproj", "{D65CA83E-F65B-4B1B-9F28-8373ED3B2280}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skincare Product Sales System Domain", "Skincare Product Sales System Domain\Skincare Product Sales System Domain.csproj", "{6ADC6B4E-6E6F-4BAE-A711-BEF47A9451E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skincare Product Sales System Application", "Skincare Product Sales System Application\Skincare Product Sales System Application.csproj", "{14D72C65-477B-4EFD-881D-FCA21D56B497}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skincare Product Sales System Infrastructure", "Skincare Product Sales System Infrastructure\Skincare Product Sales System Infrastructure.csproj", "{A8BCE480-4623-4EFE-9D59-5075A502CCEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{D65CA83E-F65B-4B1B-9F28-8373ED3B2280}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D65CA83E-F65B-4B1B-9F28-8373ED3B2280}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D65CA83E-F65B-4B1B-9F28-8373ED3B2280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ADC6B4E-6E6F-4BAE-A711-BEF47A9451E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ADC6B4E-6E6F-4BAE-A711-BEF47A9451E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ADC6B4E-6E6F-4BAE-A711-BEF47A9451E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ADC6B4E-6E6F-4BAE-A711-BEF47A9451E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D72C65-477B-4EFD-881D-FCA21D56B497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D72C65-477B-4EFD-881D-FCA21D56B497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D72C65-477B-4EFD-881D-FCA21D56B497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D72C65-477B-4EFD-881D-FCA21D56B497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BCE480-4623-4EFE-9D59-5075A502CCEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BCE480-4623-4EFE-9D59-5075A502CCEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BCE480-4623-4EFE-9D59-5075A502CCEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BCE480-4623-4EFE-9D59-5075A502CCEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
