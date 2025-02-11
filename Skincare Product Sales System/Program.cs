@@ -1,15 +1,23 @@
 
+using Skincare_Product_Sales_System_Infrastructure.Extensions;
+
 namespace Skincare_Product_Sales_System
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+			var services = builder.Services;
+			var config = builder.Configuration;
 
 			// Add services to the container.
+			services.AddInfrastructure(config);
+
+
 
 			builder.Services.AddControllers();
+
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
@@ -29,6 +37,8 @@ namespace Skincare_Product_Sales_System
 
 
 			app.MapControllers();
+
+			await app.AddAutoMigrateDatabase();
 
 			app.Run();
 		}

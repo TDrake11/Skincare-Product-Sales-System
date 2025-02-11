@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skincare Product Sales System Application\Skincare Product Sales System Application.csproj" />
     <ProjectReference Include="..\Skincare Product Sales System Infrastructure\Skincare Product Sales System Infrastructure.csproj" />
   </ItemGroup>
 
