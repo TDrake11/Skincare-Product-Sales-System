@@ -15,11 +15,11 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public OrderStatus OrderStatus { get; set; }
 
 		[ForeignKey("Customer")]
-		public int CustomerId { get; set; } // id cua khach hang dat hang
+		public string CustomerId { get; set; } // id cua khach hang dat hang
 		public virtual User Customer { get; set; } // 1 oder chi duoc dat hang boi 1 khach hang
 
 		[ForeignKey("Staff")]
-		public int? StaffId { get; set; } // id cua nhan vien xu ly don hang,
+		public string? StaffId { get; set; } // id cua nhan vien xu ly don hang,
 		public virtual User? Staff { get; set; } // 1 don hang chỉ có 1 nhan vien xu ly
 
 		public virtual ICollection<OrderDetail>? OrderDetails { get; set; } // 1 order co nhieu order detail

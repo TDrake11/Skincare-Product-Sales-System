@@ -24,7 +24,7 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public virtual Category Category { get; set; } // 1 product thuoc ve 1 category
 
 		[ForeignKey("Staff")]
-		public int? StaffId { get; set; }
+		public string? StaffId { get; set; }
 		public virtual User? Staff { get; set; } // 1 product chi duoc quan li boi 1 nhan vien
 
 		[ForeignKey("SkinType")]

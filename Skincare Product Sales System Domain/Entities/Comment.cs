@@ -20,7 +20,7 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public virtual Product Product { get; set; } // 1 comment chi co 1 product
 
 		[ForeignKey("Customer")]
-		public int CustomerId { get; set; }
+		public string CustomerId { get; set; }
 		public virtual User Customer { get; set; } // 1 comment chi co 1 khach hang
 	}
 }

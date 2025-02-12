@@ -1,11 +1,14 @@
 
+using Microsoft.AspNetCore.Identity;
+using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;
 
 namespace Skincare_Product_Sales_System
 {
 	public class Program
 	{
-		public static async void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
 			var services = builder.Services;
@@ -13,8 +16,9 @@ namespace Skincare_Product_Sales_System
 
 			// Add services to the container.
 			services.AddInfrastructure(config);
-
-
+			services.AddIdentityApiEndpoints<User>()
+			.AddEntityFrameworkStores<ApplicationDbContext>();
+			services.AddAuthorization();
 
 			builder.Services.AddControllers();
 
@@ -35,10 +39,11 @@ namespace Skincare_Product_Sales_System
 
 			app.UseAuthorization();
 
+			app.MapIdentityApi<User>();
 
 			app.MapControllers();
 
-			await app.AddAutoMigrateDatabase();
+			//await app.AddAutoMigrateDatabase();
 
 			app.Run();
 		}
