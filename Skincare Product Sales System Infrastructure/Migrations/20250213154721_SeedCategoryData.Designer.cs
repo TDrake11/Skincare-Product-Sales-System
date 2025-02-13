@@ -12,8 +12,8 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250213071005_Init")]
-    partial class Init
+    [Migration("20250213154721_SeedCategoryData")]
+    partial class SeedCategoryData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,12 +173,65 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<int>("CategoryStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryName = "Tẩy trang",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryName = "Sữa rửa mặt",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryName = "Tẩy tế bào chết",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryName = "Toner",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryName = "Serum",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryName = "Dưỡng ẩm",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryName = "Kem chống nắng",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryName = "Mặt nạ",
+                            CategoryStatus = 0
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryName = "Kem mắt",
+                            CategoryStatus = 0
+                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.Comment", b =>

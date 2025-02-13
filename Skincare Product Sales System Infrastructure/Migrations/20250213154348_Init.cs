@@ -18,7 +18,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CategoryStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250213154348_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,62 +176,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryName = "Tẩy trang",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryName = "Sữa rửa mặt",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryName = "Tẩy tế bào chết",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryName = "Toner",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryName = "Serum",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CategoryName = "Dưỡng ẩm",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CategoryName = "Kem chống nắng",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CategoryName = "Mặt nạ",
-                            CategoryStatus = 0
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CategoryName = "Kem mắt",
-                            CategoryStatus = 0
-                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.Comment", b =>
@@ -447,53 +394,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasIndex("SkinTypeId");
 
                     b.ToTable("SkinCareRoutines");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Giúp kiểm soát dầu, ngăn ngừa mụn và giữ ẩm nhẹ nhàng.",
-                            RoutineName = "Lộ trình cho da dầu",
-                            SkinTypeId = 1,
-                            Status = 0,
-                            TotalSteps = 6
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Dưỡng ẩm sâu, bảo vệ da khỏi bong tróc và mất nước.",
-                            RoutineName = "Lộ trình cho da khô",
-                            SkinTypeId = 2,
-                            Status = 0,
-                            TotalSteps = 6
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Cân bằng dầu vùng chữ T và giữ ẩm vùng khô.",
-                            RoutineName = "Lộ trình cho da hỗn hợp",
-                            SkinTypeId = 3,
-                            Status = 0,
-                            TotalSteps = 6
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Duy trì độ ẩm và bảo vệ da trước tác nhân môi trường.",
-                            RoutineName = "Lộ trình cho da thường",
-                            SkinTypeId = 4,
-                            Status = 0,
-                            TotalSteps = 6
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Làm dịu da, giảm kích ứng và tăng cường hàng rào bảo vệ.",
-                            RoutineName = "Lộ trình cho da nhạy cảm",
-                            SkinTypeId = 5,
-                            Status = 0,
-                            TotalSteps = 6
-                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", b =>
@@ -583,33 +483,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SkinTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            SkinTypeName = "Da dầu"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            SkinTypeName = "Da khô"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            SkinTypeName = "Da hỗn hợp"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            SkinTypeName = "Da thường"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            SkinTypeName = "Da nhạy cảm"
-                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.StepRoutine", b =>
@@ -638,248 +511,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasIndex("RoutineId");
 
                     b.ToTable("StepRoutines");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            RoutineId = 1,
-                            Status = 0,
-                            StepDescription = "Tẩy trang để loại bỏ dầu và bụi bẩn",
-                            StepNumber = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            RoutineId = 1,
-                            Status = 0,
-                            StepDescription = "Rửa mặt với sữa rửa mặt kiềm dầu",
-                            StepNumber = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            RoutineId = 1,
-                            Status = 0,
-                            StepDescription = "Dùng toner giúp kiểm soát dầu",
-                            StepNumber = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            RoutineId = 1,
-                            Status = 0,
-                            StepDescription = "Sử dụng serum giảm dầu, ngừa mụn",
-                            StepNumber = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            RoutineId = 1,
-                            Status = 0,
-                            StepDescription = "Dưỡng ẩm nhẹ, không gây bít tắc",
-                            StepNumber = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            RoutineId = 1,
-                            Status = 0,
-                            StepDescription = "Thoa kem chống nắng kiềm dầu",
-                            StepNumber = 6
-                        },
-                        new
-                        {
-                            Id = 7,
-                            RoutineId = 2,
-                            Status = 0,
-                            StepDescription = "Dùng dầu tẩy trang để cấp ẩm",
-                            StepNumber = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            RoutineId = 2,
-                            Status = 0,
-                            StepDescription = "Rửa mặt với sữa rửa mặt dịu nhẹ",
-                            StepNumber = 2
-                        },
-                        new
-                        {
-                            Id = 9,
-                            RoutineId = 2,
-                            Status = 0,
-                            StepDescription = "Dùng toner cấp ẩm",
-                            StepNumber = 3
-                        },
-                        new
-                        {
-                            Id = 10,
-                            RoutineId = 2,
-                            Status = 0,
-                            StepDescription = "Sử dụng serum cấp nước",
-                            StepNumber = 4
-                        },
-                        new
-                        {
-                            Id = 11,
-                            RoutineId = 2,
-                            Status = 0,
-                            StepDescription = "Dưỡng ẩm chuyên sâu",
-                            StepNumber = 5
-                        },
-                        new
-                        {
-                            Id = 12,
-                            RoutineId = 2,
-                            Status = 0,
-                            StepDescription = "Thoa kem chống nắng dưỡng ẩm",
-                            StepNumber = 6
-                        },
-                        new
-                        {
-                            Id = 13,
-                            RoutineId = 3,
-                            Status = 0,
-                            StepDescription = "Tẩy trang để loại bỏ dầu thừa và bụi bẩn",
-                            StepNumber = 1
-                        },
-                        new
-                        {
-                            Id = 14,
-                            RoutineId = 3,
-                            Status = 0,
-                            StepDescription = "Rửa mặt với sữa rửa mặt dịu nhẹ cân bằng",
-                            StepNumber = 2
-                        },
-                        new
-                        {
-                            Id = 15,
-                            RoutineId = 3,
-                            Status = 0,
-                            StepDescription = "Dùng toner giúp cân bằng da",
-                            StepNumber = 3
-                        },
-                        new
-                        {
-                            Id = 16,
-                            RoutineId = 3,
-                            Status = 0,
-                            StepDescription = "Sử dụng serum dưỡng ẩm nhẹ",
-                            StepNumber = 4
-                        },
-                        new
-                        {
-                            Id = 17,
-                            RoutineId = 3,
-                            Status = 0,
-                            StepDescription = "Dưỡng ẩm dạng gel hoặc lotion",
-                            StepNumber = 5
-                        },
-                        new
-                        {
-                            Id = 18,
-                            RoutineId = 3,
-                            Status = 0,
-                            StepDescription = "Thoa kem chống nắng có độ ẩm vừa phải",
-                            StepNumber = 6
-                        },
-                        new
-                        {
-                            Id = 19,
-                            RoutineId = 4,
-                            Status = 0,
-                            StepDescription = "Tẩy trang với dầu hoặc nước micellar",
-                            StepNumber = 1
-                        },
-                        new
-                        {
-                            Id = 20,
-                            RoutineId = 4,
-                            Status = 0,
-                            StepDescription = "Rửa mặt với sữa rửa mặt nhẹ nhàng",
-                            StepNumber = 2
-                        },
-                        new
-                        {
-                            Id = 21,
-                            RoutineId = 4,
-                            Status = 0,
-                            StepDescription = "Dùng toner cấp ẩm hoặc làm dịu da",
-                            StepNumber = 3
-                        },
-                        new
-                        {
-                            Id = 22,
-                            RoutineId = 4,
-                            Status = 0,
-                            StepDescription = "Sử dụng serum tăng cường bảo vệ da",
-                            StepNumber = 4
-                        },
-                        new
-                        {
-                            Id = 23,
-                            RoutineId = 4,
-                            Status = 0,
-                            StepDescription = "Dưỡng ẩm dạng kem hoặc gel phù hợp",
-                            StepNumber = 5
-                        },
-                        new
-                        {
-                            Id = 24,
-                            RoutineId = 4,
-                            Status = 0,
-                            StepDescription = "Thoa kem chống nắng SPF 30+",
-                            StepNumber = 6
-                        },
-                        new
-                        {
-                            Id = 25,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Tẩy trang dịu nhẹ, tránh sản phẩm có cồn",
-                            StepNumber = 1
-                        },
-                        new
-                        {
-                            Id = 26,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Rửa mặt với sữa rửa mặt không chứa hương liệu",
-                            StepNumber = 2
-                        },
-                        new
-                        {
-                            Id = 27,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Dùng toner không chứa cồn",
-                            StepNumber = 3
-                        },
-                        new
-                        {
-                            Id = 28,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Sử dụng serum phục hồi da",
-                            StepNumber = 4
-                        },
-                        new
-                        {
-                            Id = 29,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Dưỡng ẩm chuyên biệt cho da nhạy cảm",
-                            StepNumber = 5
-                        },
-                        new
-                        {
-                            Id = 30,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Thoa kem chống nắng vật lý dịu nhẹ",
-                            StepNumber = 6
-                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.User", b =>
