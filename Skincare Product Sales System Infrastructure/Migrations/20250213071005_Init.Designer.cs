@@ -12,8 +12,8 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250211073452_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250213071005_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -242,16 +242,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("StaffId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -462,16 +457,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SkinAnswerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SkinQuestionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SkinTestId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SkinTestId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -480,13 +466,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("SkinAnswerId");
-
-                    b.HasIndex("SkinQuestionId");
-
                     b.HasIndex("SkinTestId");
-
-                    b.HasIndex("SkinTestId1");
 
                     b.ToTable("SkinTestAnswers");
                 });
@@ -702,7 +682,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.Order", b =>
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", "Customer")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -711,10 +691,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", null)
-                        .WithMany("ProcessedOrders")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Customer");
 
@@ -833,23 +809,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinAnswer", null)
-                        .WithMany("SkinTestAnswers")
-                        .HasForeignKey("SkinAnswerId");
-
-                    b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", null)
-                        .WithMany("SkinTestAnswers")
-                        .HasForeignKey("SkinQuestionId");
-
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinTest", "SkinTest")
                         .WithMany()
                         .HasForeignKey("SkinTestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinTest", null)
-                        .WithMany("SkinTestAnswer")
-                        .HasForeignKey("SkinTestId1");
 
                     b.Navigation("SkinAnswer");
 
@@ -886,11 +850,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinAnswer", b =>
-                {
-                    b.Navigation("SkinTestAnswers");
-                });
-
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinCareRoutine", b =>
                 {
                     b.Navigation("StepRoutines");
@@ -899,13 +858,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", b =>
                 {
                     b.Navigation("SkinAnswers");
-
-                    b.Navigation("SkinTestAnswers");
-                });
-
-            modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinTest", b =>
-                {
-                    b.Navigation("SkinTestAnswer");
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinType", b =>
@@ -927,10 +879,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.User", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("ProcessedOrders");
 
                     b.Navigation("Products");
 

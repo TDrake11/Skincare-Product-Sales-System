@@ -35,7 +35,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 
 			builder.Entity<Order>()
 				.HasOne(o => o.Customer)
-				.WithMany(u => u.Orders) // Một User có thể có nhiều Order
+				.WithMany() // Một User có thể có nhiều Order
 				.HasForeignKey(o => o.CustomerId)
 				.OnDelete(DeleteBehavior.Restrict); // Không xóa Order nếu xóa User
 
@@ -44,6 +44,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 				.WithMany()
 				.HasForeignKey(o => o.StaffId)
 				.OnDelete(DeleteBehavior.Restrict);
+
 			builder.Entity<SkinTestAnswer>()
 			.HasOne(sta => sta.SkinTest)
 			.WithMany()
