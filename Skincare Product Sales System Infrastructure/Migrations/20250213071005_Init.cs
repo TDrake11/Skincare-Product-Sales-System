@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -180,8 +180,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
                     OrderStatus = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StaffId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    StaffId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -198,11 +197,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Orders_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -347,10 +341,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SkinTestId = table.Column<int>(type: "int", nullable: false),
                     QuestionId = table.Column<int>(type: "int", nullable: true),
-                    AnswerId = table.Column<int>(type: "int", nullable: false),
-                    SkinAnswerId = table.Column<int>(type: "int", nullable: true),
-                    SkinQuestionId = table.Column<int>(type: "int", nullable: true),
-                    SkinTestId1 = table.Column<int>(type: "int", nullable: true)
+                    AnswerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -362,32 +353,17 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SkinTestAnswers_SkinAnswers_SkinAnswerId",
-                        column: x => x.SkinAnswerId,
-                        principalTable: "SkinAnswers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_SkinTestAnswers_SkinQuestions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "SkinQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SkinTestAnswers_SkinQuestions_SkinQuestionId",
-                        column: x => x.SkinQuestionId,
-                        principalTable: "SkinQuestions",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_SkinTestAnswers_SkinTests_SkinTestId",
                         column: x => x.SkinTestId,
                         principalTable: "SkinTests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SkinTestAnswers_SkinTests_SkinTestId1",
-                        column: x => x.SkinTestId1,
-                        principalTable: "SkinTests",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -525,11 +501,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 column: "StaffId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_UserId",
-                table: "Orders",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
@@ -587,24 +558,9 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SkinTestAnswers_SkinAnswerId",
-                table: "SkinTestAnswers",
-                column: "SkinAnswerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SkinTestAnswers_SkinQuestionId",
-                table: "SkinTestAnswers",
-                column: "SkinQuestionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SkinTestAnswers_SkinTestId",
                 table: "SkinTestAnswers",
                 column: "SkinTestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SkinTestAnswers_SkinTestId1",
-                table: "SkinTestAnswers",
-                column: "SkinTestId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SkinTests_CustomerId",
