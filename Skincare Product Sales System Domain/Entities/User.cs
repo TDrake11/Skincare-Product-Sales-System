@@ -20,10 +20,10 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public UserStatus Status { get; set; }
 
 		//  1 khach hang co the co nhieu order
-		public virtual ICollection<Order>? Orders { get; set; }
+		//public virtual ICollection<Order>? Orders { get; set; }
 
 		//  1 nhan vien co the xu ly nhieu don hang
-		public virtual ICollection<Order>? ProcessedOrders { get; set; }
+		//public virtual ICollection<Order>? ProcessedOrders { get; set; }
 
 		public virtual ICollection<Comment>? Comments { get; set; } // 1 user co nhieu comment
 

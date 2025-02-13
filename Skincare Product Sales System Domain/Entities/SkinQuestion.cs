@@ -12,6 +12,6 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 
 		public virtual ICollection<SkinAnswer>? SkinAnswers { get; set; } // 1 question co nhieu answer
 
-		public virtual ICollection<SkinTestAnswer>? SkinTestAnswers { get; set; } // 1 question co the co nhieu test answer
+		//public virtual ICollection<SkinTestAnswer>? SkinTestAnswers { get; set; } // 1 question co the co nhieu test answer
 	}
 }
