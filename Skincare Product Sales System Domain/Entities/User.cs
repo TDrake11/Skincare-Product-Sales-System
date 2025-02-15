@@ -13,11 +13,11 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public string FullName { get; set; }
 		public string LastName { get; set; }
 		public string Address { get; set; }
-		public DateOnly Birthday { get; set; }
+		public DateTime Birthday { get; set; }
 		public string Avatar { get; set; }
 		public double Wallet { get; set; }
 		public int Point { get; set; }
-		public UserStatus Status { get; set; }
+		public string Status { get; set; }
 
 		//  1 khach hang co the co nhieu order
 		//public virtual ICollection<Order>? Orders { get; set; }
