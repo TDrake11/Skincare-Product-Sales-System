@@ -77,14 +77,14 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 			}
 
 
-            builder.Entity<User>().HasData
-            (
-                new User { Id = "377049a8-9850-4000-8691-9080973c21d1", UserName = "Aba", Email = "Nguyentu8386@gmail.com", FullName = "Nguyễn Tú", LastName = "Tú", Address = "Binh Thanh, HCM", Birthday = new DateTime(1995, 5, 20), Wallet = 500.75, Point = 120, Status = "Active" },
-                new User { Id = "d8db7b28-7611-46f6-ab44-fc3a3f6534bd", UserName = "ABC", Email = "Hoanglam333@gmail.com", FullName = "Hoàng Lam", LastName = "Lam", Address = "Thu Duc, HCM", Birthday = new DateTime(2002, 3, 22), Wallet = 300.89, Point = 20, Status = "Active" },
-                new User { Id = "4bcc0bcf-877f-41fe-9b8e-748b723c8973", UserName = "Haaa", Email = "Vietanh39@gmail.com", FullName = "Việt Anh", LastName = "Anh", Address = "Q9, HCM", Birthday = new DateTime(2000, 1, 19), Wallet = 299.95, Point = 90, Status = "Active" },
-                new User { Id = "3a407df61-c4a7-49b6-8cb3-bad1259eaef8", UserName = "adddd", Email = "Nguyenlinh12@gmail.com", FullName = "Nguyễn Linh", LastName = "Linh", Address = "Bien Hoa, Dong Nai", Birthday = new DateTime(2003, 8, 15), Wallet = 500.99, Point = 123, Status = "Active" },
-                new User { Id = "21ce8669-39f9-4eab-a23b-b6245cb67489", UserName = "jssww2", Email = "Vohiep09@gmail.com", FullName = "Võ Hiệp", LastName = "Hiệp", Address = "Phu Vang, Hue", Birthday = new DateTime(2001, 10, 27), Wallet = 500.75, Point = 120, Status = "Active" }
-            );
+            //builder.Entity<User>().HasData
+            //(
+            //    new User { Id = "377049a8-9850-4000-8691-9080973c21d1", UserName = "Aba", Email = "Nguyentu8386@gmail.com", FullName = "Nguyễn Tú", LastName = "Tú", Address = "Binh Thanh, HCM", Birthday = new DateTime(1995, 5, 20), Wallet = 500.75, Point = 120, Status = "Active" },
+            //    new User { Id = "d8db7b28-7611-46f6-ab44-fc3a3f6534bd", UserName = "ABC", Email = "Hoanglam333@gmail.com", FullName = "Hoàng Lam", LastName = "Lam", Address = "Thu Duc, HCM", Birthday = new DateTime(2002, 3, 22), Wallet = 300.89, Point = 20, Status = "Active" },
+            //    new User { Id = "4bcc0bcf-877f-41fe-9b8e-748b723c8973", UserName = "Haaa", Email = "Vietanh39@gmail.com", FullName = "Việt Anh", LastName = "Anh", Address = "Q9, HCM", Birthday = new DateTime(2000, 1, 19), Wallet = 299.95, Point = 90, Status = "Active" },
+            //    new User { Id = "3a407df61-c4a7-49b6-8cb3-bad1259eaef8", UserName = "adddd", Email = "Nguyenlinh12@gmail.com", FullName = "Nguyễn Linh", LastName = "Linh", Address = "Bien Hoa, Dong Nai", Birthday = new DateTime(2003, 8, 15), Wallet = 500.99, Point = 123, Status = "Active" },
+            //    new User { Id = "21ce8669-39f9-4eab-a23b-b6245cb67489", UserName = "jssww2", Email = "Vohiep09@gmail.com", FullName = "Võ Hiệp", LastName = "Hiệp", Address = "Phu Vang, Hue", Birthday = new DateTime(2001, 10, 27), Wallet = 500.75, Point = 120, Status = "Active" }
+            //);
 
 
 
@@ -165,6 +165,31 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
                     new SkinAnswer { Id = 27, AnswerText = "Hiếm khi bị mụn nhưng dễ bị kích ứng", QuestionId = 7, SkinTypeId = 3 },  //Da khô
                     new SkinAnswer { Id = 28, AnswerText = "Ít bị mụn", QuestionId = 7, SkinTypeId = 4 }   //Da thường
                 );
+
+            //builder.Entity<SkinTest>().HasData
+            //    (
+            //        new SkinTest { Id = 1, CreateDate = new DateTime(2025, 02, 14) , SkinTypeId = 1 },
+            //        new SkinTest { Id = 2, CreateDate = new DateTime(2025, 02, 15), SkinTypeId = 2 },
+            //    );
+
+            //builder.Entity<SkinTestAnswer>().HasData
+            //    (
+            //        new SkinTestAnswer { Id = 1, SkinTestId = 1, QuestionId = 1, AnswerId = 1 },
+            //        new SkinTestAnswer { Id = 2, SkinTestId = 1, QuestionId = 2, AnswerId = 5 },
+            //        new SkinTestAnswer { Id = 3, SkinTestId = 1, QuestionId = 3, AnswerId = 9 },
+            //        new SkinTestAnswer { Id = 4, SkinTestId = 1, QuestionId = 4, AnswerId = 15 },
+            //        new SkinTestAnswer { Id = 5, SkinTestId = 1, QuestionId = 5, AnswerId = 17 },
+            //        new SkinTestAnswer { Id = 6, SkinTestId = 1, QuestionId = 6, AnswerId = 22 },
+            //        new SkinTestAnswer { Id = 7, SkinTestId = 1, QuestionId = 7, AnswerId = 28 },
+
+            //        new SkinTestAnswer { Id = 8, SkinTestId = 2, QuestionId = 1, AnswerId = 2 },
+            //        new SkinTestAnswer { Id = 9, SkinTestId = 2, QuestionId = 2, AnswerId = 6 },
+            //        new SkinTestAnswer { Id = 10, SkinTestId = 2, QuestionId = 3, AnswerId = 10 },
+            //        new SkinTestAnswer { Id = 11, SkinTestId = 2, QuestionId = 4, AnswerId = 15 },
+            //        new SkinTestAnswer { Id = 12, SkinTestId = 2, QuestionId = 5, AnswerId = 17 },
+            //        new SkinTestAnswer { Id = 13, SkinTestId = 2, QuestionId = 6, AnswerId = 22 },
+            //        new SkinTestAnswer { Id = 14, SkinTestId = 2, QuestionId = 7, AnswerId = 28 }
+            //    );
 
             builder.Entity<SkinCareRoutine>().HasData(
                 new SkinCareRoutine { Id = 1, RoutineName = "Lộ trình cho da dầu", Description = "Giúp kiểm soát dầu, ngăn ngừa mụn và giữ ẩm nhẹ nhàng.", TotalSteps = 6, SkinTypeId = 1 },
