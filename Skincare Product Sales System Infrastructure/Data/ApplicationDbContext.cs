@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,15 +80,12 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 
             //builder.Entity<User>().HasData
             //(
-            //    new User { Id = "377049a8-9850-4000-8691-9080973c21d1", UserName = "Aba", Email = "Nguyentu8386@gmail.com", FullName = "Nguyễn Tú", LastName = "Tú", Address = "Binh Thanh, HCM", Birthday = new DateTime(1995, 5, 20), Wallet = 500.75, Point = 120, Status = "Active" },
-            //    new User { Id = "d8db7b28-7611-46f6-ab44-fc3a3f6534bd", UserName = "ABC", Email = "Hoanglam333@gmail.com", FullName = "Hoàng Lam", LastName = "Lam", Address = "Thu Duc, HCM", Birthday = new DateTime(2002, 3, 22), Wallet = 300.89, Point = 20, Status = "Active" },
-            //    new User { Id = "4bcc0bcf-877f-41fe-9b8e-748b723c8973", UserName = "Haaa", Email = "Vietanh39@gmail.com", FullName = "Việt Anh", LastName = "Anh", Address = "Q9, HCM", Birthday = new DateTime(2000, 1, 19), Wallet = 299.95, Point = 90, Status = "Active" },
-            //    new User { Id = "3a407df61-c4a7-49b6-8cb3-bad1259eaef8", UserName = "adddd", Email = "Nguyenlinh12@gmail.com", FullName = "Nguyễn Linh", LastName = "Linh", Address = "Bien Hoa, Dong Nai", Birthday = new DateTime(2003, 8, 15), Wallet = 500.99, Point = 123, Status = "Active" },
-            //    new User { Id = "21ce8669-39f9-4eab-a23b-b6245cb67489", UserName = "jssww2", Email = "Vohiep09@gmail.com", FullName = "Võ Hiệp", LastName = "Hiệp", Address = "Phu Vang, Hue", Birthday = new DateTime(2001, 10, 27), Wallet = 500.75, Point = 120, Status = "Active" }
+            //    new User { Id = "377049a8-9850-4000-8691-9080973c21d1", UserName = "Aba", Email = "Nguyentu8386@gmail.com", FullName = "Nguyễn Tú", LastName = "Tú", Address = "Binh Thanh, HCM", Birthday = new DateTime(1995, 5, 20), Wallet = 500.75, Point = 120, Status = UserStatus.Active },
+            //    new User { Id = "d8db7b28-7611-46f6-ab44-fc3a3f6534bd", UserName = "ABC", Email = "Hoanglam333@gmail.com", FullName = "Hoàng Lam", LastName = "Lam", Address = "Thu Duc, HCM", Birthday = new DateTime(2002, 3, 22), Wallet = 300.89, Point = 20, Status = UserStatus.Inactive },
+            //    new User { Id = "4bcc0bcf-877f-41fe-9b8e-748b723c8973", UserName = "Haaa", Email = "Vietanh39@gmail.com", FullName = "Việt Anh", LastName = "Anh", Address = "Q9, HCM", Birthday = new DateTime(2000, 1, 19), Wallet = 299.95, Point = 90, Status = UserStatus.Active },
+            //    new User { Id = "3a407df61-c4a7-49b6-8cb3-bad1259eaef8", UserName = "adddd", Email = "Nguyenlinh12@gmail.com", FullName = "Nguyễn Linh", LastName = "Linh", Address = "Bien Hoa, Dong Nai", Birthday = new DateTime(2003, 8, 15), Wallet = 500.99, Point = 123, Status = UserStatus.Active },
+            //    new User { Id = "21ce8669-39f9-4eab-a23b-b6245cb67489", UserName = "jssww2", Email = "Vohiep09@gmail.com", FullName = "Võ Hiệp", LastName = "Hiệp", Address = "Phu Vang, Hue", Birthday = new DateTime(2001, 10, 27), Wallet = 500.75, Point = 120, Status = UserStatus.Active }
             //);
-
-
-
 
             builder.Entity<Category>().HasData
                 (
@@ -191,12 +189,14 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
             //        new SkinTestAnswer { Id = 14, SkinTestId = 2, QuestionId = 7, AnswerId = 28 }
             //    );
 
+
+
+
             builder.Entity<SkinCareRoutine>().HasData(
                 new SkinCareRoutine { Id = 1, RoutineName = "Lộ trình cho da dầu", Description = "Giúp kiểm soát dầu, ngăn ngừa mụn và giữ ẩm nhẹ nhàng.", TotalSteps = 6, SkinTypeId = 1 },
-                new SkinCareRoutine { Id = 2, RoutineName = "Lộ trình cho da khô", Description = "Dưỡng ẩm sâu, bảo vệ da khỏi bong tróc và mất nước.", TotalSteps = 6, SkinTypeId = 2 },
-                new SkinCareRoutine { Id = 3, RoutineName = "Lộ trình cho da hỗn hợp", Description = "Cân bằng dầu vùng chữ T và giữ ẩm vùng khô.", TotalSteps = 6, SkinTypeId = 3 },
-                new SkinCareRoutine { Id = 4, RoutineName = "Lộ trình cho da thường", Description = "Duy trì độ ẩm và bảo vệ da trước tác nhân môi trường.", TotalSteps = 6, SkinTypeId = 4 },
-                new SkinCareRoutine { Id = 5, RoutineName = "Lộ trình cho da nhạy cảm", Description = "Làm dịu da, giảm kích ứng và tăng cường hàng rào bảo vệ.", TotalSteps = 6, SkinTypeId = 5 }
+                new SkinCareRoutine { Id = 2, RoutineName = "Lộ trình cho da khô", Description = "Dưỡng ẩm sâu, bảo vệ da khỏi bong tróc và mất nước.", TotalSteps = 6, SkinTypeId = 3 },
+                new SkinCareRoutine { Id = 3, RoutineName = "Lộ trình cho da hỗn hợp", Description = "Cân bằng dầu vùng chữ T và giữ ẩm vùng khô.", TotalSteps = 6, SkinTypeId = 2 },
+                new SkinCareRoutine { Id = 4, RoutineName = "Lộ trình cho da thường", Description = "Duy trì độ ẩm và bảo vệ da trước tác nhân môi trường.", TotalSteps = 6, SkinTypeId = 4 }
             );
 
             builder.Entity<StepRoutine>().HasData(
@@ -230,18 +230,72 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
                 new StepRoutine { Id = 21, StepNumber = 3, StepDescription = "Dùng toner cấp ẩm hoặc làm dịu da", RoutineId = 4 },
                 new StepRoutine { Id = 22, StepNumber = 4, StepDescription = "Sử dụng serum tăng cường bảo vệ da", RoutineId = 4 },
                 new StepRoutine { Id = 23, StepNumber = 5, StepDescription = "Dưỡng ẩm dạng kem hoặc gel phù hợp", RoutineId = 4 },
-                new StepRoutine { Id = 24, StepNumber = 6, StepDescription = "Thoa kem chống nắng SPF 30+", RoutineId = 4 },
-
-                // Lộ trình chăm sóc da nhạy cảm
-                new StepRoutine { Id = 25, StepNumber = 1, StepDescription = "Tẩy trang dịu nhẹ, tránh sản phẩm có cồn", RoutineId = 5 },
-                new StepRoutine { Id = 26, StepNumber = 2, StepDescription = "Rửa mặt với sữa rửa mặt không chứa hương liệu", RoutineId = 5 },
-                new StepRoutine { Id = 27, StepNumber = 3, StepDescription = "Dùng toner không chứa cồn", RoutineId = 5 },
-                new StepRoutine { Id = 28, StepNumber = 4, StepDescription = "Sử dụng serum phục hồi da", RoutineId = 5 },
-                new StepRoutine { Id = 29, StepNumber = 5, StepDescription = "Dưỡng ẩm chuyên biệt cho da nhạy cảm", RoutineId = 5 },
-                new StepRoutine { Id = 30, StepNumber = 6, StepDescription = "Thoa kem chống nắng vật lý dịu nhẹ", RoutineId = 5 }
+                new StepRoutine { Id = 24, StepNumber = 6, StepDescription = "Thoa kem chống nắng SPF 30+", RoutineId = 4 }
             );
+             
+            //builder.Entity<Product>().HasData
+            //(
+            //    //Nước tẩy trang
+            //    new Product { Id = 1, ProductName = "Nước Tẩy Trang L'Oreal", Description = "Nước Tẩy Trang L'Oreal Tươi Mát Cho Da Dầu, Hỗn Hợp 400ml", CreatedDate = new DateOnly(2024, 1, 10), ExpiredDate = new DateOnly(2026, 1, 10), Price = 139.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 1, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 1 },
+            //    new Product { Id = 2, ProductName = "Nước Tẩy Trang L'Oreal", Description = "Nước Tẩy Trang L'Oreal Tươi Mát Cho Da Dầu, Hỗn Hợp 400ml", CreatedDate = new DateOnly(2024, 1, 10), ExpiredDate = new DateOnly(2026, 1, 10), Price = 139.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 1, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 2, StepRoutineId = 13 },
+            //    new Product { Id = 3, ProductName = "Nước Tẩy Trang L'Oreal", Description = "Nước Tẩy Trang L'Oreal Dưỡng Ẩm Cho Da Thường, Khô 400ml", CreatedDate = new DateOnly(2024, 2, 12), ExpiredDate = new DateOnly(2026, 2, 12), Price = 199.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 1, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 19 },
+            //    new Product { Id = 4, ProductName = "Nước Tẩy Trang L'Oreal", Description = "Nước Tẩy Trang L'Oreal Dưỡng Ẩm Cho Da Thường, Khô 400ml", CreatedDate = new DateOnly(2024, 2, 12), ExpiredDate = new DateOnly(2026, 2, 12), Price = 199.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 1, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 25 },
+            //    new Product { Id = 5, ProductName = "Nước Tẩy Trang Roche-Posay", Description = "Nước Tẩy Trang Roche-Posay Kiềm Dầu 400ml", CreatedDate = new DateOnly(2024, 2, 21), ExpiredDate = new DateOnly(2026, 2, 21), Price = 199.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 1, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 1 },
+                
+            //    //Sữa rửa mặt
+            //    new Product { Id = 6, ProductName = "Sữa Rửa Mặt CeraVe", Description = "Sữa Rửa Mặt CeraVe Sạch Sâu Cho Da Thường Đến Da Dầu 473ml", CreatedDate = new DateOnly(2024, 2, 4), ExpiredDate = new DateOnly(2026, 2, 4), Price = 259.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 2, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 2 },
+            //    new Product { Id = 7, ProductName = "Sữa Rửa Mặt CeraVe", Description = "Sữa Rửa Mặt CeraVe Sạch Sâu Cho Da Thường Đến Da Dầu 473ml", CreatedDate = new DateOnly(2024, 2, 4), ExpiredDate = new DateOnly(2026, 2, 4), Price = 259.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 2, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 20 },
+            //    new Product { Id = 8, ProductName = "Sữa Rửa Mặt Cetaphil", Description = "Sữa Rửa Mặt Cetaphil Dịu Lành Cho Thường 1000ml", CreatedDate = new DateOnly(2024, 2, 14), ExpiredDate = new DateOnly(2026, 2, 14), Price = 549.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 2, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 20 },
+            //    new Product { Id = 9, ProductName = "Sữa Rửa Mặt Simple", Description = "Sữa Rửa Mặt Simple Dưỡng Ẩm Cho Da Khỏe Và Mịn Màng 150ml", CreatedDate = new DateOnly(2024, 2, 14), ExpiredDate = new DateOnly(2026, 2, 14), Price = 95.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 2, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 8 },
+            //    new Product { Id = 10, ProductName = "Sữa Rửa Mặt innisfree", Description = "Sữa Rửa Mặt innisfree Dưỡng Ẩm Chiết Xuất Trà Xanh 150g", CreatedDate = new DateOnly(2024, 2, 14), ExpiredDate = new DateOnly(2026, 2, 14), Price = 218.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 2, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 8 },
+            //    new Product { Id = 11, ProductName = "Gel Rửa Mặt Cosrx", Description = "Gel Rửa Mặt Cosrx Tràm Trà, 0.5% BHA Có Độ pH Thấp 150ml", CreatedDate = new DateOnly(2024, 2, 14), ExpiredDate = new DateOnly(2026, 2, 14), Price = 117.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 2, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 2, StepRoutineId = 14 },
+            //    new Product { Id = 12, ProductName = "Bọt Rửa Mặt d program", Description = "Bọt Rửa Mặt d program Giúp Làm Sạch Và Cung Cấp Ẩm Da 120g", CreatedDate = new DateOnly(2024, 2, 14), ExpiredDate = new DateOnly(2026, 2, 14), Price = 228.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 2, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 2, StepRoutineId = 14 },
 
+            //    //Tone
+            //    new Product { Id = 13, ProductName = "Nước Hoa Hồng Dr.Pepti", Description = "Nước Hoa Hồng Dr.Pepti Cấp Ẩm, Căng Bóng Da 180ml", CreatedDate = new DateOnly(2024, 12, 25), ExpiredDate = new DateOnly(2026, 12, 25), Price = 275.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 4, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 9 },
+            //    new Product { Id = 14, ProductName = "Nước Hoa Hồng Dr.Pepti", Description = "Nước Hoa Hồng Dr.Pepti Cấp Ẩm, Căng Bóng Da 180ml", CreatedDate = new DateOnly(2024, 12, 25), ExpiredDate = new DateOnly(2026, 12, 25), Price = 275.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 4, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 21 },
+            //    new Product { Id = 15, ProductName = "Toner Pyunkang Yul", Description = "Toner Pyunkang Yul Cấp Ẩm, Làm Dịu Da 200ml", CreatedDate = new DateOnly(2024, 12, 25), ExpiredDate = new DateOnly(2026, 12, 25), Price = 275.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 4, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 9 },
+            //    new Product { Id = 16, ProductName = "Toner Pyunkang Yul", Description = "Toner Pyunkang Yul Cấp Ẩm, Làm Dịu Da 200ml", CreatedDate = new DateOnly(2024, 12, 25), ExpiredDate = new DateOnly(2026, 12, 25), Price = 275.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 4, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 21 },
+            //    new Product { Id = 17, ProductName = "Toner SVR Sebiaclear", Description = "Toner SVR Sebiaclear Dành Cho Da Dầu, Mụn 150ml", CreatedDate = new DateOnly(2024, 12, 25), ExpiredDate = new DateOnly(2026, 12, 25), Price = 318.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 4, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 3 },
+            //    new Product { Id = 18, ProductName = "Toner SVR Sebiaclear", Description = "Toner SVR Sebiaclear Sạch Da, Thông Thoán Lỗ Chân Lông 150ml", CreatedDate = new DateOnly(2024, 12, 25), ExpiredDate = new DateOnly(2026, 12, 25), Price = 318.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 4, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 21 },
 
+            //    //Serum
+            //    new Product { Id = 19, ProductName = "Serum La Roche-Posay", Description = "Serum La Roche-Posay Giảm Thâm Nám & Dưỡng Sáng Da 30ml", CreatedDate = new DateOnly(2024, 12, 12), ExpiredDate = new DateOnly(2026, 12, 12), Price = 866.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 22 },
+            //    new Product { Id = 20, ProductName = "Serum L'Oreal", Description = "Serum L'Oreal Hyaluronic Acid Cấp Ẩm Sáng Da 30ml", CreatedDate = new DateOnly(2024, 12, 16), ExpiredDate = new DateOnly(2026, 12, 16), Price = 298.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 22 },
+            //    new Product { Id =21, ProductName = "Serum Tia'm", Description = "Serum Tia'm Thu Nhỏ Lỗ Chân Lông, Giảm Dầu Nhờn 40m", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 339.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 4 },
+            //    new Product { Id = 22, ProductName = "Serum Derladie", Description = "Serum Derladie Niacinamide 20% Giảm Mụn, Mờ Thâm Đỏ 30ml", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 280.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 4 },
+            //    new Product { Id = 23, ProductName = "Serum Bí Đao Cocoon", Description = "Serum Bí Đao Cocoon Làm Giảm Mụn, Mờ Thâm 70ml", CreatedDate = new DateOnly(2024, 12, 12), ExpiredDate = new DateOnly(2026, 12, 12), Price = 415.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 2, StepRoutineId = 16 },
+            //    new Product { Id = 24, ProductName = "Serum Garnier", Description = "Serum Garnier Giảm Mụn Mờ Thâm Cho Da Dầu, Mụn 30ml", CreatedDate = new DateOnly(2024, 12, 16), ExpiredDate = new DateOnly(2026, 12, 16), Price = 298.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 2, StepRoutineId = 16 },
+            //    new Product { Id = 25, ProductName = "Serum 9Wishes", Description = "Serum 9Wishes Dưỡng Ẩm & Làm Căng Bóng Da 30ml", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 177.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 10 },
+            //    new Product { Id = 26, ProductName = "Serum Klairs", Description = "Serum Klairs Cấp Ẩm Cho Da Khô, Nhạy Cảm 80ml", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 286.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 5, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 10 },
+
+            //    //Dưỡng ẩm                 
+            //    new Product { Id = 27, ProductName = "Kem Dưỡng Olay Luminous", Description = "Kem Dưỡng Olay Luminous Sáng Da Mờ Thâm Nám Ban Đêm 50g", CreatedDate = new DateOnly(2024, 12, 12), ExpiredDate = new DateOnly(2026, 12, 12), Price = 866.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 6, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 23 },
+            //    new Product { Id = 28, ProductName = "Sữa Dưỡng Ẩm Embryolisse", Description = "Sữa Dưỡng Ẩm Embryolisse Siêu Phục Hồi Da 75ml", CreatedDate = new DateOnly(2024, 12, 16), ExpiredDate = new DateOnly(2026, 12, 16), Price = 298.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 6, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 11 },
+            //    new Product { Id = 29, ProductName = "Kem Dưỡng Bioderma", Description = "Kem Dưỡng Bioderma Giúp Se Khít Lỗ Chân Lông 30ml", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 339.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 6, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 2, StepRoutineId = 17 },
+            //    new Product { Id = 30, ProductName = "Kem Dưỡng SVR", Description = "Kem Dưỡng SVR Kiềm Dầu, Se Khít Lỗ Chân Lông 40ml", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 280.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 6, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 5 },
+                
+            //    //Kem chống nắng                
+            //    new Product { Id = 31, ProductName = "Kem Chống Nắng L'Oreal", Description = "Kem Chống Nắng L'Oreal Paris X20 Thoáng Da Mỏng Nhẹ 50ml", CreatedDate = new DateOnly(2024, 12, 12), ExpiredDate = new DateOnly(2026, 12, 12), Price = 415.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 7, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 4, StepRoutineId = 24 },
+            //    new Product { Id = 32, ProductName = "Sữa Chống Nắng Anessa", Description = "Sữa Chống Nắng Anessa Dưỡng Da Kiềm Dầu 60ml ", CreatedDate = new DateOnly(2024, 12, 16), ExpiredDate = new DateOnly(2026, 12, 16), Price = 298.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 7, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 1, StepRoutineId = 6 },
+            //    new Product { Id = 33, ProductName = "Kem Chống Nắng Beplain ", Description = "Kem Chống Nắng Beplain Nâng Tông, Kiềm Dầu Mịn Lì 50ml", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 177.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 7, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 2, StepRoutineId = 18 },
+            //    new Product { Id = 34, ProductName = "Tinh Chất Chống Nắng Sunplay", Description = "Tinh Chất Chống Nắng Sunplay Hiệu Chỉnh Sắc Da 50g", CreatedDate = new DateOnly(2024, 12, 22), ExpiredDate = new DateOnly(2026, 12, 22), Price = 286.00, Quantity = 100, Image = "serum_vitc.jpg", ProductStatus = ProductStatus.Active, CategoryId = 7, StaffId = "377049a8-9850-4000-8691-9080973c21d1", SkinTypeId = 3, StepRoutineId = 12 }
+            //);
+
+            //builder.Entity<Order>().HasData
+            //    (
+            //        new Order { Id = 1, OrderDate = new DateTime(2025, 2, 15), TotalPrice = 561.00, OrderStatus = OrderStatus.Pending },
+            //        new Order { Id = 2, OrderDate = new DateTime(2025, 2, 15), TotalPrice = 415.00, OrderStatus = OrderStatus.Pending },
+            //        new Order { Id = 3, OrderDate = new DateTime(2025, 2, 16), TotalPrice = 866.00, OrderStatus = OrderStatus.Canceled}
+            //    );
+
+            //builder.Entity<OrderDetail>().HasData
+            //    (
+            //        new OrderDetail { Id = 1, Quantity = 1, Price = 286.00, OrderId = 1, ProductId = 34 },
+            //        new OrderDetail { Id = 2, Quantity = 1, Price = 275.00, OrderId = 1, ProductId = 13 },
+            //        new OrderDetail { Id = 3, Quantity = 1, Price = 415.00, OrderId = 2, ProductId = 31 },
+            //        new OrderDetail { Id = 4, Quantity = 1, Price = 866.00, OrderId = 3, ProductId = 19 }
+            //    );
         }
 	}
 }

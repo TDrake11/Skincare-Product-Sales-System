@@ -17,7 +17,7 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public string Avatar { get; set; }
 		public double Wallet { get; set; }
 		public int Point { get; set; }
-		public string Status { get; set; }
+		public UserStatus Status { get; set; }
 
 		//  1 khach hang co the co nhieu order
 		//public virtual ICollection<Order>? Orders { get; set; }
