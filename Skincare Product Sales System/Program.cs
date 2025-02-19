@@ -1,8 +1,11 @@
 
 using Microsoft.AspNetCore.Identity;
 using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Interfaces;
+using Skincare_Product_Sales_System_Domain.Repositories;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;
+using Skincare_Product_Sales_System_Infrastructure.Repositories;
 
 namespace Skincare_Product_Sales_System
 {
@@ -26,7 +29,13 @@ namespace Skincare_Product_Sales_System
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
-			var app = builder.Build();
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())

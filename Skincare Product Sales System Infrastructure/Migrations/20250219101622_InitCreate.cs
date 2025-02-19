@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,7 +75,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Birthday = table.Column<DateOnly>(type: "date", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Wallet = table.Column<double>(type: "float", nullable: false),
                     Point = table.Column<int>(type: "int", nullable: false),
@@ -467,6 +469,124 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CategoryName", "CategoryStatus" },
+                values: new object[,]
+                {
+                    { 1, "Tẩy trang", 1 },
+                    { 2, "Sữa rửa mặt", 1 },
+                    { 3, "Tẩy tế bào chết", 1 },
+                    { 4, "Toner", 1 },
+                    { 5, "Serum", 1 },
+                    { 6, "Dưỡng ẩm", 1 },
+                    { 7, "Kem chống nắng", 1 },
+                    { 8, "Mặt nạ", 1 },
+                    { 9, "Kem mắt", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SkinQuestions",
+                columns: new[] { "Id", "QuestionText" },
+                values: new object[,]
+                {
+                    { 1, "Khi thức dậy vào buổi sáng, bạn cảm thấy da mình thế nào?" },
+                    { 2, "Bạn có thường xuyên cảm thấy da mình bóng nhờn vào giữa ngày không?" },
+                    { 3, "Da bạn có nhiều dầu vào cuối ngày không?" },
+                    { 4, "Khi rửa mặt xong, bạn cảm thấy da mình thế nào?" },
+                    { 5, "Da bạn có hay bị bong tróc, ngứa vào mùa lạnh không?" },
+                    { 6, "Khi trời nóng, da bạn có đổ dầu nhiều hơn bình thường không?" },
+                    { 7, "Bạn có hay bị mụn không?" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SkinTypes",
+                columns: new[] { "Id", "SkinTypeName" },
+                values: new object[,]
+                {
+                    { 1, "Da dầu" },
+                    { 2, "Da hỗn hợp" },
+                    { 3, "Da khô" },
+                    { 4, "Da thường" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SkinAnswers",
+                columns: new[] { "Id", "AnswerText", "QuestionId", "SkinTypeId" },
+                values: new object[,]
+                {
+                    { 1, "Đổ dầu nhiều, bóng nhờn", 1, 1 },
+                    { 2, "Chữ T hơi dầu, má bình thường", 1, 2 },
+                    { 3, "Khô căng, có thể bong tróc", 1, 3 },
+                    { 4, "Ổn định, không dầu cũng không khô", 1, 4 },
+                    { 5, "Rất bóng, đặc biệt ở vùng trán và mũi", 2, 1 },
+                    { 6, "Chỉ bóng ở vùng chữ T, còn lại bình thường", 2, 2 },
+                    { 7, "Không bóng chút nào, có khi còn bong tróc", 2, 3 },
+                    { 8, "Hầu như không bóng, vẫn giữ độ ẩm tốt", 2, 4 },
+                    { 9, "Rất nhiều dầu, đặc biệt là vùng chữ T", 3, 1 },
+                    { 10, "Chỉ vùng chữ T có dầu, hai bên má thì khô", 3, 2 },
+                    { 11, "Không có dầu, thường khô căng", 3, 3 },
+                    { 12, "Ít dầu, da luôn cân bằng", 3, 4 },
+                    { 13, "Nhanh chóng đổ dầu trở lại", 4, 1 },
+                    { 14, "Một số vùng đổ dầu, một số vùng khô", 4, 2 },
+                    { 15, "Căng rát, thậm chí bong tróc", 4, 3 },
+                    { 16, "Mềm mại, thoải mái", 4, 4 },
+                    { 17, "Không bao giờ", 5, 1 },
+                    { 18, "Thỉnh thoảng, ở hai bên má", 5, 2 },
+                    { 19, "KRất hay bong tróc, nhất là quanh mũi và miệng", 5, 3 },
+                    { 20, "Hiếm khi bong tróc", 5, 4 },
+                    { 21, "Đổ dầu rất nhiều, da lúc nào cũng ẩm ướt", 6, 1 },
+                    { 22, "Đổ dầu ở vùng chữ T, hai bên má bình thường", 6, 2 },
+                    { 23, "Không đổ dầu, thậm chí còn khô hơn", 6, 3 },
+                    { 24, "Chỉ hơi nhờn nhẹ, nhưng không quá nhiều", 6, 4 },
+                    { 25, "Rất dễ bị mụn, đặc biệt là vùng trán và cằm", 7, 1 },
+                    { 26, "Thỉnh thoảng bị mụn ở vùng chữ T", 7, 2 },
+                    { 27, "Hiếm khi bị mụn nhưng dễ bị kích ứng", 7, 3 },
+                    { 28, "Ít bị mụn", 7, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SkinCareRoutines",
+                columns: new[] { "Id", "Description", "RoutineName", "SkinTypeId", "Status", "TotalSteps" },
+                values: new object[,]
+                {
+                    { 1, "Giúp kiểm soát dầu, ngăn ngừa mụn và giữ ẩm nhẹ nhàng.", "Lộ trình cho da dầu", 1, 0, 6 },
+                    { 2, "Dưỡng ẩm sâu, bảo vệ da khỏi bong tróc và mất nước.", "Lộ trình cho da khô", 3, 0, 6 },
+                    { 3, "Cân bằng dầu vùng chữ T và giữ ẩm vùng khô.", "Lộ trình cho da hỗn hợp", 2, 0, 6 },
+                    { 4, "Duy trì độ ẩm và bảo vệ da trước tác nhân môi trường.", "Lộ trình cho da thường", 4, 0, 6 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StepRoutines",
+                columns: new[] { "Id", "RoutineId", "Status", "StepDescription", "StepNumber" },
+                values: new object[,]
+                {
+                    { 1, 1, 0, "Tẩy trang để loại bỏ dầu và bụi bẩn", 1 },
+                    { 2, 1, 0, "Rửa mặt với sữa rửa mặt kiềm dầu", 2 },
+                    { 3, 1, 0, "Dùng toner giúp kiểm soát dầu", 3 },
+                    { 4, 1, 0, "Sử dụng serum giảm dầu, ngừa mụn", 4 },
+                    { 5, 1, 0, "Dưỡng ẩm nhẹ, không gây bít tắc", 5 },
+                    { 6, 1, 0, "Thoa kem chống nắng kiềm dầu", 6 },
+                    { 7, 2, 0, "Dùng dầu tẩy trang để cấp ẩm", 1 },
+                    { 8, 2, 0, "Rửa mặt với sữa rửa mặt dịu nhẹ", 2 },
+                    { 9, 2, 0, "Dùng toner cấp ẩm", 3 },
+                    { 10, 2, 0, "Sử dụng serum cấp nước", 4 },
+                    { 11, 2, 0, "Dưỡng ẩm chuyên sâu", 5 },
+                    { 12, 2, 0, "Thoa kem chống nắng dưỡng ẩm", 6 },
+                    { 13, 3, 0, "Tẩy trang để loại bỏ dầu thừa và bụi bẩn", 1 },
+                    { 14, 3, 0, "Rửa mặt với sữa rửa mặt dịu nhẹ cân bằng", 2 },
+                    { 15, 3, 0, "Dùng toner giúp cân bằng da", 3 },
+                    { 16, 3, 0, "Sử dụng serum dưỡng ẩm nhẹ", 4 },
+                    { 17, 3, 0, "Dưỡng ẩm dạng gel hoặc lotion", 5 },
+                    { 18, 3, 0, "Thoa kem chống nắng có độ ẩm vừa phải", 6 },
+                    { 19, 4, 0, "Tẩy trang với dầu hoặc nước micellar", 1 },
+                    { 20, 4, 0, "Rửa mặt với sữa rửa mặt nhẹ nhàng", 2 },
+                    { 21, 4, 0, "Dùng toner cấp ẩm hoặc làm dịu da", 3 },
+                    { 22, 4, 0, "Sử dụng serum tăng cường bảo vệ da", 4 },
+                    { 23, 4, 0, "Dưỡng ẩm dạng kem hoặc gel phù hợp", 5 },
+                    { 24, 4, 0, "Thoa kem chống nắng SPF 30+", 6 }
                 });
 
             migrationBuilder.CreateIndex(

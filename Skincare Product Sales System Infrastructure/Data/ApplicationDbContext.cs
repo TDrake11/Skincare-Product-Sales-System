@@ -89,15 +89,15 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 
             builder.Entity<Category>().HasData
                 (
-                    new Category { Id = 1, CategoryName = "Tẩy trang" },
-                    new Category { Id = 2, CategoryName = "Sữa rửa mặt" },
-                    new Category { Id = 3, CategoryName = "Tẩy tế bào chết" },
-                    new Category { Id = 4, CategoryName = "Toner" },
-                    new Category { Id = 5, CategoryName = "Serum" },
-                    new Category { Id = 6, CategoryName = "Dưỡng ẩm" },
-                    new Category { Id = 7, CategoryName = "Kem chống nắng" },
-                    new Category { Id = 8, CategoryName = "Mặt nạ" },
-                    new Category { Id = 9, CategoryName = "Kem mắt" }
+                    new Category { Id = 1, CategoryName = "Tẩy trang", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 2, CategoryName = "Sữa rửa mặt", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 3, CategoryName = "Tẩy tế bào chết", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 4, CategoryName = "Toner", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 5, CategoryName = "Serum", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 6, CategoryName = "Dưỡng ẩm", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 7, CategoryName = "Kem chống nắng", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 8, CategoryName = "Mặt nạ", CategoryStatus = CategoryStatus.AVAILABEL },
+                    new Category { Id = 9, CategoryName = "Kem mắt", CategoryStatus = CategoryStatus.AVAILABEL }
                 );
 
             builder.Entity<SkinType>().HasData

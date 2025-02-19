@@ -12,8 +12,8 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250213154721_SeedCategoryData")]
-    partial class SeedCategoryData
+    [Migration("20250219101622_InitCreate")]
+    partial class InitCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,55 +182,55 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         {
                             Id = 1,
                             CategoryName = "Tẩy trang",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 2,
                             CategoryName = "Sữa rửa mặt",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 3,
                             CategoryName = "Tẩy tế bào chết",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 4,
                             CategoryName = "Toner",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 5,
                             CategoryName = "Serum",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 6,
                             CategoryName = "Dưỡng ẩm",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 7,
                             CategoryName = "Kem chống nắng",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 8,
                             CategoryName = "Mặt nạ",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 9,
                             CategoryName = "Kem mắt",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         });
                 });
 
@@ -418,6 +418,204 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasIndex("SkinTypeId");
 
                     b.ToTable("SkinAnswers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AnswerText = "Đổ dầu nhiều, bóng nhờn",
+                            QuestionId = 1,
+                            SkinTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AnswerText = "Chữ T hơi dầu, má bình thường",
+                            QuestionId = 1,
+                            SkinTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AnswerText = "Khô căng, có thể bong tróc",
+                            QuestionId = 1,
+                            SkinTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AnswerText = "Ổn định, không dầu cũng không khô",
+                            QuestionId = 1,
+                            SkinTypeId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AnswerText = "Rất bóng, đặc biệt ở vùng trán và mũi",
+                            QuestionId = 2,
+                            SkinTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AnswerText = "Chỉ bóng ở vùng chữ T, còn lại bình thường",
+                            QuestionId = 2,
+                            SkinTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AnswerText = "Không bóng chút nào, có khi còn bong tróc",
+                            QuestionId = 2,
+                            SkinTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AnswerText = "Hầu như không bóng, vẫn giữ độ ẩm tốt",
+                            QuestionId = 2,
+                            SkinTypeId = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AnswerText = "Rất nhiều dầu, đặc biệt là vùng chữ T",
+                            QuestionId = 3,
+                            SkinTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AnswerText = "Chỉ vùng chữ T có dầu, hai bên má thì khô",
+                            QuestionId = 3,
+                            SkinTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AnswerText = "Không có dầu, thường khô căng",
+                            QuestionId = 3,
+                            SkinTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AnswerText = "Ít dầu, da luôn cân bằng",
+                            QuestionId = 3,
+                            SkinTypeId = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AnswerText = "Nhanh chóng đổ dầu trở lại",
+                            QuestionId = 4,
+                            SkinTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AnswerText = "Một số vùng đổ dầu, một số vùng khô",
+                            QuestionId = 4,
+                            SkinTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 15,
+                            AnswerText = "Căng rát, thậm chí bong tróc",
+                            QuestionId = 4,
+                            SkinTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 16,
+                            AnswerText = "Mềm mại, thoải mái",
+                            QuestionId = 4,
+                            SkinTypeId = 4
+                        },
+                        new
+                        {
+                            Id = 17,
+                            AnswerText = "Không bao giờ",
+                            QuestionId = 5,
+                            SkinTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 18,
+                            AnswerText = "Thỉnh thoảng, ở hai bên má",
+                            QuestionId = 5,
+                            SkinTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 19,
+                            AnswerText = "KRất hay bong tróc, nhất là quanh mũi và miệng",
+                            QuestionId = 5,
+                            SkinTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 20,
+                            AnswerText = "Hiếm khi bong tróc",
+                            QuestionId = 5,
+                            SkinTypeId = 4
+                        },
+                        new
+                        {
+                            Id = 21,
+                            AnswerText = "Đổ dầu rất nhiều, da lúc nào cũng ẩm ướt",
+                            QuestionId = 6,
+                            SkinTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 22,
+                            AnswerText = "Đổ dầu ở vùng chữ T, hai bên má bình thường",
+                            QuestionId = 6,
+                            SkinTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 23,
+                            AnswerText = "Không đổ dầu, thậm chí còn khô hơn",
+                            QuestionId = 6,
+                            SkinTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 24,
+                            AnswerText = "Chỉ hơi nhờn nhẹ, nhưng không quá nhiều",
+                            QuestionId = 6,
+                            SkinTypeId = 4
+                        },
+                        new
+                        {
+                            Id = 25,
+                            AnswerText = "Rất dễ bị mụn, đặc biệt là vùng trán và cằm",
+                            QuestionId = 7,
+                            SkinTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 26,
+                            AnswerText = "Thỉnh thoảng bị mụn ở vùng chữ T",
+                            QuestionId = 7,
+                            SkinTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 27,
+                            AnswerText = "Hiếm khi bị mụn nhưng dễ bị kích ứng",
+                            QuestionId = 7,
+                            SkinTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 28,
+                            AnswerText = "Ít bị mụn",
+                            QuestionId = 7,
+                            SkinTypeId = 4
+                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinCareRoutine", b =>
@@ -450,6 +648,44 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasIndex("SkinTypeId");
 
                     b.ToTable("SkinCareRoutines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Giúp kiểm soát dầu, ngăn ngừa mụn và giữ ẩm nhẹ nhàng.",
+                            RoutineName = "Lộ trình cho da dầu",
+                            SkinTypeId = 1,
+                            Status = 0,
+                            TotalSteps = 6
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Dưỡng ẩm sâu, bảo vệ da khỏi bong tróc và mất nước.",
+                            RoutineName = "Lộ trình cho da khô",
+                            SkinTypeId = 3,
+                            Status = 0,
+                            TotalSteps = 6
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Cân bằng dầu vùng chữ T và giữ ẩm vùng khô.",
+                            RoutineName = "Lộ trình cho da hỗn hợp",
+                            SkinTypeId = 2,
+                            Status = 0,
+                            TotalSteps = 6
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Duy trì độ ẩm và bảo vệ da trước tác nhân môi trường.",
+                            RoutineName = "Lộ trình cho da thường",
+                            SkinTypeId = 4,
+                            Status = 0,
+                            TotalSteps = 6
+                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", b =>
@@ -467,6 +703,43 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SkinQuestions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            QuestionText = "Khi thức dậy vào buổi sáng, bạn cảm thấy da mình thế nào?"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            QuestionText = "Bạn có thường xuyên cảm thấy da mình bóng nhờn vào giữa ngày không?"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            QuestionText = "Da bạn có nhiều dầu vào cuối ngày không?"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            QuestionText = "Khi rửa mặt xong, bạn cảm thấy da mình thế nào?"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            QuestionText = "Da bạn có hay bị bong tróc, ngứa vào mùa lạnh không?"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            QuestionText = "Khi trời nóng, da bạn có đổ dầu nhiều hơn bình thường không?"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            QuestionText = "Bạn có hay bị mụn không?"
+                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinTest", b =>
@@ -539,6 +812,28 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SkinTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            SkinTypeName = "Da dầu"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            SkinTypeName = "Da hỗn hợp"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            SkinTypeName = "Da khô"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            SkinTypeName = "Da thường"
+                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.StepRoutine", b =>
@@ -567,6 +862,200 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasIndex("RoutineId");
 
                     b.ToTable("StepRoutines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RoutineId = 1,
+                            Status = 0,
+                            StepDescription = "Tẩy trang để loại bỏ dầu và bụi bẩn",
+                            StepNumber = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RoutineId = 1,
+                            Status = 0,
+                            StepDescription = "Rửa mặt với sữa rửa mặt kiềm dầu",
+                            StepNumber = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RoutineId = 1,
+                            Status = 0,
+                            StepDescription = "Dùng toner giúp kiểm soát dầu",
+                            StepNumber = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            RoutineId = 1,
+                            Status = 0,
+                            StepDescription = "Sử dụng serum giảm dầu, ngừa mụn",
+                            StepNumber = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            RoutineId = 1,
+                            Status = 0,
+                            StepDescription = "Dưỡng ẩm nhẹ, không gây bít tắc",
+                            StepNumber = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            RoutineId = 1,
+                            Status = 0,
+                            StepDescription = "Thoa kem chống nắng kiềm dầu",
+                            StepNumber = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            RoutineId = 2,
+                            Status = 0,
+                            StepDescription = "Dùng dầu tẩy trang để cấp ẩm",
+                            StepNumber = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            RoutineId = 2,
+                            Status = 0,
+                            StepDescription = "Rửa mặt với sữa rửa mặt dịu nhẹ",
+                            StepNumber = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            RoutineId = 2,
+                            Status = 0,
+                            StepDescription = "Dùng toner cấp ẩm",
+                            StepNumber = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            RoutineId = 2,
+                            Status = 0,
+                            StepDescription = "Sử dụng serum cấp nước",
+                            StepNumber = 4
+                        },
+                        new
+                        {
+                            Id = 11,
+                            RoutineId = 2,
+                            Status = 0,
+                            StepDescription = "Dưỡng ẩm chuyên sâu",
+                            StepNumber = 5
+                        },
+                        new
+                        {
+                            Id = 12,
+                            RoutineId = 2,
+                            Status = 0,
+                            StepDescription = "Thoa kem chống nắng dưỡng ẩm",
+                            StepNumber = 6
+                        },
+                        new
+                        {
+                            Id = 13,
+                            RoutineId = 3,
+                            Status = 0,
+                            StepDescription = "Tẩy trang để loại bỏ dầu thừa và bụi bẩn",
+                            StepNumber = 1
+                        },
+                        new
+                        {
+                            Id = 14,
+                            RoutineId = 3,
+                            Status = 0,
+                            StepDescription = "Rửa mặt với sữa rửa mặt dịu nhẹ cân bằng",
+                            StepNumber = 2
+                        },
+                        new
+                        {
+                            Id = 15,
+                            RoutineId = 3,
+                            Status = 0,
+                            StepDescription = "Dùng toner giúp cân bằng da",
+                            StepNumber = 3
+                        },
+                        new
+                        {
+                            Id = 16,
+                            RoutineId = 3,
+                            Status = 0,
+                            StepDescription = "Sử dụng serum dưỡng ẩm nhẹ",
+                            StepNumber = 4
+                        },
+                        new
+                        {
+                            Id = 17,
+                            RoutineId = 3,
+                            Status = 0,
+                            StepDescription = "Dưỡng ẩm dạng gel hoặc lotion",
+                            StepNumber = 5
+                        },
+                        new
+                        {
+                            Id = 18,
+                            RoutineId = 3,
+                            Status = 0,
+                            StepDescription = "Thoa kem chống nắng có độ ẩm vừa phải",
+                            StepNumber = 6
+                        },
+                        new
+                        {
+                            Id = 19,
+                            RoutineId = 4,
+                            Status = 0,
+                            StepDescription = "Tẩy trang với dầu hoặc nước micellar",
+                            StepNumber = 1
+                        },
+                        new
+                        {
+                            Id = 20,
+                            RoutineId = 4,
+                            Status = 0,
+                            StepDescription = "Rửa mặt với sữa rửa mặt nhẹ nhàng",
+                            StepNumber = 2
+                        },
+                        new
+                        {
+                            Id = 21,
+                            RoutineId = 4,
+                            Status = 0,
+                            StepDescription = "Dùng toner cấp ẩm hoặc làm dịu da",
+                            StepNumber = 3
+                        },
+                        new
+                        {
+                            Id = 22,
+                            RoutineId = 4,
+                            Status = 0,
+                            StepDescription = "Sử dụng serum tăng cường bảo vệ da",
+                            StepNumber = 4
+                        },
+                        new
+                        {
+                            Id = 23,
+                            RoutineId = 4,
+                            Status = 0,
+                            StepDescription = "Dưỡng ẩm dạng kem hoặc gel phù hợp",
+                            StepNumber = 5
+                        },
+                        new
+                        {
+                            Id = 24,
+                            RoutineId = 4,
+                            Status = 0,
+                            StepDescription = "Thoa kem chống nắng SPF 30+",
+                            StepNumber = 6
+                        });
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.User", b =>
@@ -585,8 +1074,8 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("Birthday")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

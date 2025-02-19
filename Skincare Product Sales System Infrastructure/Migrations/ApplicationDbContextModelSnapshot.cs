@@ -179,55 +179,55 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         {
                             Id = 1,
                             CategoryName = "Tẩy trang",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 2,
                             CategoryName = "Sữa rửa mặt",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 3,
                             CategoryName = "Tẩy tế bào chết",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 4,
                             CategoryName = "Toner",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 5,
                             CategoryName = "Serum",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 6,
                             CategoryName = "Dưỡng ẩm",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 7,
                             CategoryName = "Kem chống nắng",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 8,
                             CategoryName = "Mặt nạ",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         },
                         new
                         {
                             Id = 9,
                             CategoryName = "Kem mắt",
-                            CategoryStatus = 0
+                            CategoryStatus = 1
                         });
                 });
 
@@ -661,7 +661,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                             Id = 2,
                             Description = "Dưỡng ẩm sâu, bảo vệ da khỏi bong tróc và mất nước.",
                             RoutineName = "Lộ trình cho da khô",
-                            SkinTypeId = 2,
+                            SkinTypeId = 3,
                             Status = 0,
                             TotalSteps = 6
                         },
@@ -670,7 +670,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                             Id = 3,
                             Description = "Cân bằng dầu vùng chữ T và giữ ẩm vùng khô.",
                             RoutineName = "Lộ trình cho da hỗn hợp",
-                            SkinTypeId = 3,
+                            SkinTypeId = 2,
                             Status = 0,
                             TotalSteps = 6
                         },
@@ -680,15 +680,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                             Description = "Duy trì độ ẩm và bảo vệ da trước tác nhân môi trường.",
                             RoutineName = "Lộ trình cho da thường",
                             SkinTypeId = 4,
-                            Status = 0,
-                            TotalSteps = 6
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Làm dịu da, giảm kích ứng và tăng cường hàng rào bảo vệ.",
-                            RoutineName = "Lộ trình cho da nhạy cảm",
-                            SkinTypeId = 5,
                             Status = 0,
                             TotalSteps = 6
                         });
@@ -1061,54 +1052,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                             Status = 0,
                             StepDescription = "Thoa kem chống nắng SPF 30+",
                             StepNumber = 6
-                        },
-                        new
-                        {
-                            Id = 25,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Tẩy trang dịu nhẹ, tránh sản phẩm có cồn",
-                            StepNumber = 1
-                        },
-                        new
-                        {
-                            Id = 26,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Rửa mặt với sữa rửa mặt không chứa hương liệu",
-                            StepNumber = 2
-                        },
-                        new
-                        {
-                            Id = 27,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Dùng toner không chứa cồn",
-                            StepNumber = 3
-                        },
-                        new
-                        {
-                            Id = 28,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Sử dụng serum phục hồi da",
-                            StepNumber = 4
-                        },
-                        new
-                        {
-                            Id = 29,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Dưỡng ẩm chuyên biệt cho da nhạy cảm",
-                            StepNumber = 5
-                        },
-                        new
-                        {
-                            Id = 30,
-                            RoutineId = 5,
-                            Status = 0,
-                            StepDescription = "Thoa kem chống nắng vật lý dịu nhẹ",
-                            StepNumber = 6
                         });
                 });
 
@@ -1179,9 +1122,8 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
