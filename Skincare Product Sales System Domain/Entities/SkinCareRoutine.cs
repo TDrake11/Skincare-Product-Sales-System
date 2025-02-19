@@ -13,11 +13,11 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public string RoutineName { get; set; }
 		public string Description { get; set; }
 		public int TotalSteps { get; set; }
-		public SkinCareRoutineStatus Status { get; set; }
+		public string Status { get; set; }
 
 		[ForeignKey("SkinType")]
-		public int SkinTypeId { get; set; }
-		public virtual SkinType SkinType { get; set; } // 1 routine chi thuoc ve 1 skin type
+		public int? SkinTypeId { get; set; }
+		public virtual SkinType? SkinType { get; set; } // 1 routine chi thuoc ve 1 skin type
 		public virtual ICollection<StepRoutine>? StepRoutines { get; set; } // 1 routine co nhieu step routine
 
 	}

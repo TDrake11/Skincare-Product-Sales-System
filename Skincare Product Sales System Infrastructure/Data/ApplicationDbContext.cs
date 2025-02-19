@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Skincare_Product_Sales_System_Domain.Entities;
 using System;
@@ -62,7 +63,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 				.WithMany()
 				.HasForeignKey(sta => sta.AnswerId)
 				.OnDelete(DeleteBehavior.Restrict);
-
 
 			builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 

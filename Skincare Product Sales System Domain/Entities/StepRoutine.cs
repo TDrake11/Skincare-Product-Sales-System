@@ -13,12 +13,16 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public int StepNumber { get; set; }
 		public string StepDescription { get; set; }
 
-		public StepRoutineStatus Status { get; set; }
+		public string Status { get; set; }
 
 		[ForeignKey("Routine")]
-		public int RoutineId { get; set; }
-		public virtual SkinCareRoutine Routine { get; set; } // 1 routine product chi co 1 routine
+		public int? RoutineId { get; set; }
+		public virtual SkinCareRoutine? Routine { get; set; } // 1 routine product chi co 1 routine		
 
-		public virtual ICollection<Product>? Products { get; set; } // 1 step routine co the co nhieu product
+		[ForeignKey("Product")]
+		public int? ProductId { get; set; }
+		public virtual Product? Product { get; set; } // 1 step routine co the co 1 product
+
+		//public virtual ICollection<Product>? Products { get; set; } // 1 step routine co the co nhieu product
 	}
 }
