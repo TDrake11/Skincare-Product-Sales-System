@@ -13,14 +13,14 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public string Content { get; set; }
 		public int Rating { get; set; } // 1-5
 		public DateTime CreatedDate { get; set; }
-		public CommentStatus CommentStatus { get; set; }
+		public string CommentStatus { get; set; }
 
 		[ForeignKey("Product")]
-		public int ProductId { get; set; }
-		public virtual Product Product { get; set; } // 1 comment chi co 1 product
+		public int? ProductId { get; set; }
+		public virtual Product? Product { get; set; } // 1 comment chi co 1 product
 
 		[ForeignKey("Customer")]
-		public string CustomerId { get; set; }
-		public virtual User Customer { get; set; } // 1 comment chi co 1 khach hang
+		public string? CustomerId { get; set; }
+		public virtual User? Customer { get; set; } // 1 comment chi co 1 khach hang
 	}
 }

@@ -12,12 +12,12 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public DateTime CreateDate { get; set; }
 
 		[ForeignKey("Customer")]
-		public string CustomerId { get; set; }
-		public virtual User Customer { get; set; } // 1 skin test chi thuoc ve 1 khach hang
+		public string? CustomerId { get; set; }
+		public virtual User? Customer { get; set; } // 1 skin test chi thuoc ve 1 khach hang
 
 		[ForeignKey("SkinType")]
-		public int SkinTypeId { get; set; }
-		public virtual SkinType SkinType { get; set; } // 1 skin test chi thuoc ve 1 skin type
+		public int?	 SkinTypeId { get; set; }
+		public virtual SkinType? SkinType { get; set; } // 1 skin test chi thuoc ve 1 skin type
 
 		//public virtual ICollection<SkinTestAnswer>? SkinTestAnswer { get; set; } // 1 skin test co nhieu skin test answer
 	}

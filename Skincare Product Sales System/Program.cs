@@ -19,6 +19,7 @@ namespace Skincare_Product_Sales_System
 			services.AddIdentityApiEndpoints<User>()
 			.AddEntityFrameworkStores<ApplicationDbContext>();
 			services.AddAuthorization();
+			services.AddAuthentication();
 
 			builder.Services.AddControllers();
 

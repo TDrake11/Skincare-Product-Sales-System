@@ -12,11 +12,11 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 	{
 		public DateTime OrderDate { get; set; }
 		public double TotalPrice { get; set; }
-		public OrderStatus OrderStatus { get; set; }
+		public string OrderStatus { get; set; }
 
 		[ForeignKey("Customer")]
-		public string CustomerId { get; set; } // id cua khach hang dat hang
-		public virtual User Customer { get; set; } // 1 oder chi duoc dat hang boi 1 khach hang
+		public string? CustomerId { get; set; } // id cua khach hang dat hang
+		public virtual User? Customer { get; set; } // 1 oder chi duoc dat hang boi 1 khach hang
 
 		[ForeignKey("Staff")]
 		public string? StaffId { get; set; } // id cua nhan vien xu ly don hang,
