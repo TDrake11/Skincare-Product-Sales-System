@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
+	[Authorize]
 	public class WeatherForecastController : ControllerBase
 	{
 		private static readonly string[] Summaries = new[]
