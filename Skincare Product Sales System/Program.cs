@@ -1,5 +1,7 @@
 
 using Microsoft.AspNetCore.Identity;
+using Skincare_Product_Sales_System_Application.Interfaces;
+using Skincare_Product_Sales_System_Application.Services;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using Skincare_Product_Sales_System_Domain.Repositories;
@@ -31,8 +33,11 @@ namespace Skincare_Product_Sales_System
 
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 
 
             var app = builder.Build();
