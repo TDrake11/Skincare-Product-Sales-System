@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Identity;
+using Skincare_Product_Sales_System.Extensions;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;
@@ -14,18 +15,18 @@ namespace Skincare_Product_Sales_System
 			var services = builder.Services;
 			var config = builder.Configuration;
 
-			// Add services to the container.
-			services.AddInfrastructure(config);
-			services.AddIdentityApiEndpoints<User>()
-			.AddEntityFrameworkStores<ApplicationDbContext>();
-			services.AddAuthorization();
-			services.AddAuthentication();
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAll",
+					policy =>
+					{
+						policy.AllowAnyOrigin()
+							  .AllowAnyMethod()
+							  .AllowAnyHeader();
+					});
+			});
 
-			builder.Services.AddControllers();
-
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			builder.AddPresentation(config);
 
 			var app = builder.Build();
 
@@ -37,7 +38,7 @@ namespace Skincare_Product_Sales_System
 			}
 
 			app.UseHttpsRedirection();
-
+			app.UseCors("AllowAll");
 			app.UseAuthorization();
 
 			app.MapIdentityApi<User>();
