@@ -10,6 +10,7 @@ namespace Skincare_Product_Sales_System.Helpers
 		{
 			CreateMap<Product, ProductModel>().ReverseMap();
 			CreateMap<User, RegisterModel>().ReverseMap();
-		}
+            CreateMap<Category, CategoryModel>().ReverseMap();
+        }
 	}
 }
