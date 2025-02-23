@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Skincare_Product_Sales_System.Extensions;
 using Skincare_Product_Sales_System_Application.Services.CategoryService;
+using Skincare_Product_Sales_System_Application.Services.ProductService;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;
@@ -32,6 +33,7 @@ namespace Skincare_Product_Sales_System
 			services.AddAuthenticationService(config);
 
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
 
 
             var app = builder.Build();
