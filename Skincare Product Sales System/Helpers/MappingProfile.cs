@@ -9,6 +9,7 @@ namespace Skincare_Product_Sales_System.Helpers
 		public MappingProfile()
 		{
 			CreateMap<Product, ProductModel>().ReverseMap();
+			CreateMap<User, RegisterModel>().ReverseMap();
 		}
 	}
 }
