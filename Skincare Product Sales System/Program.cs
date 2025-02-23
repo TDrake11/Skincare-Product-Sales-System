@@ -26,7 +26,9 @@ namespace Skincare_Product_Sales_System
 					});
 			});
 
-			builder.AddPresentation(config);
+			services.AddPresentation(config);
+			services.AddIdentityService(config);
+			services.AddAuthenticationService(config);
 
 			var app = builder.Build();
 
@@ -39,9 +41,10 @@ namespace Skincare_Product_Sales_System
 
 			app.UseHttpsRedirection();
 			app.UseCors("AllowAll");
+			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.MapIdentityApi<User>();
+			//app.MapIdentityApi<User>();
 
 			app.MapControllers();
 

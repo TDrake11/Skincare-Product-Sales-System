@@ -1,4 +1,5 @@
 @Skincare_Product_Sales_System_HostAddress = http://localhost:5187
+@Skincare_Product_Sales_System_HostAddress2 = https://localhost:7088
 
 GET {{Skincare_Product_Sales_System_HostAddress}}/weatherforecast/
 Accept: application/json
