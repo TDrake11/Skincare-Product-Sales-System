@@ -23,6 +23,7 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public int? Point { get; set; } = 0;
 		public string? Status { get; set; }
 
+
 		//  1 khach hang co the co nhieu order
 		//public virtual ICollection<Order>? Orders { get; set; }
 

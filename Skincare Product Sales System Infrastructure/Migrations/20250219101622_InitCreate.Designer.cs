@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250219101622_InitCreate")]
+    partial class InitCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,9 +170,8 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CategoryStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -240,9 +242,8 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CommentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CommentStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -285,9 +286,8 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("StaffId")
                         .HasColumnType("nvarchar(450)");
@@ -341,7 +341,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("CreatedDate")
@@ -355,6 +355,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
@@ -364,17 +365,20 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProductStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProductStatus")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SkinTypeId")
+                    b.Property<int>("SkinTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("StaffId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("StepRoutineId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -383,6 +387,8 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasIndex("SkinTypeId");
 
                     b.HasIndex("StaffId");
+
+                    b.HasIndex("StepRoutineId");
 
                     b.ToTable("Products");
                 });
@@ -631,9 +637,8 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<int>("SkinTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalSteps")
                         .HasColumnType("int");
@@ -839,15 +844,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RoutineId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("StepDescription")
                         .IsRequired()
@@ -857,8 +858,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("RoutineId");
 
@@ -1068,13 +1067,15 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Avatar")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("Birthday")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -1087,13 +1088,13 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -1118,14 +1119,14 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Point")
+                    b.Property<int>("Point")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -1134,7 +1135,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<double?>("Wallet")
+                    b.Property<double>("Wallet")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -1261,21 +1262,31 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinType", "SkinType")
                         .WithMany("Products")
-                        .HasForeignKey("SkinTypeId");
+                        .HasForeignKey("SkinTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", "Staff")
                         .WithMany("Products")
                         .HasForeignKey("StaffId");
+
+                    b.HasOne("Skincare_Product_Sales_System_Domain.Entities.StepRoutine", "StepRoutine")
+                        .WithMany("Products")
+                        .HasForeignKey("StepRoutineId");
 
                     b.Navigation("Category");
 
                     b.Navigation("SkinType");
 
                     b.Navigation("Staff");
+
+                    b.Navigation("StepRoutine");
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinAnswer", b =>
@@ -1355,17 +1366,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.StepRoutine", b =>
                 {
-                    b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinCareRoutine", "Routine")
                         .WithMany("StepRoutines")
                         .HasForeignKey("RoutineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("Routine");
                 });
@@ -1406,6 +1411,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Navigation("SkinCareRoutines");
 
                     b.Navigation("SkinTests");
+                });
+
+            modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.StepRoutine", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.User", b =>
