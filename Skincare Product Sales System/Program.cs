@@ -33,7 +33,6 @@ namespace Skincare_Product_Sales_System
 
 			services.AddPresentation(config);
 			services.AddIdentityService(config);
-			services.AddAuthenticationService(config);
 
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -56,11 +55,9 @@ namespace Skincare_Product_Sales_System
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			//app.MapIdentityApi<User>();
+			app.MapIdentityApi<User>();
 
 			app.MapControllers();
-
-			//await app.AddAutoMigrateDatabase();
 
 			app.Run();
 		}

@@ -13,7 +13,7 @@ namespace Skincare_Product_Sales_System.Extensions
 		{
 			// Đăng ký các dịch vụ của Identity
 			services
-				.AddDefaultIdentity<User>()
+				.AddIdentityApiEndpoints<User>()
 				.AddRoles<IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 
