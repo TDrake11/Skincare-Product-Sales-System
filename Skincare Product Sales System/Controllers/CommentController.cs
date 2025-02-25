@@ -24,8 +24,8 @@ namespace Skincare_Product_Sales_System.Controllers
         public async Task<IActionResult> GetAllComments()
         {
             var comments = await _commentService.GetAllCommentsAsync();
-            var categoryModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
-            return Ok(categoryModel);
+            var commentModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
+            return Ok(commentModel);
         }
 
         [HttpGet("{id}")]
