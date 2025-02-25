@@ -1,6 +1,11 @@
 
 using Microsoft.AspNetCore.Identity;
 using Skincare_Product_Sales_System.Extensions;
+using Skincare_Product_Sales_System_Application.Services.CategoryService;
+using Skincare_Product_Sales_System_Application.Services.CommentService;
+using Skincare_Product_Sales_System_Application.Services.OrderDetailService;
+using Skincare_Product_Sales_System_Application.Services.OrderService;
+using Skincare_Product_Sales_System_Application.Services.ProductService;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;
@@ -30,7 +35,14 @@ namespace Skincare_Product_Sales_System
 			services.AddIdentityService(config);
 			services.AddAuthenticationService(config);
 
-			var app = builder.Build();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+			builder.Services.AddScoped<ICommentService, CommentService>();
+			builder.Services.AddScoped<IOrderService, OrderService>();
+			builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
