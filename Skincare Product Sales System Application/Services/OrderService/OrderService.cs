@@ -1,4 +1,5 @@
 ﻿using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -41,8 +42,13 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderService
 
         public async Task DeleteOrderAsync(int id)
         {
-            _unitOfWork.Repository<Order>().Delete(id);
-            await _unitOfWork.Complete();
+            var order = await _unitOfWork.Repository<Order>().GetByIdAsync(id);
+            if (order != null)
+            {
+                order.OrderStatus = OrderStatus.Completed.ToString();
+                _unitOfWork.Repository<Order>().Update(order);
+                await _unitOfWork.Complete();
+            }
         }
     }
 }

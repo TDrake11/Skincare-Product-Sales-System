@@ -8,5 +8,7 @@ namespace Skincare_Product_Sales_System_Domain.Enums
 {
 	public enum OrderStatus
 	{
-	}
+        Pending,
+        Completed
+    }
 }
