@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skincare_Product_Sales_System_Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 	{
 		public int Quantity { get; set; }
 		public double Price { get; set; }
+        public string? OrderDetailStatus { get; set; }
 
-		[ForeignKey("Order")]
+        [ForeignKey("Order")]
 		public int? OrderId { get; set; }
 		public virtual Order? Order { get; set; } // 1 order detail chi thuoc ve 1 order
 

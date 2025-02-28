@@ -12,8 +12,8 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250218140940_Init")]
-    partial class Init
+    [Migration("20250228075108_InitV2")]
+    partial class InitV2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,10 +105,12 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -145,10 +147,12 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -202,10 +206,9 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Rating")
@@ -229,7 +232,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CustomerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("OrderDate")
@@ -262,13 +264,16 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderId")
+                    b.Property<string>("OrderDetailStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -349,10 +354,13 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SkinTypeId")
+                    b.Property<string>("SkinAnswerStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SkinTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -380,7 +388,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SkinTypeId")
+                    b.Property<int?>("SkinTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -409,6 +417,9 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SkinQuestionStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("SkinQuestions");
@@ -426,10 +437,9 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("SkinTypeId")
+                    b.Property<int?>("SkinTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -449,13 +459,13 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AnswerId")
+                    b.Property<int?>("AnswerId")
                         .HasColumnType("int");
 
                     b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SkinTestId")
+                    b.Property<int?>("SkinTestId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -497,7 +507,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoutineId")
+                    b.Property<int?>("RoutineId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -666,15 +676,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", "Customer")
                         .WithMany("Comments")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Product", "Product")
                         .WithMany("Comments")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Customer");
 
@@ -686,8 +692,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", "Staff")
                         .WithMany()
@@ -703,15 +708,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Product", "Product")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Order");
 
@@ -743,15 +744,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", "SkinQuestion")
                         .WithMany("SkinAnswers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionId");
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinType", "SkinType")
                         .WithMany("SkinAnswer")
-                        .HasForeignKey("SkinTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SkinTypeId");
 
                     b.Navigation("SkinQuestion");
 
@@ -762,9 +759,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinType", "SkinType")
                         .WithMany("SkinCareRoutines")
-                        .HasForeignKey("SkinTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SkinTypeId");
 
                     b.Navigation("SkinType");
                 });
@@ -773,15 +768,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", "Customer")
                         .WithMany("SkinTests")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinType", "SkinType")
                         .WithMany("SkinTests")
-                        .HasForeignKey("SkinTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SkinTypeId");
 
                     b.Navigation("Customer");
 
@@ -793,8 +784,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinAnswer", "SkinAnswer")
                         .WithMany()
                         .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", "SkinQuestion")
                         .WithMany()
@@ -804,8 +794,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinTest", "SkinTest")
                         .WithMany()
                         .HasForeignKey("SkinTestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("SkinAnswer");
 
@@ -822,9 +811,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinCareRoutine", "Routine")
                         .WithMany("StepRoutines")
-                        .HasForeignKey("RoutineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoutineId");
 
                     b.Navigation("Product");
 

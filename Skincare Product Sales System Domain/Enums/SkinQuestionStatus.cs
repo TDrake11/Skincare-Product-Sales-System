@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Skincare_Product_Sales_System_Domain.Enums
 {
-	public enum SkinCareRoutineStatus
-	{
+    public enum SkinQuestionStatus
+    {
         Active,
         Inactive
     }

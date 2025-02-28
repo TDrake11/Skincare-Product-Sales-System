@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Skincare_Product_Sales_System_Domain.Enums
 {
-	public enum SkinCareRoutineStatus
-	{
-        Active,
-        Inactive
+    public enum OrderDetailStatus
+    {
+        Pending,
+        Completed
     }
 }
