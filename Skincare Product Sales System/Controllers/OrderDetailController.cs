@@ -20,53 +20,73 @@ namespace Skincare_Product_Sales_System.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("ListOrderDetails")]
         public async Task<IActionResult> GetAllOrderDetail()
         {
-            var orderDetails = await _orderDetailService.GetAllOrderDetailAsync();
-            var orderDetailModel = _mapper.Map<IEnumerable<OrderDetailModel>>(orderDetails);
-            return Ok(orderDetailModel);
+            try
+            {
+                var orderDetails = await _orderDetailService.GetAllOrderDetailAsync();
+                var orderDetailModel = _mapper.Map<IEnumerable<OrderDetailModel>>(orderDetails);
+                return Ok(orderDetailModel);
+            }
+            catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getOrderDetailById/{id}")]
         public async Task<IActionResult> GetOrderDetailById(int id)
         {
-            var orderDetails = await _orderDetailService.GetOrderDetailByIdAsync(id);
-            if (orderDetails == null)
-                return NotFound();
-            return Ok(_mapper.Map<OrderDetailModel>(orderDetails));
+            try
+            {
+                var orderDetails = await _orderDetailService.GetOrderDetailByIdAsync(id);
+                if (orderDetails == null)
+                    return NotFound();
+                return Ok(_mapper.Map<OrderDetailModel>(orderDetails));
+            }
+            catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
-        [HttpPost]
+        [HttpPost("createOrderDetail")]
         public async Task<IActionResult> Create(OrderDetailModel orderDetailModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                var orderDetails = _mapper.Map<OrderDetail>(orderDetailModel);
+
+                await _orderDetailService.AddOrderDetailAsync(orderDetails);
+                return CreatedAtAction(nameof(GetOrderDetailById), new { id = orderDetails.Id }, _mapper.Map<OrderDetailModel>(orderDetails));
             }
-
-            var orderDetails = _mapper.Map<OrderDetail>(orderDetailModel);
-
-            await _orderDetailService.AddOrderDetailAsync(orderDetails);
-            return CreatedAtAction(nameof(GetOrderDetailById), new { id = orderDetails.Id }, _mapper.Map<OrderDetailModel>(orderDetails));
+            catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, OrderDetailModel orderDetailModel)
+        [HttpPut("updateOrderDetail")]
+        public async Task<IActionResult> Update([FromBody] OrderDetailModel orderDetailModel)
         {
-            if (id != orderDetailModel.Id)
-                return BadRequest();
-
-            var orderDetail = _mapper.Map<OrderDetail>(orderDetailModel);
-            await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
-            return NoContent();
+            try
+            {
+                var orderDetail = _mapper.Map<OrderDetail>(orderDetailModel);
+                await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
+                return Ok("OrderDetail updated successfully.");
+            }
+            catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("deleteOrderDetail/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _orderDetailService.DeleteOrderDetailAsync(id);
-            return NoContent();
+            try
+            {
+                var orderDt = await _orderDetailService.GetOrderDetailByIdAsync(id);
+                if (orderDt == null)
+                {
+                    return BadRequest("OrderDetail not found");
+                }
+                await _orderDetailService.DeleteOrderDetailAsync(id);
+                return Ok("OrderDetail deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
