@@ -14,6 +14,8 @@ namespace Skincare_Product_Sales_System.Helpers
             CreateMap<Comment, CommentModel>().ReverseMap();
 			CreateMap<Order, OrderModel>().ReverseMap();
 			CreateMap<OrderDetail, OrderDetailModel>().ReverseMap();
+			CreateMap<SkinQuestion, SkinQuestionModel>().ReverseMap();
+			CreateMap<SkinAnswer, SkinAnswerModel>().ReverseMap();
         }
 	}
 }

@@ -13,7 +13,6 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 
         public string? SkinAnswerStatus { get; set; }
 
-
         [ForeignKey("SkinQuestion")]	
 		public int? QuestionId { get; set; }
 		public virtual SkinQuestion? SkinQuestion { get; set; } // 1 answer chi thuoc ve 1 question

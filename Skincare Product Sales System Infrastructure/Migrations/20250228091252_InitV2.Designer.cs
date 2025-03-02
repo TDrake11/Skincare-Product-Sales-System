@@ -12,7 +12,7 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250228075108_InitV2")]
+    [Migration("20250228091252_InitV2")]
     partial class InitV2
     {
         /// <inheritdoc />
