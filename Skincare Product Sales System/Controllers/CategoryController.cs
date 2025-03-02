@@ -62,7 +62,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 {
                     return NotFound("No categories found with the given name.");
                 }
-                return Ok(_mapper.Map<CategoryModel>(categories));
+                return Ok(_mapper.Map<List<CategoryModel>>(categories));
             }
             catch (Exception ex) 
             {
