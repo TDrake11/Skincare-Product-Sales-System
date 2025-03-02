@@ -52,6 +52,26 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
+        [HttpGet("getCommentsByProductId/{productId}")]
+        public async Task<IActionResult> GetCommentsByProductId(int productId)
+        {
+            try
+            {
+                var comments = await _commentService.GetCommentByProductIdAsync(productId);
+                if (comments == null || !comments.Any())
+                {
+                    return NotFound("No comments found for this product.");
+                }
+                var commentModels = _mapper.Map<IEnumerable<CommentModel>>(comments);
+                return Ok(commentModels);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpPost("createComment")]
         public async Task<IActionResult> Create(CommentModel commentModel)
         {

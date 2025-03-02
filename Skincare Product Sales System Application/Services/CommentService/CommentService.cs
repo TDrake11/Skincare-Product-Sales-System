@@ -28,15 +28,23 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
             return await _unitOfWork.Repository<Comment>().GetByIdAsync(id);
         }
 
+        public async Task<IEnumerable<Comment>> GetCommentByProductIdAsync(int productId)
+        {
+            var comments = await _unitOfWork.Repository<Comment>().ListAllAsync();
+            return comments.Where(c => c.ProductId == productId);
+        }
+
         public async Task AddCommentAsync(Comment comment)
         {
             await _unitOfWork.Repository<Comment>().AddAsync(comment);
+            comment.CommentStatus = CommentStatus.Approved.ToString();
             await _unitOfWork.Complete();
         }
 
         public async Task UpdateCommentAsync(Comment comment)
         {
             _unitOfWork.Repository<Comment>().Update(comment);
+            comment.CommentStatus = CommentStatus.Approved.ToString();
             await _unitOfWork.Complete();
         }
 
