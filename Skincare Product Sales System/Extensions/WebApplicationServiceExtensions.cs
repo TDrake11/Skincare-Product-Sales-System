@@ -26,27 +26,24 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddAuthenticationService(config);
 			services.AddAuthorization();
 
-			services.AddSwaggerGen(option =>
+			services.AddSwaggerGen(options =>
 			{
-				option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-				option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 				{
-					In = ParameterLocation.Header,
-					Description = "Please enter a valid token",
 					Name = "Authorization",
 					Type = SecuritySchemeType.Http,
-					BearerFormat = "JWT",
 					Scheme = "Bearer"
 				});
-				option.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+				options.AddSecurityRequirement(new OpenApiSecurityRequirement
 				{
 					{
 						new OpenApiSecurityScheme
 						{
 							Reference = new OpenApiReference
 							{
-								Type=ReferenceType.SecurityScheme,
-								Id="Bearer"
+								Type = ReferenceType.SecurityScheme,
+								Id = "Bearer"
 							}
 						},
 						[]

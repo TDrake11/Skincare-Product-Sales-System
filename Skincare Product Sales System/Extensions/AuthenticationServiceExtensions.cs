@@ -11,27 +11,7 @@ namespace Skincare_Product_Sales_System.Extensions
 			IConfiguration config
 		)
 		{
-			services.AddAuthentication(options =>
-			{
-				options.DefaultAuthenticateScheme = 
-				options.DefaultChallengeScheme =
-				options.DefaultForbidScheme =
-				options.DefaultScheme = 
-				options.DefaultSignInScheme =
-				options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(options =>
-			{
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-					ValidateIssuerSigningKey = true,
-					ValidIssuer = config["JWT:Issuer"],
-					ValidAudience = config["JWT:Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SigningKey"]))
-				};
-			});	
+			services.AddAuthentication();
 			return services;
 		}
 	}
