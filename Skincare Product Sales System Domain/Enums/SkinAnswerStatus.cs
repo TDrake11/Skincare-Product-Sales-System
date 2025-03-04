@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Skincare_Product_Sales_System_Domain.Enums
 {
-	public enum CommentStatus
-	{
-        Approved,
-        Inactive    
+    public enum SkinAnswerStatus
+    {
+        Active,
+        Inactive
     }
 }

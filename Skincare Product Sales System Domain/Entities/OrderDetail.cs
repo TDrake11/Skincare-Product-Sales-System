@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skincare_Product_Sales_System_Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;

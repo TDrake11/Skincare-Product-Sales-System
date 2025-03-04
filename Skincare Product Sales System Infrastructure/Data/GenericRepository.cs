@@ -82,7 +82,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 				query = orderBy(query);
 			}
 
-			return await query.ToListAsync(); ;
+			return await query.ToListAsync(); 
 		}
 
 		public async Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? includeProperties = null)
