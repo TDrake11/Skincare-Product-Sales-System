@@ -1,4 +1,5 @@
 ﻿using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,22 +28,35 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
             return await _unitOfWork.Repository<Comment>().GetByIdAsync(id);
         }
 
+        public async Task<IEnumerable<Comment>> GetCommentByProductIdAsync(int productId)
+        {
+            var comments = await _unitOfWork.Repository<Comment>().ListAllAsync();
+            return comments.Where(c => c.ProductId == productId);
+        }
+
         public async Task AddCommentAsync(Comment comment)
         {
             await _unitOfWork.Repository<Comment>().AddAsync(comment);
+            comment.CommentStatus = CommentStatus.Approved.ToString();
             await _unitOfWork.Complete();
         }
 
         public async Task UpdateCommentAsync(Comment comment)
         {
             _unitOfWork.Repository<Comment>().Update(comment);
+            comment.CommentStatus = CommentStatus.Approved.ToString();
             await _unitOfWork.Complete();
         }
 
         public async Task DeleteCommentAsync(int id)
         {
-            _unitOfWork.Repository<Comment>().Delete(id);
+            var comment = await _unitOfWork.Repository<Comment>().GetByIdAsync(id);
+            if (comment != null)
+            {
+                comment.CommentStatus = CommentStatus.Inactive.ToString();
+                _unitOfWork.Repository<Comment>().Update(comment);
             await _unitOfWork.Complete();
         }
     }
+}
 }

@@ -1,4 +1,5 @@
 ﻿using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -41,8 +42,13 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
 
         public async Task DeleteCategoryAsync(int id)
         {
-            _unitOfWork.Repository<Category>().Delete(id);
+            var category = await _unitOfWork.Repository<Category>().GetByIdAsync(id);
+            if (category != null)
+            {
+                category.CategoryStatus = CategoryStatus.Inactive.ToString();
+                _unitOfWork.Repository<Category>().Update(category);
             await _unitOfWork.Complete();
         }
     }
+}
 }

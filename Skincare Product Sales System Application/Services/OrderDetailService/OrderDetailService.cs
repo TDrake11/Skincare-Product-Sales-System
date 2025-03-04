@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
 using System.Collections.Generic;

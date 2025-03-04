@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skincare_Product_Sales_System_Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 	{
 		public string QuestionText { get; set; }
 
-		public virtual ICollection<SkinAnswer>? SkinAnswers { get; set; } // 1 question co nhieu answer
+        public string? SkinQuestionStatus { get; set; }
+
+        public virtual ICollection<SkinAnswer>? SkinAnswers { get; set; } // 1 question co nhieu answer
 
 		//public virtual ICollection<SkinTestAnswer>? SkinTestAnswers { get; set; } // 1 question co the co nhieu test answer
 	}
