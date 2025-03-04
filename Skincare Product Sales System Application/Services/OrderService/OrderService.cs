@@ -1,4 +1,6 @@
-﻿using Skincare_Product_Sales_System_Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,8 +28,15 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderService
         {
             return await _unitOfWork.Repository<Order>().GetByIdAsync(id);
         }
-
-        public async Task AddOrderAsync(Order order)
+        public async Task<Order?> GetCartByUserAsync(User user)
+		{
+			var cart =  _unitOfWork.Repository<Order>()
+                .GetAll()
+                .Where(o => o.Customer == user && o.OrderStatus == OrderStatus.Cart.ToString())
+                .FirstOrDefault();
+            return cart;
+		}
+		public async Task AddOrderAsync(Order order)
         {
             await _unitOfWork.Repository<Order>().AddAsync(order);
             await _unitOfWork.Complete();
