@@ -11,7 +11,6 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 	{
 		Task<List<Product>> GetListProducts();
 		Task<Product> GetProductById(int id);
-		Task<List<Product>> GetListProductByName(string name);
 		Task CreateProduct(Product product);
 		void  UpdateProduct( Product product);
 	}
