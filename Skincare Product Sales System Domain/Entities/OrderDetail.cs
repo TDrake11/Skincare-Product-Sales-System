@@ -13,8 +13,8 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public double Price { get; set; }
 
 		[ForeignKey("Order")]
-		public int? OrderId { get; set; }
-		public virtual Order? Order { get; set; } // 1 order detail chi thuoc ve 1 order
+		public int OrderId { get; set; }
+		public virtual Order Order { get; set; } // 1 order detail chi thuoc ve 1 order
 
 		[ForeignKey("Product")]
 		public int? ProductId { get; set; }

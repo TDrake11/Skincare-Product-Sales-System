@@ -40,21 +40,12 @@ namespace Skincare_Product_Sales_System.Controllers
 			try
 			{
 				var product = await _productService.GetProductById(id);
-				return Ok(product);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-
-		[HttpGet("getListProductByName/{name}")]
-		public async Task<IActionResult> GetListProductByName(string name)
-		{
-			try
-			{
-				var products = await _productService.GetListProductByName(name);
-				return Ok(products);
+				if (product == null)
+				{
+					return BadRequest("Product not found");
+				}
+				var productModel = _mapper.Map<ProductModel>(product);
+				return Ok(productModel);
 			}
 			catch (Exception ex)
 			{

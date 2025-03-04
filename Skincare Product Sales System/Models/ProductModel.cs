@@ -11,7 +11,9 @@
 		public int Quantity { get; set; }
 		public string? Image { get; set; }
 		public string? ProductStatus { get; set; }
+		public string CategoryId { get; set; }
 		public string CategoryName { get; set; }
+		public string SkinTypeId { get; set; }
 		public string SkinTypeName { get; set; }
 	}
 }

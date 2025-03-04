@@ -13,9 +13,10 @@ namespace Skincare_Product_Sales_System.Helpers
 				.ForMember(dest => dest.SkinTypeName, opt => opt.MapFrom(src => src.SkinType.SkinTypeName))
 				.ReverseMap();
 			CreateMap<User, RegisterModel>().ReverseMap();
-      CreateMap<User, RegisterModel>().ReverseMap();
-      CreateMap<Category, CategoryModel>().ReverseMap();
-      CreateMap<Comment, CommentModel>().ReverseMap();
+			CreateMap<User, UserTokenModel>().ReverseMap();
+			CreateMap<User, UserProfileModel>().ReverseMap();
+			CreateMap<Category, CategoryModel>().ReverseMap();
+			CreateMap<Comment, CommentModel>().ReverseMap();
 			CreateMap<Order, OrderModel>().ReverseMap();
 			CreateMap<OrderDetail, OrderDetailModel>().ReverseMap();
 		}

@@ -23,8 +23,9 @@ namespace Skincare_Product_Sales_System_Application.Services.TokenService
 		}
 		public string CreateToken(User user)
 		{
-			var claims = new List<Claim> 
+			var claims = new List<Claim>
 			{
+				new Claim(JwtRegisteredClaimNames.Sub, user.Id), // 👈 Thêm User ID vào sub
 				new Claim(JwtRegisteredClaimNames.Email, user.Email),
 				new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
 			};
@@ -43,6 +44,8 @@ namespace Skincare_Product_Sales_System_Application.Services.TokenService
 			var tokenHandler = new JwtSecurityTokenHandler();
 
 			var token = tokenHandler.CreateToken(tokenDescriptor);
+
+			Console.WriteLine("Signing Key: " + _config["JWT:SigningKey"]);
 
 			return tokenHandler.WriteToken(token);
 		}
