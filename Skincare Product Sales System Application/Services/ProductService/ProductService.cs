@@ -19,6 +19,7 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 		public async Task CreateProduct(Product product)
 		{
 			await _unitOfWork.Repository<Product>().AddAsync(product);
+			await _unitOfWork.Complete();
 		}
 
 		public async Task<List<Product>> GetListProducts()
@@ -33,19 +34,19 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 
 		public Task<Product> GetProductById(int id)
 		{
-			var product = _unitOfWork.Repository<Product>().GetByIdAsync(id);
+			var product = _unitOfWork.Repository<Product>()
+				.GetAll()
+				.Include(p => p.Category)
+				.Include(p => p.SkinType)
+				.Where(p => p.Id == id)
+				.FirstOrDefaultAsync();
 			return product;
-		}
-
-		public async Task<List<Product>> GetListProductByName(string name)
-		{
-			var products = await _unitOfWork.Repository<Product>().GetAll().Where(p => p.ProductName.Contains(name)).ToListAsync();
-			return products;
 		}
 
 		public void UpdateProduct(Product product)
 		{
 			_unitOfWork.Repository<Product>().Update(product);
+			_unitOfWork.Complete();
 		}
 	}
 }

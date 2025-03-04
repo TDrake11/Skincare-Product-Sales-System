@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
+using Skincare_Product_Sales_System_Application.Services.OrderService;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Enums;
@@ -13,13 +14,15 @@ namespace Skincare_Product_Sales_System.Controllers
 	public class AccountController : ControllerBase
 	{
 		private readonly UserManager<User> _userManager;
+		private readonly IOrderService _orderService;
 		private readonly ITokenService _tokenService;
 		private readonly IMapper _mapper;
-		public AccountController(UserManager<User> userManager, IMapper mapper, ITokenService tokenService)
+		public AccountController(UserManager<User> userManager, IMapper mapper, ITokenService tokenService, IOrderService orderService)
 		{
 			_userManager = userManager;
 			_mapper = mapper;
 			_tokenService = tokenService;
+			_orderService = orderService;
 		}
 
 		[HttpPost("login")]
@@ -82,14 +85,14 @@ namespace Skincare_Product_Sales_System.Controllers
 					var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
 					if(roleResult.Succeeded)
 					{
-						return Ok(
-							new UserTokenModel
-							{
-								UserName = user.UserName,
-								Email = user.Email,
-								Token = _tokenService.CreateToken(user)
-							}
-						);
+						var order = new Order
+						{
+							CustomerId = user.Id,
+							OrderDate = DateTime.Now,
+							OrderStatus = OrderStatus.Cart.ToString()
+						};
+						await _orderService.AddOrderAsync(order);
+						return Ok();
 					}
 					else
 					{
@@ -105,6 +108,18 @@ namespace Skincare_Product_Sales_System.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
+		}
+
+		[HttpGet("GetUser")]
+		public async Task<IActionResult> GetUserProfile()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			var userProfile = _mapper.Map<UserProfileModel>(user);
+			if (user == null)
+			{
+				return Unauthorized("User not authenticated");
+			}
+			return Ok(userProfile);
 		}
 	}
 }
