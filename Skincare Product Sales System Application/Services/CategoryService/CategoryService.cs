@@ -28,12 +28,6 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
             return await _unitOfWork.Repository<Category>().GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Category>> GetCategoryByNameAsync(string name)
-        {
-            var categories = await _unitOfWork.Repository<Category>().ListAllAsync();
-            return categories.Where(c => c.CategoryName.Contains(name, StringComparison.OrdinalIgnoreCase));
-        }
-
         public async Task AddCategoryAsync(Category category)
         {
             await _unitOfWork.Repository<Category>().AddAsync(category);
@@ -53,8 +47,8 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
             {
                 category.CategoryStatus = CategoryStatus.Inactive.ToString();
                 _unitOfWork.Repository<Category>().Update(category);
-                await _unitOfWork.Complete();
-            }
+            await _unitOfWork.Complete();
         }
     }
+}
 }

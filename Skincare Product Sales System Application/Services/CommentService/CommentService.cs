@@ -55,8 +55,8 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
             {
                 comment.CommentStatus = CommentStatus.Inactive.ToString();
                 _unitOfWork.Repository<Comment>().Update(comment);
-                await _unitOfWork.Complete();
-            }
+            await _unitOfWork.Complete();
         }
     }
+}
 }

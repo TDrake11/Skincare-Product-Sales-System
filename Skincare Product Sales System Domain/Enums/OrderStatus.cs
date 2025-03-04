@@ -8,7 +8,11 @@ namespace Skincare_Product_Sales_System_Domain.Enums
 {
 	public enum OrderStatus
 	{
-        Pending,
-        Completed
-    }
+		Cart, // Order is in the cart
+		Pending, //  Order placed, waiting for confirmation
+		Confirmed, // Order has been confirmed by the system
+		Processing, //  Order is being prepared/packed.
+		Delivered, // Order has been successfully received.
+		Cancelled // Order was canceled or failed
+	}
 }

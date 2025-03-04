@@ -25,10 +25,10 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var orderDetails = await _orderDetailService.GetAllOrderDetailAsync();
-                var orderDetailModel = _mapper.Map<IEnumerable<OrderDetailModel>>(orderDetails);
-                return Ok(orderDetailModel);
-            }
+            var orderDetails = await _orderDetailService.GetAllOrderDetailAsync();
+            var orderDetailModel = _mapper.Map<IEnumerable<OrderDetailModel>>(orderDetails);
+            return Ok(orderDetailModel);
+        }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
@@ -37,25 +37,22 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var orderDetails = await _orderDetailService.GetOrderDetailByIdAsync(id);
-                if (orderDetails == null)
-                    return NotFound();
-                return Ok(_mapper.Map<OrderDetailModel>(orderDetails));
-            }
+            var orderDetails = await _orderDetailService.GetOrderDetailByIdAsync(id);
+            if (orderDetails == null)
+                return NotFound();
+            return Ok(_mapper.Map<OrderDetailModel>(orderDetails));
+        }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
         [HttpPost("createOrderDetail")]
         public async Task<IActionResult> Create(OrderDetailModel orderDetailModel)
         {
-            try
-            {
-                var orderDetails = _mapper.Map<OrderDetail>(orderDetailModel);
 
-                await _orderDetailService.AddOrderDetailAsync(orderDetails);
-                return CreatedAtAction(nameof(GetOrderDetailById), new { id = orderDetails.Id }, _mapper.Map<OrderDetailModel>(orderDetails));
-            }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            var orderDetails = _mapper.Map<OrderDetail>(orderDetailModel);
+
+            await _orderDetailService.AddOrderDetailAsync(orderDetails);
+            return CreatedAtAction(nameof(GetOrderDetailById), new { id = orderDetails.Id }, _mapper.Map<OrderDetailModel>(orderDetails));
         }
 
         [HttpPut("updateOrderDetail")]
@@ -80,7 +77,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 {
                     return BadRequest("OrderDetail not found");
                 }
-                await _orderDetailService.DeleteOrderDetailAsync(id);
+            await _orderDetailService.DeleteOrderDetailAsync(id);
                 return Ok("OrderDetail deleted successfully.");
             }
             catch (Exception ex)

@@ -26,10 +26,10 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comments = await _commentService.GetAllCommentsAsync();
-                var commentModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
-                return Ok(commentModel);
-            }
+            var comments = await _commentService.GetAllCommentsAsync();
+            var commentModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
+            return Ok(commentModel);
+        }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -41,11 +41,11 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comment = await _commentService.GetCommentByIdAsync(id);
-                if (comment == null)
-                    return NotFound();
-                return Ok(_mapper.Map<CommentModel>(comment));
-            }
+            var comment = await _commentService.GetCommentByIdAsync(id);
+            if (comment == null)
+                return NotFound();
+            return Ok(_mapper.Map<CommentModel>(comment));
+        }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -61,7 +61,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 if (comments == null || !comments.Any())
                 {
                     return NotFound("No comments found for this product.");
-                }
+                return BadRequest(ModelState);
+            }
                 var commentModels = _mapper.Map<IEnumerable<CommentModel>>(comments);
                 return Ok(commentModels);
             }
@@ -77,11 +78,11 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comment = _mapper.Map<Comment>(commentModel);
+            var comment = _mapper.Map<Comment>(commentModel);
 
-                await _commentService.AddCommentAsync(comment);
-                return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, _mapper.Map<CommentModel>(comment));
-            }
+            await _commentService.AddCommentAsync(comment);
+            return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, _mapper.Map<CommentModel>(comment));
+        }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -93,8 +94,8 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comment = _mapper.Map<Comment>(commentModel);
-                await _commentService.UpdateCommentAsync(comment);
+            var comment = _mapper.Map<Comment>(commentModel);
+            await _commentService.UpdateCommentAsync(comment);
                 return Ok("Comment updated successfully.");
             }
             catch (Exception ex)
@@ -113,7 +114,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 {
                     return BadRequest("Comment not found");
                 }
-                await _commentService.DeleteCommentAsync(id);
+            await _commentService.DeleteCommentAsync(id);
                 return Ok("Comment deleted successfully.");
             }
             catch (Exception ex)

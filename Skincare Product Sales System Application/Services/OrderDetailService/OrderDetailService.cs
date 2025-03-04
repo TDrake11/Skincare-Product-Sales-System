@@ -1,4 +1,5 @@
-﻿using Skincare_Product_Sales_System_Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
@@ -28,32 +29,29 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderDetailService
             return await _unitOfWork.Repository<OrderDetail>().GetByIdAsync(id);
         }
 
-        public async Task AddOrderDetailAsync(OrderDetail orderDetail)
+		public async Task<IEnumerable<OrderDetail>> GetOrderDetailByOrderIdAsync(int orderId)
+		{ 
+			return _unitOfWork.Repository<OrderDetail>()
+                .GetAll()
+                .Where(o => o.OrderId == orderId)
+                .Include(o => o.Product);
+		}
+		public async Task AddOrderDetailAsync(OrderDetail orderDetail)
         {
             await _unitOfWork.Repository<OrderDetail>().AddAsync(orderDetail);
-            orderDetail.OrderDetailStatus = OrderDetailStatus.Pending.ToString(); // Gán trạng thái sau khi thêm mới
             await _unitOfWork.Complete();
         }
 
         public async Task UpdateOrderDetailAsync(OrderDetail orderDetail)
         {
             _unitOfWork.Repository<OrderDetail>().Update(orderDetail);
-            orderDetail.OrderDetailStatus = OrderDetailStatus.Pending.ToString();
             await _unitOfWork.Complete();
         }
 
         public async Task DeleteOrderDetailAsync(int id)
         {
-            //_unitOfWork.Repository<OrderDetail>().Delete(id);
-            //await _unitOfWork.Complete();
-
-            var orderDetail = await _unitOfWork.Repository<OrderDetail>().GetByIdAsync(id);
-            if (orderDetail != null)
-            {
-                orderDetail.OrderDetailStatus = OrderDetailStatus.Completed.ToString();
-                _unitOfWork.Repository<OrderDetail>().Update(orderDetail);
-                await _unitOfWork.Complete();
-            }
+            _unitOfWork.Repository<OrderDetail>().Delete(id);
+            await _unitOfWork.Complete();
         }
     }
 }

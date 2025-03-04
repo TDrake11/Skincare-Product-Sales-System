@@ -26,10 +26,10 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var orders = await _orderService.GetAllOrderAsync();
-                var orderModel = _mapper.Map<IEnumerable<OrderModel>>(orders);
-                return Ok(orderModel);
-            }
+            var orders = await _orderService.GetAllOrderAsync();
+            var orderModel = _mapper.Map<IEnumerable<OrderModel>>(orders);
+            return Ok(orderModel);
+        }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -41,25 +41,22 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var orders = await _orderService.GetOrderByIdAsync(id);
-                if (orders == null)
-                    return NotFound();
-                return Ok(_mapper.Map<OrderModel>(orders));
-            }
+            var orders = await _orderService.GetOrderByIdAsync(id);
+            if (orders == null)
+                return NotFound();
+            return Ok(_mapper.Map<OrderModel>(orders));
+        }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
         [HttpPost("createOrder")]
         public async Task<IActionResult> Create(OrderModel orderModel)
         {
-            try
-            {
-                var orders = _mapper.Map<Order>(orderModel);
 
-                await _orderService.AddOrderAsync(orders);
-                return CreatedAtAction(nameof(GetOrderById), new { id = orders.Id }, _mapper.Map<OrderModel>(orders));
-            }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            var orders = _mapper.Map<Order>(orderModel);
+
+            await _orderService.AddOrderAsync(orders);
+            return CreatedAtAction(nameof(GetOrderById), new { id = orders.Id }, _mapper.Map<OrderModel>(orders));
         }
 
         [HttpPut("updateOrder")]
@@ -84,7 +81,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 {
                     return BadRequest("Order not found");
                 }
-                await _orderService.DeleteOrderAsync(id);
+            await _orderService.DeleteOrderAsync(id);
                 return Ok("Order deleted successfully.");
             }
             catch (Exception ex)
@@ -93,36 +90,5 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpGet("listOrdersActive")]
-        public async Task<IActionResult> GetActiveOrders()
-        {
-            try
-            {
-                var orders = await _orderService.GetAllOrderAsync();
-                var deletedOrder = orders.Where(c => c.OrderStatus != OrderStatus.Completed.ToString());
-                var orderModels = _mapper.Map<IEnumerable<OrderModel>>(deletedOrder);
-                return Ok(orderModels);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("listOrderInactived")]
-        public async Task<IActionResult> GetDeletedOrders()
-        {
-            try
-            {
-                var orders = await _orderService.GetAllOrderAsync();
-                var deletedOrder = orders.Where(c => c.OrderStatus == OrderStatus.Completed.ToString());
-                var orderModels = _mapper.Map<IEnumerable<OrderModel>>(deletedOrder);
-                return Ok(orderModels);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

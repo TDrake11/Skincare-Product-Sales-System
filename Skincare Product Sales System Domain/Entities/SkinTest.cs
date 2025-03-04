@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 	public class SkinTest : BaseEntity
 	{
 		public DateTime CreateDate { get; set; }
+		public string SkinTestStatus { get; set; }
 
 		[ForeignKey("Customer")]
 		public string? CustomerId { get; set; }

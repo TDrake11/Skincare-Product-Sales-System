@@ -26,10 +26,10 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                var categoryModels = _mapper.Map<IEnumerable<CategoryModel>>(categories);
-                return Ok(categoryModels);
-            }
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            var categoryModels = _mapper.Map<IEnumerable<CategoryModel>>(categories);
+            return Ok(categoryModels);
+        }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -43,27 +43,9 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var categorys = await _categoryService.GetCategoryByIdAsync(id);
                 if (categorys == null)
-                    return NotFound();
+                return NotFound();
                 return Ok(_mapper.Map<CategoryModel>(categorys));
-            }
-            catch (Exception ex) 
-            {
-                return BadRequest(ex.Message);
-            }
         }
-
-        [HttpGet("getCategoryByName")]
-        public async Task<IActionResult> GetCategoryByName(string name)
-        {
-            try
-            {
-                var categories = await _categoryService.GetCategoryByNameAsync(name);
-                if (categories == null || !categories.Any())
-                {
-                    return NotFound("No categories found with the given name.");
-                }
-                return Ok(_mapper.Map<List<CategoryModel>>(categories));
-            }
             catch (Exception ex) 
             {
                 return BadRequest(ex.Message);
@@ -75,11 +57,11 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var category = _mapper.Map<Category>(categoryModel);
+            var category = _mapper.Map<Category>(categoryModel);
 
-                await _categoryService.AddCategoryAsync(category);
-                return CreatedAtAction(nameof(GetById), new { id = category.Id }, _mapper.Map<CategoryModel>(category));
-            }
+            await _categoryService.AddCategoryAsync(category);
+            return CreatedAtAction(nameof(GetById), new { id = category.Id }, _mapper.Map<CategoryModel>(category));
+        }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -127,10 +109,10 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var category = await _categoryService.GetCategoryByIdAsync(id);
                 if (category == null)
-                {
+        {
                     return BadRequest("Category not found");
                 }
-                await _categoryService.DeleteCategoryAsync(id);
+            await _categoryService.DeleteCategoryAsync(id);
                 return Ok("Category deleted successfully.");
             }
             catch (Exception ex)
