@@ -12,6 +12,7 @@ namespace Skincare_Product_Sales_System.Models
 		public required string Email { get; set; }
 		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }
+		public string? RoleName { get; set; }
 
 	}
 }

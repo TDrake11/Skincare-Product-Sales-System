@@ -110,15 +110,17 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-		[HttpGet("GetUser")]
+		[HttpGet("GetUserProfile")]
 		public async Task<IActionResult> GetUserProfile()
 		{
 			var user = await _userManager.GetUserAsync(User);
-			var userProfile = _mapper.Map<UserProfileModel>(user);
 			if (user == null)
 			{
 				return Unauthorized("User not authenticated");
 			}
+			var role = await _userManager.GetRolesAsync(user);
+			var userProfile = _mapper.Map<UserProfileModel>(user);
+			userProfile.RoleName = role.FirstOrDefault();
 			return Ok(userProfile);
 		}
 	}
