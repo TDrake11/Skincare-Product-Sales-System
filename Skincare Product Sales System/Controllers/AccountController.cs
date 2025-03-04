@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -110,6 +111,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
+		[Authorize]
 		[HttpGet("GetUserProfile")]
 		public async Task<IActionResult> GetUserProfile()
 		{
