@@ -23,13 +23,13 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpGet("listSkinType")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetListSkinTypes()
         {
             try
             {
-                var skinType = await _skinTypeService.GetAllSkinTypeAsync();
-                var skinTypeModel = _mapper.Map<IEnumerable<SkinTypeModel>>(skinType);
-                return Ok(skinTypeModel);
+                var skinTypes = await _skinTypeService.GetListSkinTypes();
+                var listSkinTypes = _mapper.Map<List<SkinTypeModel>>(skinTypes);
+                return Ok(listSkinTypes);
             }
             catch (Exception ex)
             {
@@ -38,14 +38,17 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpGet("getSkinTypeById/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetSkinTypeById(int id)
         {
             try
             {
-                var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
+                var skinType = await _skinTypeService.GetSkinTypeById(id);
                 if (skinType == null)
-                    return NotFound();
-                return Ok(_mapper.Map<SkinTypeModel>(skinType));
+                {
+                    return NotFound("Skin type not found");
+                }
+                var skinTypeModel = _mapper.Map<SkinTypeModel>(skinType);
+                return Ok(skinTypeModel);
             }
             catch (Exception ex)
             {
@@ -60,8 +63,8 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var SkinType = _mapper.Map<SkinType>(skinTypeModel);
 
-                await _skinTypeService.AddSkinTypeAsync(SkinType);
-                return CreatedAtAction(nameof(GetById), new { id = SkinType.Id }, _mapper.Map<SkinTypeModel>(SkinType));
+                await _skinTypeService.AddSkinType(SkinType);
+                return CreatedAtAction(nameof(GetSkinTypeById), new { id = SkinType.Id }, _mapper.Map<SkinTypeModel>(SkinType));
             }
             catch (Exception ex)
             {
@@ -75,7 +78,7 @@ namespace Skincare_Product_Sales_System.Controllers
             try
             {
                 var skinType = _mapper.Map<SkinType>(skinTypeModel);
-                await _skinTypeService.UpdateSkinTypeAsync(skinType);
+                await _skinTypeService.UpdateSkinType(skinType);
                 return Ok("SkinType updated successfully");
             }
             catch (Exception ex)
@@ -89,12 +92,12 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
+                var skinType = await _skinTypeService.GetSkinTypeById(id);
                 if (skinType == null)
                 {
                     return BadRequest("SkinType not found");
                 }
-                await _skinTypeService.DeleteSkinTypeAsync(id);
+                await _skinTypeService.DeleteSkinType(id);
                 return Ok("SkinType deleted successfully.");
             }
             catch (Exception ex)
