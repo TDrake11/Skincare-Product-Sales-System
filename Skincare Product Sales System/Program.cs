@@ -8,6 +8,7 @@ using Skincare_Product_Sales_System_Application.Services.OrderService;
 using Skincare_Product_Sales_System_Application.Services.ProductService;
 using Skincare_Product_Sales_System_Application.Services.SkinAnswerService;
 using Skincare_Product_Sales_System_Application.Services.SkinQuestionService;
+using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;
@@ -43,6 +44,7 @@ namespace Skincare_Product_Sales_System
 			builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 			builder.Services.AddScoped<ISkinQuestionService, SkinQuestionService>();
 			builder.Services.AddScoped<ISkinAnswerSerie,  SkinAnswerSerie>();
+			builder.Services.AddScoped<ISkinTypeService, SkinTypeService>();
 
 
             var app = builder.Build();
