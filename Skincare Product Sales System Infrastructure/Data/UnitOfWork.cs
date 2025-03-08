@@ -1,4 +1,5 @@
-﻿using Skincare_Product_Sales_System_Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
 using System.Collections;
@@ -40,7 +41,14 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 
 		public async Task<int> Complete()
 		{
-			return await _context.SaveChangesAsync();
+			try
+			{
+				return await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateException ex)
+			{
+				throw new Exception($"Database update error: {ex.InnerException?.Message}");
+			}
 		}
 
 		public void Dispose()
