@@ -8,7 +8,7 @@ namespace Skincare_Product_Sales_System_Domain.Enums
 {
 	public enum ProductStatus
 	{
-		Active,
+		Available,
 		Inactive
 	}
 }
