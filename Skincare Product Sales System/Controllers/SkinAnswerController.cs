@@ -27,7 +27,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinAs = await _skinAnswerService.GetAllSkinAnswerAsync();
+                var skinAs = await _skinAnswerService.GetAllSkinAnswer();
                 var skinAModel = _mapper.Map<IEnumerable<SkinAnswerModel>>(skinAs);
                 return Ok(skinAModel);
             }
@@ -39,12 +39,42 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinA = await _skinAnswerService.GetSkinAnswerByIdAsync(id);
+                var skinA = await _skinAnswerService.GetSkinAnswerById(id);
                 if (skinA == null)
                     return NotFound();
                 return Ok(_mapper.Map<SkinAnswerModel>(skinA));
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
+        }
+
+        [HttpGet("getSkinAnswersBySkinTypeId/{skinTypeId}")]
+        public async Task<IActionResult> GetSkinAnswersBySkinTypeId(int skinTypeId)
+        {
+            try
+            {
+                var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinTypeId(skinTypeId);
+                var skinAnswerModels = _mapper.Map<IEnumerable<SkinAnswerModel>>(skinAnswers);
+                return Ok(skinAnswerModels);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("getSkinAnswersBySkinQuestionId/{skinQuestionId}")]
+        public async Task<IActionResult> GetSkinAnswersBySkinQuestionId(int skinQuestionId)
+        {
+            try
+            {
+                var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinQuestionId(skinQuestionId);
+                var skinAnswerModels = _mapper.Map<IEnumerable<SkinAnswerModel>>(skinAnswers);
+                return Ok(skinAnswerModels);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("createSkinAnswer")]
@@ -54,7 +84,7 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var skinA = _mapper.Map<SkinAnswer>(skinAModel);
 
-                await _skinAnswerService.AddSkinAnswerAsync(skinA);
+                await _skinAnswerService.AddSkinAnswer(skinA);
                 return CreatedAtAction(nameof(GetSkinAnswerById), new { id = skinAModel.Id }, _mapper.Map<SkinAnswerModel>(skinA));
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
@@ -66,7 +96,7 @@ namespace Skincare_Product_Sales_System.Controllers
             try
             {
                 var skinA = _mapper.Map<SkinAnswer>(skinAModel);
-                await _skinAnswerService.UpdateSkinAnswerAsync(skinA);
+                await _skinAnswerService.UpdateSkinAnswer(skinA);
                 return Ok("SkinAnswer updated successfully.");
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
@@ -77,12 +107,12 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinA = await _skinAnswerService.GetSkinAnswerByIdAsync(id);
+                var skinA = await _skinAnswerService.GetSkinAnswerById(id);
                 if (skinA == null)
                 {
                     return BadRequest("SkinAnswer not found");
                 }
-                await _skinAnswerService.DeleteSkinAnswerAsync(id);
+                await _skinAnswerService.DeleteSkinAnswer(id);
                 return Ok("SkinAnswer deleted successfully.");
             }
             catch (Exception ex)
@@ -96,7 +126,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinA = await _skinAnswerService.GetAllSkinAnswerAsync();
+                var skinA = await _skinAnswerService.GetAllSkinAnswer();
                 var activeSkinAnswers = skinA.Where(c => c.SkinAnswerStatus != SkinAnswerStatus.Inactive.ToString());
                 var skinAModel = _mapper.Map<IEnumerable<SkinAnswerModel>>(activeSkinAnswers);
                 return Ok(skinAModel);
@@ -113,7 +143,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinA = await _skinAnswerService.GetAllSkinAnswerAsync();
+                var skinA = await _skinAnswerService.GetAllSkinAnswer();
                 var activeSkinAnswers = skinA.Where(c => c.SkinAnswerStatus == SkinAnswerStatus.Inactive.ToString());
                 var skinAModel = _mapper.Map<IEnumerable<SkinAnswerModel>>(activeSkinAnswers);
                 return Ok(skinAModel);

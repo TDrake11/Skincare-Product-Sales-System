@@ -28,15 +28,31 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
             return await _unitOfWork.Repository<Category>().GetByIdAsync(id);
         }
 
-        public async Task AddCategoryAsync(Category category)
+        public async Task AddCategoryAsync(Category category) 
         {
+            category.CategoryStatus = CategoryStatus.Active.ToString(); // Gán trước khi thêm vào DB
             await _unitOfWork.Repository<Category>().AddAsync(category);
             await _unitOfWork.Complete();
         }
 
         public async Task UpdateCategoryAsync(Category category)
         {
-            _unitOfWork.Repository<Category>().Update(category);
+            var existingCategory = await _unitOfWork.Repository<Category>().GetByIdAsync(category.Id);
+
+            if (existingCategory == null)
+            {
+                throw new Exception("Category not found");
+            }
+
+            if (existingCategory.CategoryStatus == CategoryStatus.Inactive.ToString())
+            {
+                throw new Exception("This category does not exist!!!!!!");
+            }
+
+            existingCategory.CategoryName = category.CategoryName;
+            existingCategory.CategoryStatus = CategoryStatus.Active.ToString();
+
+            _unitOfWork.Repository<Category>().Update(existingCategory);
             await _unitOfWork.Complete();
         }
 

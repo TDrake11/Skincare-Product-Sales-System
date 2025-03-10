@@ -9,10 +9,12 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinAnswerService
 {
     public interface ISkinAnswerSerie
     {
-        Task<IEnumerable<SkinAnswer>> GetAllSkinAnswerAsync();
-        Task<SkinAnswer> GetSkinAnswerByIdAsync(int id);
-        Task AddSkinAnswerAsync(SkinAnswer skinAnswer);
-        Task UpdateSkinAnswerAsync(SkinAnswer skinAnswer);
-        Task DeleteSkinAnswerAsync(int id);
+        Task<List<SkinAnswer>> GetAllSkinAnswer();
+        Task<SkinAnswer> GetSkinAnswerById(int id);
+        Task<List<SkinAnswer>> GetSkinAnswersBySkinTypeId(int skinTypeId);
+        Task<List<SkinAnswer>> GetSkinAnswersBySkinQuestionId(int skinQuestionId);
+        Task AddSkinAnswer(SkinAnswer skinAnswer);
+        Task UpdateSkinAnswer(SkinAnswer skinAnswer);
+        Task DeleteSkinAnswer(int id);
     }
 }
