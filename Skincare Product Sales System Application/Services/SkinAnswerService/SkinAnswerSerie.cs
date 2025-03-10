@@ -1,4 +1,5 @@
-﻿using Skincare_Product_Sales_System_Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
@@ -18,31 +19,61 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinAnswerService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<SkinAnswer>> GetAllSkinAnswerAsync()
+        public async Task<List<SkinAnswer>> GetAllSkinAnswer()
         {
-            return await _unitOfWork.Repository<SkinAnswer>().ListAllAsync();
+            var listSkinAnswer = await _unitOfWork.Repository<SkinAnswer>()
+                .GetAll()
+                .Include(sa => sa.SkinType)
+                .Include(sa => sa.SkinQuestion)
+                .AsNoTracking() //Chỉ đọc
+                .ToListAsync();
+            return listSkinAnswer;
         }
 
-        public async Task<SkinAnswer> GetSkinAnswerByIdAsync(int id)
+        public async Task<SkinAnswer> GetSkinAnswerById(int id)
         {
-            return await _unitOfWork.Repository<SkinAnswer>().GetByIdAsync(id);
+            var skinAnswer = await _unitOfWork.Repository<SkinAnswer>()
+                .GetAll()
+                .Include(sa => sa.SkinType)
+                .Include(sa => sa.SkinQuestion)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(sa => sa.Id == id);
+            return skinAnswer;
+                
+        }
+        public async Task<List<SkinAnswer>> GetSkinAnswersBySkinTypeId(int skinTypeId)
+        {
+            var listSkinAnswer = await _unitOfWork.Repository<SkinAnswer>()
+                .ListAsync(sa => sa.SkinTypeId == skinTypeId,
+                           includeProperties: q => q.Include(sa => sa.SkinType)
+                                                    .Include(sa => sa.SkinQuestion));
+            return listSkinAnswer.ToList();
         }
 
-        public async Task AddSkinAnswerAsync(SkinAnswer skinAnswer)
+        public async Task<List<SkinAnswer>> GetSkinAnswersBySkinQuestionId(int skinQuestionId)
+        {
+            var listSkinAnswer = await _unitOfWork.Repository<SkinAnswer>()
+                .ListAsync(sa => sa.QuestionId == skinQuestionId,
+                           includeProperties: q => q.Include(sa => sa.SkinType)
+                                                    .Include(sa => sa.SkinQuestion));
+            return listSkinAnswer.ToList();
+        }
+
+        public async Task AddSkinAnswer(SkinAnswer skinAnswer)
         {
             await _unitOfWork.Repository<SkinAnswer>().AddAsync(skinAnswer);
             skinAnswer.SkinAnswerStatus = SkinAnswerStatus.Active.ToString(); // Gán trạng thái sau khi thêm mới
             await _unitOfWork.Complete();
         }
 
-        public async Task UpdateSkinAnswerAsync(SkinAnswer skinAnswer)
+        public async Task UpdateSkinAnswer(SkinAnswer skinAnswer)
         {
             _unitOfWork.Repository<SkinAnswer>().Update(skinAnswer);
             skinAnswer.SkinAnswerStatus = SkinAnswerStatus.Active.ToString();
             await _unitOfWork.Complete();
         }
 
-        public async Task DeleteSkinAnswerAsync(int id)
+        public async Task DeleteSkinAnswer(int id)
         {
             var skinAnswer = await _unitOfWork.Repository<SkinAnswer>().GetByIdAsync(id);
             if (skinAnswer != null)

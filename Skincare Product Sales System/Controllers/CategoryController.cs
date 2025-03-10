@@ -53,15 +53,15 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPost("createCategory")]
-        public async Task<IActionResult> Create(CategoryModel categoryModel)
+        public async Task<IActionResult> Create(CreateCategoryRequest request)
         {
             try
             {
-            var category = _mapper.Map<Category>(categoryModel);
+                var category = _mapper.Map<Category>(request);
 
-            await _categoryService.AddCategoryAsync(category);
-            return CreatedAtAction(nameof(GetById), new { id = category.Id }, _mapper.Map<CategoryModel>(category));
-        }
+                await _categoryService.AddCategoryAsync(category);
+                return CreatedAtAction(nameof(GetById), new { id = category.Id }, _mapper.Map<CategoryModel>(category));
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -81,11 +81,11 @@ namespace Skincare_Product_Sales_System.Controllers
         //     return NoContent();
         // }
         #endregion
-        public async Task<IActionResult> Update([FromBody] CategoryModel categoryModel)
+        public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest updateCategory)
         {
             try
             {
-                var category = _mapper.Map<Category>(categoryModel);
+                var category = _mapper.Map<Category>(updateCategory);
                 await _categoryService.UpdateCategoryAsync(category);
                 return Ok("Category updated successfully");
             }
