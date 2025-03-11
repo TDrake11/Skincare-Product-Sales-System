@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skincare_Product_Sales_System_Domain.Entities;
+using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -45,8 +46,30 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 
 		public void UpdateProduct(Product product)
 		{
-			_unitOfWork.Repository<Product>().Update(product);
-			_unitOfWork.Complete();
+			if(_unitOfWork.Repository<Product>().Exists(product.Id))
+			{
+				_unitOfWork.Repository<Product>().Update(product);
+				_unitOfWork.Complete();
+			}
+			else
+			{
+				throw new Exception("Product not found");
+			}
+		}
+
+		public void DeleteProduct(int id)
+		{
+			var product = _unitOfWork.Repository<Product>().GetById(id);
+			if(product != null)
+			{
+				product.ProductStatus = ProductStatus.Inactive.ToString();
+				_unitOfWork.Repository<Product>().Update(product);
+				_unitOfWork.Complete();
+			}
+			else
+			{
+				throw new Exception("Product not found");
+			}
 		}
 	}
 }
