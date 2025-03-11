@@ -21,6 +21,9 @@ namespace Skincare_Product_Sales_System.Helpers
 			CreateMap<UpdateCategoryRequest, Category>().ReverseMap();
 
             CreateMap<Comment, CommentModel>().ReverseMap();
+			CreateMap<Comment, CreateCommentModel>().ReverseMap();
+			CreateMap<Comment, UpdateCommentModel>().ReverseMap();
+
 			CreateMap<Order, OrderModel>().ReverseMap();
 			CreateMap<OrderDetail, OrderDetailModel>().ReverseMap();
 			CreateMap<SkinQuestion, SkinQuestionModel>().ReverseMap();
@@ -28,6 +31,7 @@ namespace Skincare_Product_Sales_System.Helpers
                 .ForMember(dest => dest.QuestionText, opt => opt.MapFrom(src => src.SkinQuestion.QuestionText))
                 .ForMember(dest => dest.SkinTypeName, opt => opt.MapFrom(src => src.SkinType.SkinTypeName))
                 .ReverseMap();
+
             CreateMap<SkinType, SkinTypeModel>().ReverseMap();
 
 			CreateMap<StepRoutine, StepRoutineModel>()
