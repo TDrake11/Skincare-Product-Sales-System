@@ -23,7 +23,6 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTypeService
         {
             return await _unitOfWork.Repository<SkinType>()
                 .GetAll()
-                .Include(st => st.Products)
                 .Include(st => st.SkinCareRoutines)
                 .Include(st => st.SkinTests)
                 .Include(st => st.SkinAnswer)
@@ -35,7 +34,6 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTypeService
         {
             return await _unitOfWork.Repository<SkinType>()
                 .GetAll()
-                .Include(st => st.Products)
                 .Include(st => st.SkinCareRoutines)
                 .Include(st => st.SkinTests)
                 .Include(st => st.SkinAnswer)

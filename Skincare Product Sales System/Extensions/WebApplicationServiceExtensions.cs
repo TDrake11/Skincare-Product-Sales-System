@@ -4,7 +4,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Skincare_Product_Sales_System.Helpers;
+using Skincare_Product_Sales_System_Application.Services.CategoryService;
+using Skincare_Product_Sales_System_Application.Services.CommentService;
+using Skincare_Product_Sales_System_Application.Services.OrderDetailService;
+using Skincare_Product_Sales_System_Application.Services.OrderService;
 using Skincare_Product_Sales_System_Application.Services.ProductService;
+using Skincare_Product_Sales_System_Application.Services.SkinAnswerService;
+using Skincare_Product_Sales_System_Application.Services.SkinQuestionService;
+using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Interfaces;
@@ -20,9 +27,6 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddInfrastructure(config);
 			services.AddControllers();
 			services.AddEndpointsApiExplorer();
-			//builder.Services.AddIdentityApiEndpoints<User>()
-			//	.AddRoles<IdentityRole>()
-			//	.AddEntityFrameworkStores<ApplicationDbContext>();
 			services.AddAuthenticationService(config);
 			services.AddAuthorization();
 
@@ -58,6 +62,15 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddScoped<IProductService, ProductService>();
+
+			services.AddScoped<ICategoryService, CategoryService>();
+			services.AddScoped<IProductService, ProductService>();
+			services.AddScoped<ICommentService, CommentService>();
+			services.AddScoped<IOrderService, OrderService>();
+			services.AddScoped<IOrderDetailService, OrderDetailService>();
+			services.AddScoped<ISkinQuestionService, SkinQuestionService>();
+			services.AddScoped<ISkinAnswerSerie, SkinAnswerSerie>();
+			services.AddScoped<ISkinTypeService, SkinTypeService>();
 
 			return services;
 		}

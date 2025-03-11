@@ -34,6 +34,24 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 		{
 			base.OnModelCreating(builder); // Quan trọng: gọi base để cấu hình Identity trước
 
+			builder.Entity<Product>()
+			   .HasOne(p => p.Category)
+			   .WithMany()
+			   .HasForeignKey(p => p.CategoryId)
+			   .OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Product>()
+				.HasOne(p => p.SkinType)
+				.WithMany()
+				.HasForeignKey(p => p.SkinTypeId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Product>()
+				.HasOne(p => p.Staff)
+				.WithMany()
+				.HasForeignKey(p => p.StaffId)
+				.OnDelete(DeleteBehavior.Restrict);
+
 			builder.Entity<Order>()
 				.HasOne(o => o.Customer)
 				.WithMany() // Một User có thể có nhiều Order
