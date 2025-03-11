@@ -31,10 +31,6 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public int? SkinTypeId { get; set; }
 		public virtual SkinType? SkinType { get; set; } // 1 product thuoc ve 1 skin type
 
-		//[ForeignKey("StepRoutine")]
-		//public Guid? StepRoutineId { get; set; }
-		//public virtual StepRoutine? StepRoutine { get; set; } // 1 product co the nam trong 1 step routine
-
 		public virtual ICollection<Comment>? Comments { get; set; } // 1 product co nhieu comment
 
 		public virtual ICollection<OrderDetail>? OrderDetails { get; set; } // 1 product co nhieu order detail
