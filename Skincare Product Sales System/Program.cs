@@ -1,18 +1,6 @@
-
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Skincare_Product_Sales_System.Extensions;
-using Skincare_Product_Sales_System_Application.Services.CategoryService;
-using Skincare_Product_Sales_System_Application.Services.CommentService;
-using Skincare_Product_Sales_System_Application.Services.OrderDetailService;
-using Skincare_Product_Sales_System_Application.Services.OrderService;
-using Skincare_Product_Sales_System_Application.Services.ProductService;
-using Skincare_Product_Sales_System_Application.Services.SkinAnswerService;
-using Skincare_Product_Sales_System_Application.Services.SkinQuestionService;
-using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
+﻿using Skincare_Product_Sales_System.Extensions;
 using Skincare_Product_Sales_System_Domain.Entities;
-using Skincare_Product_Sales_System_Infrastructure.Data;
-using Skincare_Product_Sales_System_Infrastructure.Extensions;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Skincare_Product_Sales_System
 {
@@ -53,7 +41,9 @@ namespace Skincare_Product_Sales_System
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.MapIdentityApi<User>();
+			app.MapIdentityApi<User>()
+				.WithTags("A_Identity");
+
 
 			app.MapControllers();
 

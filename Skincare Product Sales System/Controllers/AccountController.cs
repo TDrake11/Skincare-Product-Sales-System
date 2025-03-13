@@ -10,9 +10,9 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-	[Route("api/account")]
 	[ApiController]
-	public class AccountController : ControllerBase
+	[Route("api/account")]
+	public class AccountController : Controller
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly IOrderService _orderService;
@@ -26,42 +26,42 @@ namespace Skincare_Product_Sales_System.Controllers
 			_orderService = orderService;
 		}
 
-		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
-		{
-			try
-			{
-				if (!ModelState.IsValid)
-				{
-					return BadRequest(ModelState);
-				}
-				var user = await _userManager.FindByEmailAsync(loginModel.Email);
-				if (user == null)
-				{
-					return BadRequest("Invalid email");
-				}
-				var result = await _userManager.CheckPasswordAsync(user, loginModel.Password);
-				if (result)
-				{
-					return Ok(
-						new UserTokenModel
-						{
-							UserName = user.UserName,
-							Email = user.Email,
-							Token = _tokenService.CreateToken(user)
-						}
-					);
-				}
-				else
-				{
-					return BadRequest("User not found and/or password incorrect");
-				}
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+		//[HttpPost("login")]
+		//public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+		//{
+		//	try
+		//	{
+		//		if (!ModelState.IsValid)
+		//		{
+		//			return BadRequest(ModelState);
+		//		}
+		//		var user = await _userManager.FindByEmailAsync(loginModel.Email);
+		//		if (user == null)
+		//		{
+		//			return BadRequest("Invalid email");
+		//		}
+		//		var result = await _userManager.CheckPasswordAsync(user, loginModel.Password);
+		//		if (result)
+		//		{
+		//			return Ok(
+		//				new UserTokenModel
+		//				{
+		//					UserName = user.UserName,
+		//					Email = user.Email,
+		//					Token = _tokenService.CreateToken(user)
+		//				}
+		//			);
+		//		}
+		//		else
+		//		{
+		//			return BadRequest("User not found and/or password incorrect");
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		return BadRequest(ex.Message);
+		//	}
+		//}
 
 		[HttpPost("register")]
 		public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
