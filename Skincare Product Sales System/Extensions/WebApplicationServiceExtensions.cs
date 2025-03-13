@@ -69,7 +69,7 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddScoped<IOrderService, OrderService>();
 			services.AddScoped<IOrderDetailService, OrderDetailService>();
 			services.AddScoped<ISkinQuestionService, SkinQuestionService>();
-			services.AddScoped<ISkinAnswerSerie, SkinAnswerSerie>();
+			services.AddScoped<ISkinAnswerService, SkinAnswerService>();
 			services.AddScoped<ISkinTypeService, SkinTypeService>();
 
 			return services;
