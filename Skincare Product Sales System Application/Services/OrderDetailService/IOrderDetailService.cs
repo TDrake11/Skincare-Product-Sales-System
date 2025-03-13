@@ -11,7 +11,7 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderDetailService
     {
         Task<IEnumerable<OrderDetail>> GetAllOrderDetailAsync();
         Task<OrderDetail?> GetOrderDetailByIdAsync(int id);
-        Task<IEnumerable<OrderDetail>> GetOrderDetailByOrderIdAsync(int orderId);
+        Task<List<OrderDetail>> GetOrderDetailByOrderIdAsync(int orderId);
 		Task AddOrderDetailAsync(OrderDetail orderDetail);
         Task UpdateOrderDetailAsync(OrderDetail orderDetail);
         Task DeleteOrderDetailAsync(int id);

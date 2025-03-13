@@ -41,7 +41,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				Console.WriteLine("User is null. Authentication might have failed.");
 				return Unauthorized("User not authenticated.");
 			}
-			var order = await _orderService.GetCartByUserAsync(user);
+			var order = _orderService.GetCartByUserAsync(user);
 			if(order == null)
 			{
 				order = new Order
@@ -52,17 +52,18 @@ namespace Skincare_Product_Sales_System.Controllers
 				await _orderService.AddOrderAsync(order);
 				
 			}
-			var orderModel = _mapper.Map<OrderModel>(order);
-			var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
-			orderModel.ListOrderDetail = orderDetails;
-			return Ok(orderModel);
+			var cartModel = _mapper.Map<CartModel>(order);
+			var cartDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
+			var cartDetailModels = _mapper.Map<List<CartDetailModel>>(cartDetails);
+			cartModel.ListOrderDetail = cartDetailModels;
+			return Ok(cartModel);
 		}
 
 		[HttpPost("AddProductIntoCart")]
 		public async Task<IActionResult> AddProductIntoCart(int productId, int quantity)
 		{
 			var user = await _userManager.GetUserAsync(User);
-			var order = await _orderService.GetCartByUserAsync(user);
+			var order = _orderService.GetCartByUserAsync(user);
 			var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
 			if (order == null) 
 			{

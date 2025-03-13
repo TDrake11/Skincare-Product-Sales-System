@@ -46,15 +46,8 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 
 		public void UpdateProduct(Product product)
 		{
-			if(_unitOfWork.Repository<Product>().Exists(product.Id))
-			{
-				_unitOfWork.Repository<Product>().Update(product);
-				_unitOfWork.Complete();
-			}
-			else
-			{
-				throw new Exception("Product not found");
-			}
+			_unitOfWork.Repository<Product>().Update(product);
+			_unitOfWork.Complete();
 		}
 
 		public void DeleteProduct(int id)
