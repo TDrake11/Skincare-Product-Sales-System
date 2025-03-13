@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Skincare_Product_Sales_System_Application.Services.SkinAnswerService
 {
-    public class SkinAnswerSerie : ISkinAnswerSerie
+    public class SkinAnswerService : ISkinAnswerService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public SkinAnswerSerie(IUnitOfWork unitOfWork)
+        public SkinAnswerService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

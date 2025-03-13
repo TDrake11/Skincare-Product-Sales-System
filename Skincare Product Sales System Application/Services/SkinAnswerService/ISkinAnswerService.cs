@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Skincare_Product_Sales_System_Application.Services.SkinAnswerService
 {
-    public interface ISkinAnswerSerie
+    public interface ISkinAnswerService
     {
         Task<List<SkinAnswer>> GetAllSkinAnswer();
         Task<SkinAnswer> GetSkinAnswerById(int id);

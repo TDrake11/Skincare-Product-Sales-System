@@ -13,10 +13,10 @@ namespace Skincare_Product_Sales_System.Controllers
     [ApiController]
     public class SkinAnswerController : ControllerBase
     {
-        private readonly ISkinAnswerSerie _skinAnswerService;
+        private readonly ISkinAnswerService _skinAnswerService;
         private readonly IMapper _mapper;
 
-        public SkinAnswerController(ISkinAnswerSerie skinAnswerService, IMapper mapper)
+        public SkinAnswerController(ISkinAnswerService skinAnswerService, IMapper mapper)
         {
             _skinAnswerService = skinAnswerService;
             _mapper = mapper;
