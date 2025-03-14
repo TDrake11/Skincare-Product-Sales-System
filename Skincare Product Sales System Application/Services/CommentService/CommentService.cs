@@ -34,28 +34,10 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
             return comments.Where(c => c.ProductId == productId);
         }
 
-        public async Task<IEnumerable<Comment>> GetActiveCommentsByCustomerIdAsync(string customerId)
+        public async Task<IEnumerable<Comment>> GetCommentsByCustomerIdAsync(string customerId)
         {
             var comments = await _unitOfWork.Repository<Comment>().ListAllAsync();
-            return comments.Where(c => c.CustomerId == customerId && c.CommentStatus != CommentStatus.Inactive.ToString());
-        }
-
-        public async Task<IEnumerable<Comment>> GetInactiveCommentsByCustomerIdAsync(string customerId)
-        {
-            var comments = await _unitOfWork.Repository<Comment>().ListAllAsync();
-            return comments.Where(c => c.CustomerId == customerId && c.CommentStatus == CommentStatus.Inactive.ToString());
-        }
-
-        public async Task<IEnumerable<Comment>> GetActiveCommentsAsync()
-        {
-            var comments = await _unitOfWork.Repository<Comment>().ListAllAsync();
-            return comments.Where(c => c.CommentStatus != CommentStatus.Inactive.ToString());
-        }
-
-        public async Task<IEnumerable<Comment>> GetInactiveCommentsAsync()
-        {
-            var comments = await _unitOfWork.Repository<Comment>().ListAllAsync();
-            return comments.Where(c => c.CommentStatus == CommentStatus.Inactive.ToString());
+            return comments.Where(c => c.CustomerId == customerId);
         }
 
         public async Task AddCommentAsync(Comment comment)
@@ -67,20 +49,8 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
 
         public async Task UpdateCommentAsync(Comment comment)
         {
-            var existingComment = await _unitOfWork.Repository<Comment>().GetByIdAsync(comment.Id);
-
-            if (existingComment == null)
-            {
-                throw new Exception("Comment not found");
-            }
-
-            if (existingComment.CommentStatus == CommentStatus.Inactive.ToString())
-            {
-                throw new Exception("This Comment does not exist!!!!!!");
-            }
-
-            existingComment.CommentStatus = CommentStatus.Approved.ToString();
             _unitOfWork.Repository<Comment>().Update(comment);
+            comment.CommentStatus = CommentStatus.Approved.ToString();
             await _unitOfWork.Complete();
         }
 
