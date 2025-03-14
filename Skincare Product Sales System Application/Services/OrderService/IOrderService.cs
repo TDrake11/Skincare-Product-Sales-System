@@ -15,6 +15,5 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderService
         Task UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(int id);
         Task<Order?> GetCartByUserAsync(User user);
-
 	}
 }

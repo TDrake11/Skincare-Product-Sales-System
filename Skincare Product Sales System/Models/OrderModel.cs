@@ -12,4 +12,10 @@ namespace Skincare_Product_Sales_System.Models
         public string? CustomerId { get; set; }
         public string? StaffId { get; set; }
     }
+
+    public class UpdateOrderModel
+    {
+        public int Id { get; set; }
+        public string OrderStatus { get; set; }
+    }
 }
