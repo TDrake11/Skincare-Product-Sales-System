@@ -49,18 +49,8 @@ namespace Skincare_Product_Sales_System.Controllers
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
-        [HttpPost("createOrder")]
-        public async Task<IActionResult> Create(OrderModel orderModel)
-        {
-
-            var orders = _mapper.Map<Order>(orderModel);
-
-            await _orderService.AddOrderAsync(orders);
-            return CreatedAtAction(nameof(GetOrderById), new { id = orders.Id }, _mapper.Map<OrderModel>(orders));
-        }
-
         [HttpPut("updateOrder")]
-        public async Task<IActionResult> Update([FromBody] OrderModel orderModel)
+        public async Task<IActionResult> Update([FromBody] UpdateOrderModel orderModel)
         {
             try
             {

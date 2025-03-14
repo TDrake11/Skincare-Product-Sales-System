@@ -34,10 +34,16 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
             return comments.Where(c => c.ProductId == productId);
         }
 
+        public async Task<IEnumerable<Comment>> GetCommentsByCustomerIdAsync(string customerId)
+        {
+            var comments = await _unitOfWork.Repository<Comment>().ListAllAsync();
+            return comments.Where(c => c.CustomerId == customerId);
+        }
+
         public async Task AddCommentAsync(Comment comment)
         {
-            await _unitOfWork.Repository<Comment>().AddAsync(comment);
             comment.CommentStatus = CommentStatus.Approved.ToString();
+            await _unitOfWork.Repository<Comment>().AddAsync(comment);
             await _unitOfWork.Complete();
         }
 
@@ -55,8 +61,8 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
             {
                 comment.CommentStatus = CommentStatus.Inactive.ToString();
                 _unitOfWork.Repository<Comment>().Update(comment);
-            await _unitOfWork.Complete();
+                await _unitOfWork.Complete();
+            }
         }
     }
-}
 }

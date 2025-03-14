@@ -78,20 +78,20 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPost("createSkinAnswer")]
-        public async Task<IActionResult> CreateSkinAnswer(SkinAnswerModel skinAModel)
+        public async Task<IActionResult> CreateSkinAnswer(CreateSkinAnswerModel skinAModel)
         {
             try
             {
                 var skinA = _mapper.Map<SkinAnswer>(skinAModel);
 
                 await _skinAnswerService.AddSkinAnswer(skinA);
-                return CreatedAtAction(nameof(GetSkinAnswerById), new { id = skinAModel.Id }, _mapper.Map<SkinAnswerModel>(skinA));
+                return CreatedAtAction(nameof(GetSkinAnswerById), new { id = skinA.Id }, _mapper.Map<SkinAnswerModel>(skinA));
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
         [HttpPut("updateSkinAnswer")]
-        public async Task<IActionResult> UpdateSkinAnswer([FromBody] SkinAnswerModel skinAModel)
+        public async Task<IActionResult> UpdateSkinAnswer([FromBody] UpdateSkinAnswerModel skinAModel)
         {
             try
             {
@@ -114,39 +114,6 @@ namespace Skincare_Product_Sales_System.Controllers
                 }
                 await _skinAnswerService.DeleteSkinAnswer(id);
                 return Ok("SkinAnswer deleted successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("listSkinAnswerActive")]
-        public async Task<IActionResult> GetActiveSkinAnswers()
-        {
-            try
-            {
-                var skinA = await _skinAnswerService.GetAllSkinAnswer();
-                var activeSkinAnswers = skinA.Where(c => c.SkinAnswerStatus != SkinAnswerStatus.Inactive.ToString());
-                var skinAModel = _mapper.Map<IEnumerable<SkinAnswerModel>>(activeSkinAnswers);
-                return Ok(skinAModel);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
-        [HttpGet("listSkinAnswerInactived")]
-        public async Task<IActionResult> GetInactivedSkinAnswers()
-        {
-            try
-            {
-                var skinA = await _skinAnswerService.GetAllSkinAnswer();
-                var activeSkinAnswers = skinA.Where(c => c.SkinAnswerStatus == SkinAnswerStatus.Inactive.ToString());
-                var skinAModel = _mapper.Map<IEnumerable<SkinAnswerModel>>(activeSkinAnswers);
-                return Ok(skinAModel);
             }
             catch (Exception ex)
             {

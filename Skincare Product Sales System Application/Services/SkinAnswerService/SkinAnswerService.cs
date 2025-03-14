@@ -61,15 +61,15 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinAnswerService
 
         public async Task AddSkinAnswer(SkinAnswer skinAnswer)
         {
+            skinAnswer.SkinAnswerStatus = SkinAnswerStatus.Active.ToString();
             await _unitOfWork.Repository<SkinAnswer>().AddAsync(skinAnswer);
-            skinAnswer.SkinAnswerStatus = SkinAnswerStatus.Active.ToString(); // Gán trạng thái sau khi thêm mới
             await _unitOfWork.Complete();
         }
 
         public async Task UpdateSkinAnswer(SkinAnswer skinAnswer)
         {
-            _unitOfWork.Repository<SkinAnswer>().Update(skinAnswer);
             skinAnswer.SkinAnswerStatus = SkinAnswerStatus.Active.ToString();
+            _unitOfWork.Repository<SkinAnswer>().Update(skinAnswer);
             await _unitOfWork.Complete();
         }
 
