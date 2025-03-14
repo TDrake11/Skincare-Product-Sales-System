@@ -29,12 +29,13 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderDetailService
             return await _unitOfWork.Repository<OrderDetail>().GetByIdAsync(id);
         }
 
-		public async Task<IEnumerable<OrderDetail>> GetOrderDetailByOrderIdAsync(int orderId)
+		public async Task<List<OrderDetail>> GetOrderDetailByOrderIdAsync(int orderId)
 		{ 
-			return _unitOfWork.Repository<OrderDetail>()
+			return await _unitOfWork.Repository<OrderDetail>()
                 .GetAll()
                 .Where(o => o.OrderId == orderId)
-                .Include(o => o.Product);
+                .Include(o => o.Product)
+                .ToListAsync();
 		}
 		public async Task AddOrderDetailAsync(OrderDetail orderDetail)
         {

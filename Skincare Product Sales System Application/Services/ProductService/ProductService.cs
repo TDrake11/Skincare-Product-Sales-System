@@ -33,34 +33,28 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 			return listProduct;
 		}
 
-		public Task<Product> GetProductById(int id)
+		public Product GetProductById(int id)
 		{
 			var product = _unitOfWork.Repository<Product>()
 				.GetAll()
 				.Include(p => p.Category)
 				.Include(p => p.SkinType)
-				.Where(p => p.Id == id)
-				.FirstOrDefaultAsync();
+				.Include(p => p.Staff)
+				.FirstOrDefault(p => p.Id == id);
 			return product;
 		}
 
 		public void UpdateProduct(Product product)
 		{
-			if(_unitOfWork.Repository<Product>().Exists(product.Id))
-			{
-				_unitOfWork.Repository<Product>().Update(product);
-				_unitOfWork.Complete();
-			}
-			else
-			{
-				throw new Exception("Product not found");
-			}
+			_unitOfWork.Repository<Product>().Update(product);
+			_unitOfWork.Complete();
 		}
 
 		public void DeleteProduct(int id)
 		{
-			var product = _unitOfWork.Repository<Product>().GetById(id);
-			if(product != null)
+			var product = GetProductById(id);
+
+			if (product != null)
 			{
 				product.ProductStatus = ProductStatus.Inactive.ToString();
 				_unitOfWork.Repository<Product>().Update(product);

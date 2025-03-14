@@ -28,7 +28,7 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderService
         {
             return await _unitOfWork.Repository<Order>().GetByIdAsync(id);
         }
-        public async Task<Order?> GetCartByUserAsync(User user)
+        public Order GetCartByUserAsync(User user)
 		{
 			var cart =  _unitOfWork.Repository<Order>()
                 .GetAll()

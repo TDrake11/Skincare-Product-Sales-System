@@ -27,7 +27,7 @@ namespace Skincare_Product_Sales_System.Extensions
 				options.Password.RequiredLength = 8; // Độ dài tối thiểu là 8 ký tự
 
 				// Cấu hình Lockout - khóa user
-				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); // Khóa 1 phút
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30); // Khóa 1 phút
 				options.Lockout.MaxFailedAccessAttempts = 5; // Thất bại 5 lần thì khóa
 				options.Lockout.AllowedForNewUsers = true;
 

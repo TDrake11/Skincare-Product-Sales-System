@@ -41,29 +41,31 @@ namespace Skincare_Product_Sales_System.Controllers
 				Console.WriteLine("User is null. Authentication might have failed.");
 				return Unauthorized("User not authenticated.");
 			}
-			var order = await _orderService.GetCartByUserAsync(user);
+			var order = _orderService.GetCartByUserAsync(user);
 			if(order == null)
 			{
 				order = new Order
 				{
 					CustomerId = user.Id,
+					OrderDate = DateTime.Now,
 					OrderStatus = OrderStatus.Cart.ToString()
 				};
 				await _orderService.AddOrderAsync(order);
-				
+				return Ok(order);
+
 			}
-			var orderModel = _mapper.Map<OrderModel>(order);
-			var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
-			orderModel.ListOrderDetail = orderDetails;
-			return Ok(orderModel);
+			var cartModel = _mapper.Map<CartModel>(order);
+			var cartDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
+			var cartDetailModels = _mapper.Map<List<CartDetailModel>>(cartDetails);
+			cartModel.ListOrderDetail = cartDetailModels;
+			return Ok(cartModel);
 		}
 
 		[HttpPost("AddProductIntoCart")]
 		public async Task<IActionResult> AddProductIntoCart(int productId, int quantity)
 		{
 			var user = await _userManager.GetUserAsync(User);
-			var order = await _orderService.GetCartByUserAsync(user);
-			var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
+			var order = _orderService.GetCartByUserAsync(user);
 			if (order == null) 
 			{
 				order = new Order
@@ -73,8 +75,9 @@ namespace Skincare_Product_Sales_System.Controllers
 				};
 				await _orderService.AddOrderAsync(order);
 			}
-			var product = await _productService.GetProductById(productId);
-			if(quantity == 0 || product.Quantity < quantity)
+			var orderDetails =  await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
+			var product =  _productService.GetProductById(productId);
+			if (quantity == 0 || product.Quantity < quantity)
 			{
 				return BadRequest("Out of stock");
 			}
@@ -100,6 +103,8 @@ namespace Skincare_Product_Sales_System.Controllers
 			return Ok();
 		}
 
+
+
 		[HttpDelete("RemoveProductFromCart")]
 		public async Task<IActionResult> RemoveProductFromCart(int orderDetailId)
 		{
@@ -116,6 +121,54 @@ namespace Skincare_Product_Sales_System.Controllers
 			order.TotalPrice -= orderDetail.Price * orderDetail.Quantity;
 			await _orderService.UpdateOrderAsync(order);
 			await _orderDetailService.DeleteOrderDetailAsync(orderDetailId);
+			return Ok();
+		}
+
+		//[HttpPut("Payment")]
+		//public async Task<IActionResult> Checkout()
+		//{
+		//	var user = await _userManager.GetUserAsync(User);
+		//	var order = _orderService.GetCartByUserAsync(user);
+		//	var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
+		//	if (orderDetails == null)
+		//	{
+		//		return BadRequest("Cart is empty");
+		//	}
+		//	if(order.TotalPrice > user.Wallet)
+		//	{
+		//		return BadRequest("Not enough money in wallet");
+		//	}
+		//	user.Wallet -= order.TotalPrice;
+		//	order.OrderStatus = OrderStatus.Pending.ToString();
+		//	await _orderService.UpdateOrderAsync(order);
+		//	return Ok();
+		//}
+
+		[HttpPut("Payment")]
+		public async Task<IActionResult> Checkout(List<int> orderDetailsId)
+		{
+			var user = await _userManager.GetUserAsync(User);
+			var cart = _orderService.GetCartByUserAsync(user);
+			var order = new Order
+			{
+				CustomerId = user.Id,
+				OrderDate = DateTime.Now,
+				OrderStatus = OrderStatus.Pending.ToString()
+			};
+			foreach (var id in orderDetailsId)
+			{
+				var orderDetail = await _orderDetailService.GetOrderDetailByIdAsync(id);
+				if (orderDetail == null)
+				{
+					return BadRequest("Order detail not found");
+				}
+				order.TotalPrice += orderDetail.Price * orderDetail.Quantity;
+				cart.TotalPrice -= orderDetail.Price * orderDetail.Quantity;
+				orderDetail.OrderId = order.Id;
+				orderDetail.Order = order;
+				await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
+			}
+			await _orderService.UpdateOrderAsync(cart);
 			return Ok();
 		}
 	}

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Skincare_Product_Sales_System.Helpers;
+using Skincare_Product_Sales_System_Application.Service.StepRoutineService;
 using Skincare_Product_Sales_System_Application.Services.CategoryService;
 using Skincare_Product_Sales_System_Application.Services.CommentService;
 using Skincare_Product_Sales_System_Application.Services.OrderDetailService;
@@ -12,6 +13,7 @@ using Skincare_Product_Sales_System_Application.Services.ProductService;
 using Skincare_Product_Sales_System_Application.Services.SkinAnswerService;
 using Skincare_Product_Sales_System_Application.Services.SkinQuestionService;
 using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
+using Skincare_Product_Sales_System_Application.Services.StepRoutineServices;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Interfaces;
@@ -61,7 +63,6 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<ITokenService, TokenService>();
-			services.AddScoped<IProductService, ProductService>();
 
 			services.AddScoped<ICategoryService, CategoryService>();
 			services.AddScoped<IProductService, ProductService>();
@@ -71,7 +72,7 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddScoped<ISkinQuestionService, SkinQuestionService>();
 			services.AddScoped<ISkinAnswerService, SkinAnswerService>();
 			services.AddScoped<ISkinTypeService, SkinTypeService>();
-
+			services.AddScoped<IStepRoutineService, StepRoutineService>();
 			return services;
 		}
 	}

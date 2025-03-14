@@ -8,6 +8,7 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
+	//[Authorize(Roles ="Admin,Staff")]
 	[Route("api/product")]
 	[ApiController]
 	public class ProductController : ControllerBase
@@ -35,11 +36,11 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 
 		[HttpGet("getProductById/{id}")]
-		public async Task<IActionResult> GetProductById(int id)
+		public IActionResult GetProductById(int id)
 		{
 			try
 			{
-				var product = await _productService.GetProductById(id);
+				var product = _productService.GetProductById(id);
 				if (product == null)
 				{
 					return BadRequest("Product not found");
@@ -69,11 +70,12 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 
 		[HttpPut("updateProduct")]
-		public async Task<IActionResult> UpdateProduct([FromBody] ProductModel productModel)
+		public async Task<IActionResult> UpdateProduct([FromBody] ProductUpdateModel productModel)
 		{
 			try
 			{
-				var product = _mapper.Map<Product>(productModel);
+				var product = _productService.GetProductById(productModel.Id);
+				_mapper.Map(productModel, product);
 				_productService.UpdateProduct(product);
 				return Ok("Product updated successfully");
 			}
