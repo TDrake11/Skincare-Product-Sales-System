@@ -9,9 +9,9 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinCareRoutineServ
 {
     public interface ISkinCareRoutineService
     {
-        Task<IEnumerable<SkinCareRoutine>> GetAllSkinCareRoutinesAsync();
-        Task<SkinCareRoutine> GetSkinCareRoutineByIdAsync(int id);
-        Task<IEnumerable<SkinCareRoutine>> GetSkinCareRoutineBySkinTypeIdAsync(int skinTypeId);
+        Task<List<SkinCareRoutine>> GetAllSkinCareRoutines();
+        Task<SkinCareRoutine> GetSkinCareRoutineById(int id);
+        Task<List<SkinCareRoutine>> GetSkinCareRoutineBySkinTypeId(int skinTypeId);
         Task AddSkinCareRoutineAsync(SkinCareRoutine skinCareRoutine);
         Task UpdateSkinCareRoutineAsync(SkinCareRoutine skinCareRoutine);
         Task DeleteSkinCareRoutineAsync(int id);

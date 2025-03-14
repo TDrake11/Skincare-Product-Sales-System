@@ -46,6 +46,12 @@ namespace Skincare_Product_Sales_System.Helpers
             CreateMap<SkinType, CreateSkinTypeModel>().ReverseMap();
             CreateMap<SkinType, UpdateSkinTypeModel>().ReverseMap();
 
+			CreateMap<SkinCareRoutine, SkinCareRoutineModel>()
+                .ForMember(dest => dest.SkinTypeName, opt => opt.MapFrom(src => src.SkinType.SkinTypeName))
+				.ReverseMap();
+			CreateMap<SkinCareRoutine, CreateSkinCareRoutineModel>().ReverseMap();
+			CreateMap<SkinCareRoutine, UpdateSkinCareRoutineModel>().ReverseMap();
+
             CreateMap<StepRoutine, StepRoutineModel>()
                 .ForMember(dest => dest.RoutineName, opt => opt.MapFrom(src => src.Routine.RoutineName))
 				.ReverseMap();

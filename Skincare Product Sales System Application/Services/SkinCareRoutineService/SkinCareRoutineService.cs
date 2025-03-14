@@ -1,4 +1,5 @@
-﻿using Skincare_Product_Sales_System_Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Enums;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using System;
@@ -18,20 +19,31 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinCareRoutineServ
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<SkinCareRoutine>> GetAllSkinCareRoutinesAsync()
+        public async Task<List<SkinCareRoutine>> GetAllSkinCareRoutines()
         {
-            return await _unitOfWork.Repository<SkinCareRoutine>().ListAllAsync();
+            var listSkinRoutine = await _unitOfWork.Repository<SkinCareRoutine>()
+                .GetAll()
+                .Include(sr => sr.SkinType)
+                .AsNoTracking()
+                .ToListAsync();
+            return listSkinRoutine;
         }
 
-        public async Task<SkinCareRoutine> GetSkinCareRoutineByIdAsync(int id) 
+        public async Task<SkinCareRoutine> GetSkinCareRoutineById(int id) 
         {
-            return await _unitOfWork.Repository<SkinCareRoutine>().GetByIdAsync(id);
+            var listSkinRoutine = await _unitOfWork.Repository<SkinCareRoutine>()
+                .GetAll()
+                .Include(sr => sr.SkinType)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(sr => sr.Id == id);
+            return listSkinRoutine;
         }
 
-        public async Task<IEnumerable<SkinCareRoutine>> GetSkinCareRoutineBySkinTypeIdAsync(int skinTypeId)
+        public async Task<List<SkinCareRoutine>> GetSkinCareRoutineBySkinTypeId(int skinTypeId)
         {
-            var skinCareRoutines = await _unitOfWork.Repository<SkinCareRoutine>().ListAllAsync();
-            return skinCareRoutines.Where(c => c.SkinTypeId == skinTypeId);
+            var listSkinRoutine = await _unitOfWork.Repository<SkinCareRoutine>()
+                .ListAsync(sr => sr.SkinTypeId == skinTypeId, includeProperties: q => q.Include(sr => sr.SkinType));
+            return listSkinRoutine.ToList();
         }
 
         public async Task AddSkinCareRoutineAsync(SkinCareRoutine skinCareRoutine)
