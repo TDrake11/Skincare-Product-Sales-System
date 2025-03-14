@@ -40,19 +40,10 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             return stepRoutine;
 
         }
-        public async Task<List<StepRoutine>> GetActiveStepRoutinesByRoutineId(int routineId)
+        public async Task<List<StepRoutine>> GetStepRoutinesByRoutineId(int routineId)
         {
             var listStepRoutine = await _unitOfWork.Repository<StepRoutine>()
-                .ListAsync(sr => sr.RoutineId == routineId && sr.Status == StepRoutineStatus.Active.ToString(),
-                           includeProperties: q => q.Include(sr => sr.Routine));
-            return listStepRoutine.ToList();
-        }
-
-        public async Task<List<StepRoutine>> GetInactiveStepRoutinesByRoutineId(int routineId)
-        {
-            var listStepRoutine = await _unitOfWork.Repository<StepRoutine>()
-                .ListAsync(sr => sr.RoutineId == routineId && sr.Status == StepRoutineStatus.Inactive.ToString(),
-                           includeProperties: q => q.Include(sr => sr.Routine));
+                .ListAsync(sr => sr.RoutineId == routineId, includeProperties: q => q.Include(sr => sr.Routine));
             return listStepRoutine.ToList();
         }
 

@@ -11,8 +11,7 @@ namespace Skincare_Product_Sales_System_Application.Services.StepRoutineServices
     {
         Task<List<StepRoutine>> GetAllStepRoutine();
         Task<StepRoutine> GetStepRoutineById(int id);
-        Task<List<StepRoutine>> GetActiveStepRoutinesByRoutineId(int RoutineId);
-        Task<List<StepRoutine>> GetInactiveStepRoutinesByRoutineId(int RoutineId);
+        Task<List<StepRoutine>> GetStepRoutinesByRoutineId(int RoutineId);
         Task AddStepRoutine(StepRoutine stepRoutine);
         Task UpdateStepRoutine(StepRoutine stepRoutine);
         Task DeleteStepRoutine(int id);
