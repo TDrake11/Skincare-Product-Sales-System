@@ -125,5 +125,41 @@ namespace Skincare_Product_Sales_System.Controllers
 			userProfile.RoleName = role.FirstOrDefault();
 			return Ok(userProfile);
 		}
+
+		[Authorize]
+		[HttpPut("UpdateUserProfile")]
+		public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileUpdateModel userProfileUpdateModel)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				if (await _userManager.FindByEmailAsync(userProfileUpdateModel.Email) != null)
+				{
+					return BadRequest("Email is already taken");
+				}
+				var user = await _userManager.GetUserAsync(User);
+				if (user == null)
+				{
+					return Unauthorized("User not authenticated");
+				}
+				_mapper.Map(userProfileUpdateModel, user);
+				var result = await _userManager.UpdateAsync(user);
+				if (result.Succeeded)
+				{
+					return Ok();
+				}
+				else
+				{
+					return BadRequest(result.Errors);
+				}
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 	}
 }
