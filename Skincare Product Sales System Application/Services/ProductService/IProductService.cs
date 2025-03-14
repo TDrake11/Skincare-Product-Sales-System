@@ -10,7 +10,7 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 	public interface IProductService
 	{
 		Task<List<Product>> GetListProducts();
-		Task<Product> GetProductById(int id);
+		Product GetProductById(int id);
 		Task CreateProduct(Product product);
 		void  UpdateProduct( Product product);
 		void DeleteProduct(int id);
