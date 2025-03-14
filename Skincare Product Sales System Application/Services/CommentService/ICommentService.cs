@@ -12,7 +12,7 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
         Task<IEnumerable<Comment>> GetAllCommentsAsync();
         Task<Comment?> GetCommentByIdAsync(int id);
         Task<IEnumerable<Comment>> GetCommentByProductIdAsync(int productId);
-
+        Task<IEnumerable<Comment>> GetCommentsByCustomerIdAsync(string customerId);
         Task AddCommentAsync(Comment comment);
         Task UpdateCommentAsync(Comment comment);
         Task DeleteCommentAsync(int id);

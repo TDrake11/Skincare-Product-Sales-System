@@ -27,7 +27,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinTypes = await _skinTypeService.GetListSkinTypes();
+                var skinTypes = await _skinTypeService.GetListSkinTypesAsync();
                 var listSkinTypes = _mapper.Map<List<SkinTypeModel>>(skinTypes);
                 return Ok(listSkinTypes);
             }
@@ -42,7 +42,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinType = await _skinTypeService.GetSkinTypeById(id);
+                var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
                 if (skinType == null)
                 {
                     return NotFound("Skin type not found");
@@ -57,7 +57,7 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPost("createSkinType")]
-        public async Task<IActionResult> Create(SkinTypeModel skinTypeModel)
+        public async Task<IActionResult> Create(CreateSkinTypeModel skinTypeModel)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPut("updateSkinType")]
-        public async Task<IActionResult> Update([FromBody] SkinTypeModel skinTypeModel)
+        public async Task<IActionResult> Update([FromBody] UpdateSkinTypeModel skinTypeModel)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinType = await _skinTypeService.GetSkinTypeById(id);
+                var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
                 if (skinType == null)
                 {
                     return BadRequest("SkinType not found");

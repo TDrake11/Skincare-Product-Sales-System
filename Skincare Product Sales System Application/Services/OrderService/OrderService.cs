@@ -44,8 +44,13 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderService
 
         public async Task UpdateOrderAsync(Order order)
         {
-            _unitOfWork.Repository<Order>().Update(order);
-            await _unitOfWork.Complete();
+            var existingOrder = await _unitOfWork.Repository<Order>().GetByIdAsync(order.Id);
+            if (existingOrder != null)
+            {
+                existingOrder.OrderStatus = order.OrderStatus; // Chỉ cập nhật OrderStatus
+                _unitOfWork.Repository<Order>().Update(existingOrder);
+                await _unitOfWork.Complete();
+            }
         }
 
         public async Task DeleteOrderAsync(int id)
@@ -56,7 +61,7 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderService
                 order.OrderStatus = OrderStatus.Cancelled.ToString();
                 _unitOfWork.Repository<Order>().Update(order);
             await _unitOfWork.Complete();
+            }
         }
     }
-}
 }

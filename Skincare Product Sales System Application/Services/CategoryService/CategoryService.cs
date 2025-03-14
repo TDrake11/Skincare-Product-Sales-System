@@ -37,22 +37,8 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
 
         public async Task UpdateCategoryAsync(Category category)
         {
-            var existingCategory = await _unitOfWork.Repository<Category>().GetByIdAsync(category.Id);
-
-            if (existingCategory == null)
-            {
-                throw new Exception("Category not found");
-            }
-
-            if (existingCategory.CategoryStatus == CategoryStatus.Inactive.ToString())
-            {
-                throw new Exception("This category does not exist!!!!!!");
-            }
-
-            existingCategory.CategoryName = category.CategoryName;
-            existingCategory.CategoryStatus = CategoryStatus.Active.ToString();
-
-            _unitOfWork.Repository<Category>().Update(existingCategory);
+            _unitOfWork.Repository<Category>().Update(category);
+            category.CategoryStatus = CategoryStatus.Active.ToString();
             await _unitOfWork.Complete();
         }
 

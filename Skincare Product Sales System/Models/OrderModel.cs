@@ -21,4 +21,10 @@ namespace Skincare_Product_Sales_System.Models
 		public string OrderStatus { get; set; }
 		public List<CartDetailModel> ListOrderDetail { get; set; }
 	}
+
+    public class UpdateOrderModel
+    {
+        public int Id { get; set; }
+        public string OrderStatus { get; set; }
+    }
 }

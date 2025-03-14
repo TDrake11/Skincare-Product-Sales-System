@@ -48,20 +48,20 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPost("createSkinQuestion")]
-        public async Task<IActionResult> CreateSkinQuestion(SkinQuestionModel skinQModel)
+        public async Task<IActionResult> CreateSkinQuestion(CreateSkinQuestionModel skinQModel)
         {
             try
             {
                 var skinQ = _mapper.Map<SkinQuestion>(skinQModel);
 
                 await _skinQuestionService.AddSkinQuestionAsync(skinQ);
-                return CreatedAtAction(nameof(GetSkinQuestionById), new { id = skinQModel.Id }, _mapper.Map<SkinQuestionModel>(skinQ));
+                return CreatedAtAction(nameof(GetSkinQuestionById), new { id = skinQ.Id }, _mapper.Map<SkinQuestionModel>(skinQ));
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
         [HttpPut("updateSkinQuestion")]
-        public async Task<IActionResult> UpdateSkinQuestion([FromBody] SkinQuestionModel skinQModel)
+        public async Task<IActionResult> UpdateSkinQuestion([FromBody] UpdateSkinQuestionModel skinQModel)
         {
             try
             {
@@ -84,39 +84,6 @@ namespace Skincare_Product_Sales_System.Controllers
                 }
                 await _skinQuestionService.DeleteSkinQuestionAsync(id);
                 return Ok("SkinQuestion deleted successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("listSkinQuestionActive")]
-        public async Task<IActionResult> GetActiveSkinQuestion()
-        {
-            try
-            {
-                var skinQ = await _skinQuestionService.GetAllSkinQuestionAsync();
-                var activeSkinQuestion = skinQ.Where(c => c.SkinQuestionStatus != SkinQuestionStatus.Inactive.ToString());
-                var skinQModel = _mapper.Map<IEnumerable<SkinQuestionModel>>(activeSkinQuestion);
-                return Ok(skinQModel);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
-        [HttpGet("listSkinQuestionInactived")]
-        public async Task<IActionResult> GetInactivedSkinQuestion()
-        {
-            try
-            {
-                var skinQ = await _skinQuestionService.GetAllSkinQuestionAsync();
-                var activeSkinQuestion = skinQ.Where(c => c.SkinQuestionStatus == SkinQuestionStatus.Inactive.ToString());
-                var skinQModel = _mapper.Map<IEnumerable<SkinQuestionModel>>(activeSkinQuestion);
-                return Ok(skinQModel);
             }
             catch (Exception ex)
             {

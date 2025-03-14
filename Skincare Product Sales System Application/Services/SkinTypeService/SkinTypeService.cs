@@ -19,26 +19,14 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTypeService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<SkinType>> GetListSkinTypes()
+        public async Task<IEnumerable<SkinType>> GetListSkinTypesAsync()
         {
-            return await _unitOfWork.Repository<SkinType>()
-                .GetAll()
-                .Include(st => st.SkinCareRoutines)
-                .Include(st => st.SkinTests)
-                .Include(st => st.SkinAnswer)
-                .AsNoTracking() // Tối ưu cho truy vấn chỉ đọc
-                .ToListAsync();
+            return await _unitOfWork.Repository<SkinType>().ListAllAsync();
         }
 
-        public async Task<SkinType?> GetSkinTypeById(int id)
+        public async Task<SkinType?> GetSkinTypeByIdAsync(int id)
         {
-            return await _unitOfWork.Repository<SkinType>()
-                .GetAll()
-                .Include(st => st.SkinCareRoutines)
-                .Include(st => st.SkinTests)
-                .Include(st => st.SkinAnswer)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(st => st.Id == id);
+            return await _unitOfWork.Repository<SkinType>().GetByIdAsync(id);
         }
 
         public async Task AddSkinType(SkinType skinType)

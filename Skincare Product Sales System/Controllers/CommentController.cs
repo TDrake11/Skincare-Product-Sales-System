@@ -61,7 +61,6 @@ namespace Skincare_Product_Sales_System.Controllers
                 if (comments == null || !comments.Any())
                 {
                     return NotFound("No comments found for this product.");
-                return BadRequest(ModelState);
             }
                 var commentModels = _mapper.Map<IEnumerable<CommentModel>>(comments);
                 return Ok(commentModels);
@@ -72,9 +71,27 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
+        [HttpGet("getCommentsByCustomerId/{customerId}")]
+        public async Task<IActionResult> GetCommentsByCustomerId(string customerId)
+        {
+            try
+            {
+                var comments = await _commentService.GetCommentsByCustomerIdAsync(customerId);
+                if (comments == null || !comments.Any())
+                {
+                    return NotFound("No comments found for this Customer.");
+                }
+                var commentModels = _mapper.Map<IEnumerable<CommentModel>>(comments);
+                return Ok(commentModels);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost("createComment")]
-        public async Task<IActionResult> Create(CommentModel commentModel)
+        public async Task<IActionResult> Create(CreateCommentModel commentModel)
         {
             try
             {
@@ -90,7 +107,7 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPut("updateComment")]
-        public async Task<IActionResult> Update([FromBody] CommentModel commentModel)
+        public async Task<IActionResult> Update([FromBody] UpdateCommentModel commentModel)
         {
             try
             {
@@ -122,38 +139,5 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("listCommentActive")]
-        public async Task<IActionResult> GetActiveComments()
-        {
-            try
-            {
-                var comments = await _commentService.GetAllCommentsAsync();
-                var deletedComments = comments.Where(c => c.CommentStatus != CommentStatus.Inactive.ToString());
-                var commentModels = _mapper.Map<IEnumerable<CommentModel>>(deletedComments);
-                return Ok(commentModels);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("listCommentInactived")]
-        public async Task<IActionResult> GetDeletedComments()
-        {
-            try
-            {
-                var comments = await _commentService.GetAllCommentsAsync();
-                var deletedComments = comments.Where(c => c.CommentStatus == CommentStatus.Inactive.ToString());
-                var commentModels = _mapper.Map<IEnumerable<CommentModel>>(deletedComments);
-                return Ok(commentModels);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
     }
 }
