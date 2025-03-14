@@ -124,22 +124,51 @@ namespace Skincare_Product_Sales_System.Controllers
 			return Ok();
 		}
 
-		[HttpPut("Checkout")]
-		public async Task<IActionResult> Checkout()
+		//[HttpPut("Payment")]
+		//public async Task<IActionResult> Checkout()
+		//{
+		//	var user = await _userManager.GetUserAsync(User);
+		//	var order = _orderService.GetCartByUserAsync(user);
+		//	var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
+		//	if (orderDetails == null)
+		//	{
+		//		return BadRequest("Cart is empty");
+		//	}
+		//	if(order.TotalPrice > user.Wallet)
+		//	{
+		//		return BadRequest("Not enough money in wallet");
+		//	}
+		//	user.Wallet -= order.TotalPrice;
+		//	order.OrderStatus = OrderStatus.Pending.ToString();
+		//	await _orderService.UpdateOrderAsync(order);
+		//	return Ok();
+		//}
+
+		[HttpPut("Payment")]
+		public async Task<IActionResult> Checkout(List<int> orderDetailsId)
 		{
 			var user = await _userManager.GetUserAsync(User);
-			var order = _orderService.GetCartByUserAsync(user);
-			if (order == null)
+			var cart = _orderService.GetCartByUserAsync(user);
+			var order = new Order
 			{
-				return BadRequest("Cart is empty");
-			}
-			if(order.TotalPrice > user.Wallet)
+				CustomerId = user.Id,
+				OrderDate = DateTime.Now,
+				OrderStatus = OrderStatus.Pending.ToString()
+			};
+			foreach (var id in orderDetailsId)
 			{
-				return BadRequest("Not enough money in wallet");
+				var orderDetail = await _orderDetailService.GetOrderDetailByIdAsync(id);
+				if (orderDetail == null)
+				{
+					return BadRequest("Order detail not found");
+				}
+				order.TotalPrice += orderDetail.Price * orderDetail.Quantity;
+				cart.TotalPrice -= orderDetail.Price * orderDetail.Quantity;
+				orderDetail.OrderId = order.Id;
+				orderDetail.Order = order;
+				await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
 			}
-			user.Wallet -= order.TotalPrice;
-			order.OrderStatus = OrderStatus.Pending.ToString();
-			await _orderService.UpdateOrderAsync(order);
+			await _orderService.UpdateOrderAsync(cart);
 			return Ok();
 		}
 	}
