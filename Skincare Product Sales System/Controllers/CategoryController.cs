@@ -120,37 +120,5 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("listCategoryActive")]
-        public async Task<IActionResult> GetActiveCategories()
-        {
-            try
-            {
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                var activeCategories = categories.Where(c => c.CategoryStatus != CategoryStatus.Inactive.ToString());
-                var categoryModels = _mapper.Map<IEnumerable<CategoryModel>>(activeCategories);
-                return Ok(categoryModels);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("listCategoryInactived")]
-        public async Task<IActionResult> GetDeletedCategories()
-        {            
-            try
-            {
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                var deletedCategories = categories.Where(c => c.CategoryStatus == CategoryStatus.Inactive.ToString());
-                var categoryModels = _mapper.Map<IEnumerable<CategoryModel>>(deletedCategories);
-                return Ok(categoryModels);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }
