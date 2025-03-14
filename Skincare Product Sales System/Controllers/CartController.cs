@@ -47,10 +47,12 @@ namespace Skincare_Product_Sales_System.Controllers
 				order = new Order
 				{
 					CustomerId = user.Id,
+					OrderDate = DateTime.Now,
 					OrderStatus = OrderStatus.Cart.ToString()
 				};
 				await _orderService.AddOrderAsync(order);
-				
+				return Ok(order);
+
 			}
 			var cartModel = _mapper.Map<CartModel>(order);
 			var cartDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
@@ -64,7 +66,6 @@ namespace Skincare_Product_Sales_System.Controllers
 		{
 			var user = await _userManager.GetUserAsync(User);
 			var order = _orderService.GetCartByUserAsync(user);
-			var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
 			if (order == null) 
 			{
 				order = new Order
@@ -74,8 +75,9 @@ namespace Skincare_Product_Sales_System.Controllers
 				};
 				await _orderService.AddOrderAsync(order);
 			}
-			var product = await _productService.GetProductById(productId);
-			if(quantity == 0 || product.Quantity < quantity)
+			var orderDetails =  await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
+			var product =  _productService.GetProductById(productId);
+			if (quantity == 0 || product.Quantity < quantity)
 			{
 				return BadRequest("Out of stock");
 			}
@@ -101,6 +103,8 @@ namespace Skincare_Product_Sales_System.Controllers
 			return Ok();
 		}
 
+
+
 		[HttpDelete("RemoveProductFromCart")]
 		public async Task<IActionResult> RemoveProductFromCart(int orderDetailId)
 		{
@@ -117,6 +121,25 @@ namespace Skincare_Product_Sales_System.Controllers
 			order.TotalPrice -= orderDetail.Price * orderDetail.Quantity;
 			await _orderService.UpdateOrderAsync(order);
 			await _orderDetailService.DeleteOrderDetailAsync(orderDetailId);
+			return Ok();
+		}
+
+		[HttpPut("Checkout")]
+		public async Task<IActionResult> Checkout()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			var order = _orderService.GetCartByUserAsync(user);
+			if (order == null)
+			{
+				return BadRequest("Cart is empty");
+			}
+			if(order.TotalPrice > user.Wallet)
+			{
+				return BadRequest("Not enough money in wallet");
+			}
+			user.Wallet -= order.TotalPrice;
+			order.OrderStatus = OrderStatus.Pending.ToString();
+			await _orderService.UpdateOrderAsync(order);
 			return Ok();
 		}
 	}

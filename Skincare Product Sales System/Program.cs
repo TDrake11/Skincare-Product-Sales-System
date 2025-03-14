@@ -1,4 +1,5 @@
-﻿using Skincare_Product_Sales_System.Extensions;
+﻿using Microsoft.AspNetCore.Routing;
+using Skincare_Product_Sales_System.Extensions;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;
@@ -43,7 +44,7 @@ namespace Skincare_Product_Sales_System
 			app.UseAuthorization();
 
 			app.MapIdentityApi<User>()
-				.WithTags("A_Identity");
+			.WithTags("A_Identity");
 
 
 			app.MapControllers();
