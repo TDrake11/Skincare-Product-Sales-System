@@ -72,6 +72,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return BadRequest(ModelState);
 				}
+				registerModel.Email = registerModel.Email.ToLower();
 				if(await _userManager.FindByEmailAsync(registerModel.Email) != null)
 				{
 					return BadRequest("Email is already taken");
@@ -126,7 +127,8 @@ namespace Skincare_Product_Sales_System.Controllers
 			return Ok(userProfile);
 		}
 
-		[Authorize]
+
+		[Authorize(Roles ="Customer")]
 		[HttpPut("UpdateUserProfile")]
 		public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileUpdateModel userProfileUpdateModel)
 		{
@@ -136,20 +138,35 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return BadRequest(ModelState);
 				}
-				if (await _userManager.FindByEmailAsync(userProfileUpdateModel.Email) != null)
-				{
-					return BadRequest("Email is already taken");
-				}
+
 				var user = await _userManager.GetUserAsync(User);
+				userProfileUpdateModel.Email = userProfileUpdateModel.Email.ToLower();
 				if (user == null)
 				{
 					return Unauthorized("User not authenticated");
 				}
+
+				// Kiểm tra nếu người dùng muốn thay đổi email
+				if (!string.Equals(user.Email, userProfileUpdateModel.Email, StringComparison.OrdinalIgnoreCase))
+				{
+					var existingUser = await _userManager.FindByEmailAsync(userProfileUpdateModel.Email);
+					if (existingUser != null)
+					{
+						return BadRequest("Email is already taken");
+					}
+					// Cập nhật email, username và normalized username
+					user.Email = userProfileUpdateModel.Email;
+					user.UserName = userProfileUpdateModel.Email;
+					user.NormalizedUserName = userProfileUpdateModel.Email.ToUpper();
+				}
+
+				// Sử dụng AutoMapper để ánh xạ các thuộc tính khác
 				_mapper.Map(userProfileUpdateModel, user);
+
 				var result = await _userManager.UpdateAsync(user);
 				if (result.Succeeded)
 				{
-					return Ok();
+					return Ok("Profile updated successfully");
 				}
 				else
 				{
@@ -161,5 +178,6 @@ namespace Skincare_Product_Sales_System.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
 	}
 }

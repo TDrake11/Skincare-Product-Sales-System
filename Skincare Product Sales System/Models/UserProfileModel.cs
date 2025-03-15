@@ -12,6 +12,8 @@ namespace Skincare_Product_Sales_System.Models
 		public double? Point { get; set; }
 		[EmailAddress]
 		public required string Email { get; set; }
+		[Phone]
+		[RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Phone number must be exactly 10 digits.")]
 		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }
 		public string? RoleName { get; set; }
@@ -23,7 +25,9 @@ namespace Skincare_Product_Sales_System.Models
 		public string? Address { get; set; }
 		public DateOnly? Birthday { get; set; }
 		[EmailAddress]
-		public required string Email { get; set; }
+		public string Email { get; set; }
+		[Phone]
+		[RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Phone number must be exactly 10 digits.")]
 		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }
 	}

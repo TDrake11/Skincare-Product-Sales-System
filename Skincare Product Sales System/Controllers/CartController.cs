@@ -124,7 +124,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			return Ok();
 		}
 
-		//[HttpPut("Payment")]
+		//[HttpPut("Checkout")]
 		//public async Task<IActionResult> Checkout()
 		//{
 		//	var user = await _userManager.GetUserAsync(User);
@@ -144,16 +144,21 @@ namespace Skincare_Product_Sales_System.Controllers
 		//	return Ok();
 		//}
 
-		[HttpPut("Payment")]
-		public async Task<IActionResult> Checkout(List<int> orderDetailsId)
+		[HttpPut("Checkout")]
+		public async Task<IActionResult> Checkout(List<int> orderDetailsId, double totalPrice)
 		{
 			var user = await _userManager.GetUserAsync(User);
 			var cart = _orderService.GetCartByUserAsync(user);
+			if(totalPrice > user.Wallet)
+			{
+				return BadRequest("Not enough money in wallet");
+			}
 			var order = new Order
 			{
 				CustomerId = user.Id,
 				OrderDate = DateTime.Now,
-				OrderStatus = OrderStatus.Pending.ToString()
+				OrderStatus = OrderStatus.Pending.ToString(),
+				TotalPrice = totalPrice
 			};
 			foreach (var id in orderDetailsId)
 			{
@@ -162,12 +167,11 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return BadRequest("Order detail not found");
 				}
-				order.TotalPrice += orderDetail.Price * orderDetail.Quantity;
-				cart.TotalPrice -= orderDetail.Price * orderDetail.Quantity;
 				orderDetail.OrderId = order.Id;
 				orderDetail.Order = order;
 				await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
 			}
+			cart.TotalPrice -= totalPrice;
 			await _orderService.UpdateOrderAsync(cart);
 			return Ok();
 		}
