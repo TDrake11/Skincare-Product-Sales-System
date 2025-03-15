@@ -19,6 +19,7 @@ namespace Skincare_Product_Sales_System_Domain.Interfaces
 		void Delete(T entity);
 		void Delete(int id);
 		bool Exists(int id);
+		void Attach(T entity);
 		Task<IReadOnlyList<T>> ListAllAsync();
 		Task<IEnumerable<T>> ListAsync();
 		Task<IEnumerable<T>> ListAsync(

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Skincare_Product_Sales_System.Models;
 using Skincare_Product_Sales_System_Application.Services.OrderService;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
@@ -112,7 +113,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-		[Authorize]
+		[Authorize(Roles = "Customer")]
 		[HttpGet("GetUserProfile")]
 		public async Task<IActionResult> GetUserProfile()
 		{
@@ -128,7 +129,7 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 
 
-		[Authorize(Roles ="Customer")]
+		[Authorize(Roles ="Customer,Admin")]
 		[HttpPut("UpdateUserProfile")]
 		public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileUpdateModel userProfileUpdateModel)
 		{
@@ -179,5 +180,98 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
+		[Authorize(Roles = "Admin")]
+		[HttpGet("GetAllUsers")]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			var users = await _userManager.Users.ToListAsync();
+			var userProfiles = _mapper.Map<List<UserProfileModel>>(users);
+			return Ok(userProfiles);
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPost("CreateStaffAccount")]
+		public async Task<IActionResult> CreateStaffAccount([FromBody] RegisterModel registerModel)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				registerModel.Email = registerModel.Email.ToLower();
+				if (await _userManager.FindByEmailAsync(registerModel.Email) != null)
+				{
+					return BadRequest("Email is already taken");
+				}
+				var user = _mapper.Map<User>(registerModel);
+				user.UserName = registerModel.Email;
+				user.Status = UserStatus.Actice.ToString();
+				user.EmailConfirmed = true;
+				var createdUser = await _userManager.CreateAsync(user, registerModel.Password);
+				if (createdUser.Succeeded)
+				{
+					var roleResult = await _userManager.AddToRoleAsync(user, "Staff");
+					if (roleResult.Succeeded)
+					{
+						return Ok();
+					}
+					else
+					{
+						return BadRequest(roleResult.Errors);
+					}
+				}
+				else
+				{
+					return BadRequest(createdUser.Errors);
+				}
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPut("BanUser")]
+		public async Task<IActionResult> BanUser(string userId)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null)
+			{
+				return BadRequest("User not found");
+			}
+			user.Status = UserStatus.Ban.ToString();
+			var result = await _userManager.UpdateAsync(user);
+			if (result.Succeeded)
+			{
+				return Ok("User banned successfully");
+			}
+			else
+			{
+				return BadRequest(result.Errors);
+			}
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPut("ActiveUser")]
+		public async Task<IActionResult> ActiveUser(string userId)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null)
+			{
+				return BadRequest("User not found");
+			}
+			user.Status = UserStatus.Actice.ToString();
+			var result = await _userManager.UpdateAsync(user);
+			if (result.Succeeded)
+			{
+				return Ok("User activated successfully");
+			}
+			else
+			{
+				return BadRequest(result.Errors);
+			}
+		}
 	}
 }
