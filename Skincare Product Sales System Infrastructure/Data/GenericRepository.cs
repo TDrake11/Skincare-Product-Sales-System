@@ -42,7 +42,10 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 		{
 			return _context.Set<T>().Any(e=>e.Id == id);
 		}
-
+		public void Attach(T entity)
+		{
+			_context.Set<T>().Attach(entity);
+		}
 		public IQueryable<T> GetAll()
 		{
 			return _context.Set<T>();
@@ -108,8 +111,16 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 
 		public void Update(T entity)
 		{
-			_context.Set<T>().Update(entity);
+			var entry = _context.Entry(entity);
+			if (entry.State == EntityState.Detached)
+			{
+				_context.Set<T>().Attach(entity);
+				entry.State = EntityState.Modified;
+			}
+			else if (entry.State == EntityState.Unchanged)
+			{
+				entry.State = EntityState.Modified;
+			}
 		}
-
 	}
 }
