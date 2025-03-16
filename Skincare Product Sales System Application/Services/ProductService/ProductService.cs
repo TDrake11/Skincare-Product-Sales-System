@@ -29,6 +29,7 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 				.GetAll()
 				.Include(p => p.Category)  // Đảm bảo Category được load
 				.Include(p => p.SkinType)  // Đảm bảo SkinType được load
+				.Include(p => p.Staff)  // Đảm bảo Staff được load
 				.ToListAsync();
 			return listProduct;
 		}
