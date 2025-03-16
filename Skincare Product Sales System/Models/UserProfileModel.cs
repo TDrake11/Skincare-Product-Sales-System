@@ -4,6 +4,7 @@ namespace Skincare_Product_Sales_System.Models
 {
 	public class UserProfileModel
 	{
+		public string? Id { get; set; }
 		public  string? FirstName { get; set; }
 		public  string? LastName { get; set; }
 		public  string? Address { get; set; }
