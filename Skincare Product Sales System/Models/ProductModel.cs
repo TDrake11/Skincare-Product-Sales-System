@@ -15,6 +15,8 @@
 		public string? CategoryName { get; set; }
 		public int? SkinTypeId { get; set; }
 		public string? SkinTypeName { get; set; }
+		public string? StaffId { get; set; }
+		public string? StaffName { get; set; }
 	}
 
     public class ProductUpdateModel
