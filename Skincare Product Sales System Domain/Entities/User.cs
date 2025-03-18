@@ -23,15 +23,13 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public int? Point { get; set; } = 0;
 		public string? Status { get; set; }
 
-		//  1 khach hang co the co nhieu order
-		//public virtual ICollection<Order>? Orders { get; set; }
+		//public virtual ICollection<Order>? Orders { get; set; } //  1 khach hang co the co nhieu order
 
-		//  1 nhan vien co the xu ly nhieu don hang
-		//public virtual ICollection<Order>? ProcessedOrders { get; set; }
+		//public virtual ICollection<Order>? ProcessedOrders { get; set; } //  1 nhan vien co the xu ly nhieu don hang
 
 		public virtual ICollection<Comment>? Comments { get; set; } // 1 user co nhieu comment
 
-		//public virtual ICollection<Product>? Products { get; set; } // 1 nhan vien co the quan li nhieu product
+		public virtual ICollection<Product>? Products { get; set; } // 1 nhan vien co the quan li nhieu product
 
 		public virtual ICollection<SkinTest>? SkinTests { get; set; } // 1 user co the co nhieu skin test
 	}

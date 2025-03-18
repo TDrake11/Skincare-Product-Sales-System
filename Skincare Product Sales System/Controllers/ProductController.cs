@@ -40,7 +40,7 @@ namespace Skincare_Product_Sales_System.Controllers
 		{
 			try
 			{
-				var product = _productService.GetProductById(id);
+				var product = _productService.GetProductDeatilById(id);
 				if (product == null)
 				{
 					return BadRequest("Product not found");
