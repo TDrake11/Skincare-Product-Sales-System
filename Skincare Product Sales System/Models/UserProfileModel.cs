@@ -17,6 +17,7 @@ namespace Skincare_Product_Sales_System.Models
 		[RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Phone number must be exactly 10 digits.")]
 		public string? PhoneNumber { get; set; }
 		public string? Avatar { get; set; }
+		public string? Status { get; set; }
 		public string? RoleName { get; set; }
 	}
 	public class UserProfileUpdateModel
