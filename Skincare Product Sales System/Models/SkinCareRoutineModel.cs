@@ -18,7 +18,6 @@ namespace Skincare_Product_Sales_System.Models
     {
         public string RoutineName { get; set; }
         public string Description { get; set; }
-        public int TotalSteps { get; set; }
         public int? SkinTypeId { get; set; }
     }
 
@@ -27,7 +26,6 @@ namespace Skincare_Product_Sales_System.Models
         public int Id { get; set; }
         public string RoutineName { get; set; }
         public string Description { get; set; }
-        public int TotalSteps { get; set; }
         public int? SkinTypeId { get; set; }
     }
 }
