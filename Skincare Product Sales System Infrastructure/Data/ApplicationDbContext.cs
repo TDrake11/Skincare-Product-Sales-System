@@ -34,24 +34,6 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 		{
 			base.OnModelCreating(builder); // Quan trọng: gọi base để cấu hình Identity trước
 
-			builder.Entity<Product>()
-			   .HasOne(p => p.Category)
-			   .WithMany()
-			   .HasForeignKey(p => p.CategoryId)
-			   .OnDelete(DeleteBehavior.Restrict);
-
-			builder.Entity<Product>()
-				.HasOne(p => p.SkinType)
-				.WithMany()
-				.HasForeignKey(p => p.SkinTypeId)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			builder.Entity<Product>()
-				.HasOne(p => p.Staff)
-				.WithMany()
-				.HasForeignKey(p => p.StaffId)
-				.OnDelete(DeleteBehavior.Restrict);
-
 			builder.Entity<Order>()
 				.HasOne(o => o.Customer)
 				.WithMany() // Một User có thể có nhiều Order
@@ -64,23 +46,23 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 				.HasForeignKey(o => o.StaffId)
 				.OnDelete(DeleteBehavior.Restrict);
 
-			builder.Entity<SkinTestAnswer>()
-			.HasOne(sta => sta.SkinTest)
-			.WithMany()
-			.HasForeignKey(sta => sta.SkinTestId)
-			.OnDelete(DeleteBehavior.Restrict); // Không xóa SkinTest nếu có câu trả lời liên quan
+			//builder.Entity<SkinTestAnswer>()
+			//.HasOne(sta => sta.SkinTest)
+			//.WithMany()
+			//.HasForeignKey(sta => sta.SkinTestId)
+			//.OnDelete(DeleteBehavior.Restrict); // Không xóa SkinTest nếu có câu trả lời liên quan
 
-			builder.Entity<SkinTestAnswer>()
-				.HasOne(sta => sta.SkinQuestion)
-				.WithMany()
-				.HasForeignKey(sta => sta.QuestionId)
-				.OnDelete(DeleteBehavior.Cascade); 
+			//builder.Entity<SkinTestAnswer>()
+			//	.HasOne(sta => sta.SkinQuestion)
+			//	.WithMany()
+			//	.HasForeignKey(sta => sta.QuestionId)
+			//	.OnDelete(DeleteBehavior.Cascade); 
 
-			builder.Entity<SkinTestAnswer>()
-				.HasOne(sta => sta.SkinAnswer)
-				.WithMany()
-				.HasForeignKey(sta => sta.AnswerId)
-				.OnDelete(DeleteBehavior.Restrict);
+			//builder.Entity<SkinTestAnswer>()
+			//	.HasOne(sta => sta.SkinAnswer)
+			//	.WithMany()
+			//	.HasForeignKey(sta => sta.AnswerId)
+			//	.OnDelete(DeleteBehavior.Restrict);
 
 			builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 

@@ -113,7 +113,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-		[Authorize(Roles = "Customer")]
+		[Authorize]
 		[HttpGet("GetUserProfile")]
 		public async Task<IActionResult> GetUserProfile()
 		{
@@ -129,7 +129,7 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 
 
-		[Authorize(Roles ="Customer,Admin")]
+		[Authorize]
 		[HttpPut("UpdateUserProfile")]
 		public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileUpdateModel userProfileUpdateModel)
 		{
@@ -186,6 +186,17 @@ namespace Skincare_Product_Sales_System.Controllers
 		{
 			var users = await _userManager.Users.ToListAsync();
 			var userProfiles = _mapper.Map<List<UserProfileModel>>(users);
+
+			foreach (var userProfile in userProfiles)
+			{
+				var user = users.FirstOrDefault(u => u.Id == userProfile.Id);
+				if (user != null)
+				{
+					var roles = await _userManager.GetRolesAsync(user);
+					userProfile.RoleName = roles.FirstOrDefault(); // Lấy role đầu tiên nếu có nhiều role
+				}
+			}
+
 			return Ok(userProfiles);
 		}
 

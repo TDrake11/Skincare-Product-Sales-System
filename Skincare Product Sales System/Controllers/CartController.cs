@@ -172,6 +172,8 @@ namespace Skincare_Product_Sales_System.Controllers
 				await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
 			}
 			cart.TotalPrice -= totalPrice;
+			user.Wallet -= totalPrice;
+			await _userManager.UpdateAsync(user);
 			await _orderService.UpdateOrderAsync(cart);
 			return Ok();
 		}
