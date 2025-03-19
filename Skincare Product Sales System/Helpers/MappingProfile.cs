@@ -22,7 +22,9 @@ namespace Skincare_Product_Sales_System.Helpers
             CreateMap<CreateCategoryRequest, Category>().ReverseMap();
 			CreateMap<UpdateCategoryRequest, Category>().ReverseMap();
 
-            CreateMap<Comment, CommentModel>().ReverseMap();
+            CreateMap<Comment, CommentModel>()
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Customer.LastName))
+                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Customer.Avatar)).ReverseMap();
 			CreateMap<Comment, CreateCommentModel>().ReverseMap();
 			CreateMap<Comment, UpdateCommentModel>().ReverseMap();
 
