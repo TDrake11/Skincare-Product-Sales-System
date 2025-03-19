@@ -77,10 +77,6 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 			var orderDetails =  await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
 			var product =  _productService.GetProductById(productId);
-			if (quantity == 0 || product.Quantity < quantity)
-			{
-				return BadRequest("Out of stock");
-			}
 			if (orderDetails.Any(o => o.ProductId == productId))
 			{
 				var orderDetail = orderDetails.FirstOrDefault(o => o.ProductId == productId);
@@ -121,6 +117,27 @@ namespace Skincare_Product_Sales_System.Controllers
 			order.TotalPrice -= orderDetail.Price * orderDetail.Quantity;
 			await _orderService.UpdateOrderAsync(order);
 			await _orderDetailService.DeleteOrderDetailAsync(orderDetailId);
+			return Ok();
+		}
+
+		[HttpPut("UpdateQuantity")]
+		public async Task<IActionResult> UpdateQuantity(int orderDetailId, int quantity)
+		{
+			var orderDetail = await _orderDetailService.GetOrderDetailByIdAsync(orderDetailId);
+			if (orderDetail == null)
+			{
+				return BadRequest("Order detail not found");
+			}
+			var order = await _orderService.GetOrderByIdAsync(orderDetail.OrderId);
+			if (order == null)
+			{
+				return BadRequest("Order not found");
+			}
+			order.TotalPrice += orderDetail.Price * (quantity - orderDetail.Quantity);
+			orderDetail.Quantity = quantity;
+			order.TotalPrice += orderDetail.Price * orderDetail.Quantity;
+			await _orderService.UpdateOrderAsync(order);
+			await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
 			return Ok();
 		}
 
@@ -167,6 +184,12 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return BadRequest("Order detail not found");
 				}
+				var product = _productService.GetProductById(orderDetail.ProductId);
+				if (product.Quantity < orderDetail.Quantity)
+				{
+					return BadRequest("Out of stock");
+				}
+				product.Quantity -= orderDetail.Quantity;
 				orderDetail.OrderId = order.Id;
 				orderDetail.Order = order;
 				await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
