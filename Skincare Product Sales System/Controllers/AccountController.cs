@@ -69,24 +69,24 @@ namespace Skincare_Product_Sales_System.Controllers
 		{
 			try
 			{
-				if(!ModelState.IsValid)
+				if (!ModelState.IsValid)
 				{
 					return BadRequest(ModelState);
 				}
 				registerModel.Email = registerModel.Email.ToLower();
-				if(await _userManager.FindByEmailAsync(registerModel.Email) != null)
+				if (await _userManager.FindByEmailAsync(registerModel.Email) != null)
 				{
 					return BadRequest("Email is already taken");
 				}
 				var user = _mapper.Map<User>(registerModel);
 				user.UserName = registerModel.Email;
-				user.Status = UserStatus.Actice.ToString();
+				user.Status = UserStatus.Active.ToString();
 				user.EmailConfirmed = true;
 				var createdUser = await _userManager.CreateAsync(user, registerModel.Password);
-				if(createdUser.Succeeded)
+				if (createdUser.Succeeded)
 				{
 					var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
-					if(roleResult.Succeeded)
+					if (roleResult.Succeeded)
 					{
 						var order = new Order
 						{
@@ -127,8 +127,6 @@ namespace Skincare_Product_Sales_System.Controllers
 			userProfile.RoleName = role.FirstOrDefault();
 			return Ok(userProfile);
 		}
-
-
 		[Authorize]
 		[HttpPut("UpdateUserProfile")]
 		public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileUpdateModel userProfileUpdateModel)
@@ -179,6 +177,68 @@ namespace Skincare_Product_Sales_System.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+		[Authorize]
+		[HttpPatch("UpdateAvatar")]
+		public async Task<IActionResult> UpdateAvatar(string avatar)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				var user = await _userManager.GetUserAsync(User);
+				if (user == null)
+				{
+					return Unauthorized("User not authenticated");
+				}
+				user.Avatar = avatar;
+				var result = await _userManager.UpdateAsync(user);
+				if (result.Succeeded)
+				{
+					return Ok("Avatar updated successfully");
+				}
+				else
+				{
+					return BadRequest(result.Errors);
+				}
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[Authorize(Roles = "Customer")]
+		[HttpPut("UpdateWallet")]
+		public async Task<IActionResult> UpdateWallet(double money)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				var user = await _userManager.GetUserAsync(User);
+				if (user == null)
+				{
+					return Unauthorized("User not authenticated");
+				}
+				user.Wallet = money;
+				var result = await _userManager.UpdateAsync(user);
+				if (result.Succeeded)
+				{
+					return Ok("Wallet updated successfully");
+				}
+				else
+				{
+					return BadRequest(result.Errors);
+				}
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 
 		[Authorize(Roles = "Admin")]
 		[HttpGet("GetAllUsers")]
@@ -199,7 +259,6 @@ namespace Skincare_Product_Sales_System.Controllers
 
 			return Ok(userProfiles);
 		}
-
 		[Authorize(Roles = "Admin")]
 		[HttpPost("CreateStaffAccount")]
 		public async Task<IActionResult> CreateStaffAccount([FromBody] RegisterModel registerModel)
@@ -217,7 +276,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				}
 				var user = _mapper.Map<User>(registerModel);
 				user.UserName = registerModel.Email;
-				user.Status = UserStatus.Actice.ToString();
+				user.Status = UserStatus.Active.ToString();
 				user.EmailConfirmed = true;
 				var createdUser = await _userManager.CreateAsync(user, registerModel.Password);
 				if (createdUser.Succeeded)
@@ -253,6 +312,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				return BadRequest("User not found");
 			}
 			user.Status = UserStatus.Ban.ToString();
+			user.EmailConfirmed = false;
 			var result = await _userManager.UpdateAsync(user);
 			if (result.Succeeded)
 			{
@@ -273,7 +333,8 @@ namespace Skincare_Product_Sales_System.Controllers
 			{
 				return BadRequest("User not found");
 			}
-			user.Status = UserStatus.Actice.ToString();
+			user.Status = UserStatus.Active.ToString();
+			user.EmailConfirmed = true;
 			var result = await _userManager.UpdateAsync(user);
 			if (result.Succeeded)
 			{
