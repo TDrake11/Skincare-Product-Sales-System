@@ -9,6 +9,7 @@
         public string CommentStatus { get; set; }
         public int ProductId { get; set; }
         public string CustomerId { get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Avatar {  get; set; }
     }
