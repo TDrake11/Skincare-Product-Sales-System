@@ -26,7 +26,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var comments = await _commentService.GetAllCommentsAsync();
+            var comments = await _commentService.GetAllComments();
             var commentModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
             return Ok(commentModel);
         }
@@ -41,7 +41,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var comment = await _commentService.GetCommentByIdAsync(id);
+            var comment = await _commentService.GetCommentById(id);
             if (comment == null)
                 return NotFound();
             return Ok(_mapper.Map<CommentModel>(comment));
@@ -57,7 +57,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comments = await _commentService.GetCommentByProductIdAsync(productId);
+                var comments = await _commentService.GetCommentByProductId(productId);
                 if (comments == null || !comments.Any())
                 {
                     return NotFound("No comments found for this product.");
@@ -76,7 +76,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comments = await _commentService.GetCommentsByCustomerIdAsync(customerId);
+                var comments = await _commentService.GetCommentsByCustomerId(customerId);
                 if (comments == null || !comments.Any())
                 {
                     return NotFound("No comments found for this Customer.");
@@ -126,7 +126,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comment = await _commentService.GetCommentByIdAsync(id);
+                var comment = await _commentService.GetCommentById(id);
                 if (comment == null)
                 {
                     return BadRequest("Comment not found");

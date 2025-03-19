@@ -9,10 +9,10 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
 {
     public interface ICommentService
     {
-        Task<IEnumerable<Comment>> GetAllCommentsAsync();
-        Task<Comment?> GetCommentByIdAsync(int id);
-        Task<IEnumerable<Comment>> GetCommentByProductIdAsync(int productId);
-        Task<IEnumerable<Comment>> GetCommentsByCustomerIdAsync(string customerId);
+        Task<List<Comment>> GetAllComments();
+        Task<Comment?> GetCommentById(int id);
+        Task<List<Comment>> GetCommentByProductId(int productId);
+        Task<List<Comment>> GetCommentsByCustomerId(string customerId);
         Task AddCommentAsync(Comment comment);
         Task UpdateCommentAsync(Comment comment);
         Task DeleteCommentAsync(int id);

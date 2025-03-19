@@ -53,31 +53,12 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpGet("getActiveStepRoutineByRoutineId/{routineId}")]
-        public async Task<IActionResult> GetActiveStepRoutinesByRoutineId(int routineId)
+        [HttpGet("getStepRoutineByRoutineId/{routineId}")]
+        public async Task<IActionResult> GetStepRoutinesByRoutineId(int routineId)
         {
             try
             {
-                var stepRoutine = await _stepRoutineService.GetActiveStepRoutinesByRoutineId(routineId);
-                if (stepRoutine == null || !stepRoutine.Any())
-                {
-                    return NotFound("No StepRoutine found for this SkinCareRoutine.");
-                }
-                var stepRoutineModel = _mapper.Map<IEnumerable<StepRoutineModel>>(stepRoutine);
-                return Ok(stepRoutineModel);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("getInactiveStepRoutineByRoutineId/{routineId}")]
-        public async Task<IActionResult> GetInactiveStepRoutinesByRoutineId(int routineId)
-        {
-            try
-            {
-                var stepRoutine = await _stepRoutineService.GetInactiveStepRoutinesByRoutineId(routineId);
+                var stepRoutine = await _stepRoutineService.GetStepRoutinesByRoutineId(routineId);
                 if (stepRoutine == null || !stepRoutine.Any())
                 {
                     return NotFound("No StepRoutine found for this SkinCareRoutine.");
