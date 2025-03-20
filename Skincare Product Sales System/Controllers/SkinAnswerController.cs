@@ -41,10 +41,16 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var skinA = await _skinAnswerService.GetSkinAnswerById(id);
                 if (skinA == null)
-                    return NotFound();
+                {
+                    return Ok("No skin answer found.");
+                }
+
                 return Ok(_mapper.Map<SkinAnswerModel>(skinA));
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("getSkinAnswersBySkinTypeId/{skinTypeId}")]
@@ -53,6 +59,11 @@ namespace Skincare_Product_Sales_System.Controllers
             try
             {
                 var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinTypeId(skinTypeId);
+                if (skinAnswers == null || !skinAnswers.Any())
+                {
+                    return Ok("No SkinAnswers found for this SkinType.");
+                }
+                    
                 var skinAnswerModels = _mapper.Map<IEnumerable<SkinAnswerModel>>(skinAnswers);
                 return Ok(skinAnswerModels);
             }
@@ -68,6 +79,12 @@ namespace Skincare_Product_Sales_System.Controllers
             try
             {
                 var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinQuestionId(skinQuestionId);
+
+                if (skinAnswers == null || !skinAnswers.Any())
+                {
+                    return Ok("No SkinAnswers found for this SkinQuestion.");
+                }
+
                 var skinAnswerModels = _mapper.Map<IEnumerable<SkinAnswerModel>>(skinAnswers);
                 return Ok(skinAnswerModels);
             }

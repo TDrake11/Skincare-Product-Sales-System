@@ -45,7 +45,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
                 if (skinType == null)
                 {
-                    return NotFound("Skin type not found");
+                    return Ok("Skin type not found");
                 }
                 var skinTypeModel = _mapper.Map<SkinTypeModel>(skinType);
                 return Ok(skinTypeModel);
