@@ -25,11 +25,14 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var orderDetails = await _orderDetailService.GetAllOrderDetailAsync();
-            var orderDetailModel = _mapper.Map<IEnumerable<OrderDetailModel>>(orderDetails);
-            return Ok(orderDetailModel);
-        }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+                var orderDetails = await _orderDetailService.GetAllOrderDetailAsync();
+                var orderDetailModel = _mapper.Map<IEnumerable<OrderDetailModel>>(orderDetails);
+                return Ok(orderDetailModel);
+            }
+            catch (Exception ex) 
+            { 
+                return BadRequest(ex.Message); 
+            }
         }
 
         [HttpGet("getOrderDetailById/{id}")]
@@ -37,12 +40,17 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var orderDetails = await _orderDetailService.GetOrderDetailByIdAsync(id);
-            if (orderDetails == null)
-                return NotFound();
-            return Ok(_mapper.Map<OrderDetailModel>(orderDetails));
-        }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+                var orderDetails = await _orderDetailService.GetOrderDetailByIdAsync(id);
+                if (orderDetails == null)
+                {
+                    return Ok("No OrderDetail found.");
+                }
+                return Ok(_mapper.Map<OrderDetailModel>(orderDetails));
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message); 
+            }
         }
 
         [HttpPost("createOrderDetail")]

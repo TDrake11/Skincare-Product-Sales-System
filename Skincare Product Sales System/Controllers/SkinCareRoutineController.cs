@@ -43,13 +43,17 @@ namespace Skincare_Product_Sales_System.Controllers
             try
             {
                 var skinRT = await _skinCareRoutineService.GetSkinCareRoutineById(id);
+
                 if (skinRT == null)
-                    return NotFound();
+                {
+                    return Ok("No SkinCareRoutin found.");
+                }
+
                 return Ok(_mapper.Map<SkinCareRoutineModel>(skinRT));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -61,7 +65,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var skinRTs = await _skinCareRoutineService.GetSkinCareRoutineBySkinTypeId(skinTypeId);
                 if (skinRTs == null || !skinRTs.Any())
                 {
-                    return NotFound("No SkinCareRoutine found for this product.");
+                    return Ok("No SkinCareRoutine found for this SkinType.");
                 }
                 var skinRTModel = _mapper.Map<IEnumerable<SkinCareRoutineModel>>(skinRTs);
                 return Ok(skinRTModel);

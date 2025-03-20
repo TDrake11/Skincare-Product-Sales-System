@@ -41,7 +41,10 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var skinQ = await _skinQuestionService.GetSkinQuestionByIdAsync(id);
                 if (skinQ == null)
-                    return NotFound();
+                {
+                    return Ok("No SkinQuestion found.");
+                }
+
                 return Ok(_mapper.Map<SkinQuestionModel>(skinQ));
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
