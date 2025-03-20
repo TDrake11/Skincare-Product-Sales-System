@@ -40,7 +40,7 @@ namespace Skincare_Product_Sales_System.Controllers
 		{
 			try
 			{
-				var product = _productService.GetProductById(id);
+				var product = _productService.GetProductDeatilById(id);
 				if (product == null)
 				{
 					return BadRequest("Product not found");
@@ -60,6 +60,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			try
 			{
 				var product = _mapper.Map<Product>(productModel);
+				product.ProductStatus = ProductStatus.Available.ToString();
 				await _productService.CreateProduct(product);
 				return Ok("Product created successfully");
 			}

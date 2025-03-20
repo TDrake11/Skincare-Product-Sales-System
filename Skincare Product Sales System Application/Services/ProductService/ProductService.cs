@@ -29,36 +29,41 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 				.GetAll()
 				.Include(p => p.Category)  // Đảm bảo Category được load
 				.Include(p => p.SkinType)  // Đảm bảo SkinType được load
+				.Include(p => p.Staff)  // Đảm bảo Staff được load
 				.ToListAsync();
 			return listProduct;
 		}
 
-		public Product GetProductById(int id)
+		public Product GetProductDeatilById(int id)
 		{
 			var product = _unitOfWork.Repository<Product>()
 				.GetAll()
-				.Include(p => p.Category)
+				.Include(p => p.Category)  
 				.Include(p => p.SkinType)
-				.Include(p => p.Staff)
 				.FirstOrDefault(p => p.Id == id);
 			return product;
 		}
-
-		public void UpdateProduct(Product product)
+		public Product GetProductById(int id)
 		{
-			_unitOfWork.Repository<Product>().Update(product);
-			_unitOfWork.Complete();
+			var product = _unitOfWork.Repository<Product>().GetById(id);
+			return product;
 		}
 
-		public void DeleteProduct(int id)
+		public async Task UpdateProduct(Product product)
 		{
-			var product = GetProductById(id);
+			_unitOfWork.Repository<Product>().Update(product);
+			await _unitOfWork.Complete();
+		}
+
+		public async Task DeleteProduct(int id)
+		{
+			var product = _unitOfWork.Repository<Product>().GetById(id);
 
 			if (product != null)
 			{
 				product.ProductStatus = ProductStatus.Inactive.ToString();
 				_unitOfWork.Repository<Product>().Update(product);
-				_unitOfWork.Complete();
+				await _unitOfWork.Complete();
 			}
 			else
 			{

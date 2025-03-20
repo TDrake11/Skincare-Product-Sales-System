@@ -21,6 +21,6 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public int?	 SkinTypeId { get; set; }
 		public virtual SkinType? SkinType { get; set; } // 1 skin test chi thuoc ve 1 skin type
 
-		//public virtual ICollection<SkinTestAnswer>? SkinTestAnswer { get; set; } // 1 skin test co nhieu skin test answer
+		public virtual ICollection<SkinTestAnswer>? SkinTestAnswer { get; set; } // 1 skin test co nhieu skin test answer
 	}
 }

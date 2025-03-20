@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Skincare_Product_Sales_System.Models;
 using Skincare_Product_Sales_System_Application.Services.OrderService;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
@@ -68,23 +69,24 @@ namespace Skincare_Product_Sales_System.Controllers
 		{
 			try
 			{
-				if(!ModelState.IsValid)
+				if (!ModelState.IsValid)
 				{
 					return BadRequest(ModelState);
 				}
-				if(await _userManager.FindByEmailAsync(registerModel.Email) != null)
+				registerModel.Email = registerModel.Email.ToLower();
+				if (await _userManager.FindByEmailAsync(registerModel.Email) != null)
 				{
 					return BadRequest("Email is already taken");
 				}
 				var user = _mapper.Map<User>(registerModel);
 				user.UserName = registerModel.Email;
-				user.Status = UserStatus.Actice.ToString();
+				user.Status = UserStatus.Active.ToString();
 				user.EmailConfirmed = true;
 				var createdUser = await _userManager.CreateAsync(user, registerModel.Password);
-				if(createdUser.Succeeded)
+				if (createdUser.Succeeded)
 				{
 					var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
-					if(roleResult.Succeeded)
+					if (roleResult.Succeeded)
 					{
 						var order = new Order
 						{
@@ -125,7 +127,6 @@ namespace Skincare_Product_Sales_System.Controllers
 			userProfile.RoleName = role.FirstOrDefault();
 			return Ok(userProfile);
 		}
-
 		[Authorize]
 		[HttpPut("UpdateUserProfile")]
 		public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileUpdateModel userProfileUpdateModel)
@@ -136,20 +137,35 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return BadRequest(ModelState);
 				}
-				if (await _userManager.FindByEmailAsync(userProfileUpdateModel.Email) != null)
-				{
-					return BadRequest("Email is already taken");
-				}
+
 				var user = await _userManager.GetUserAsync(User);
+				userProfileUpdateModel.Email = userProfileUpdateModel.Email.ToLower();
 				if (user == null)
 				{
 					return Unauthorized("User not authenticated");
 				}
+
+				// Kiểm tra nếu người dùng muốn thay đổi email
+				if (!string.Equals(user.Email, userProfileUpdateModel.Email, StringComparison.OrdinalIgnoreCase))
+				{
+					var existingUser = await _userManager.FindByEmailAsync(userProfileUpdateModel.Email);
+					if (existingUser != null)
+					{
+						return BadRequest("Email is already taken");
+					}
+					// Cập nhật email, username và normalized username
+					user.Email = userProfileUpdateModel.Email;
+					user.UserName = userProfileUpdateModel.Email;
+					user.NormalizedUserName = userProfileUpdateModel.Email.ToUpper();
+				}
+
+				// Sử dụng AutoMapper để ánh xạ các thuộc tính khác
 				_mapper.Map(userProfileUpdateModel, user);
+
 				var result = await _userManager.UpdateAsync(user);
 				if (result.Succeeded)
 				{
-					return Ok();
+					return Ok("Profile updated successfully");
 				}
 				else
 				{
@@ -159,6 +175,174 @@ namespace Skincare_Product_Sales_System.Controllers
 			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
+			}
+		}
+		[Authorize]
+		[HttpPatch("UpdateAvatar")]
+		public async Task<IActionResult> UpdateAvatar(string avatar)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				var user = await _userManager.GetUserAsync(User);
+				if (user == null)
+				{
+					return Unauthorized("User not authenticated");
+				}
+				user.Avatar = avatar;
+				var result = await _userManager.UpdateAsync(user);
+				if (result.Succeeded)
+				{
+					return Ok("Avatar updated successfully");
+				}
+				else
+				{
+					return BadRequest(result.Errors);
+				}
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+		[Authorize(Roles = "Customer")]
+		[HttpPut("UpdateWallet")]
+		public async Task<IActionResult> UpdateWallet(double money)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				var user = await _userManager.GetUserAsync(User);
+				if (user == null)
+				{
+					return Unauthorized("User not authenticated");
+				}
+				user.Wallet = money;
+				var result = await _userManager.UpdateAsync(user);
+				if (result.Succeeded)
+				{
+					return Ok("Wallet updated successfully");
+				}
+				else
+				{
+					return BadRequest(result.Errors);
+				}
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpGet("GetAllUsers")]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			var users = await _userManager.Users.ToListAsync();
+			var userProfiles = _mapper.Map<List<UserProfileModel>>(users);
+
+			foreach (var userProfile in userProfiles)
+			{
+				var user = users.FirstOrDefault(u => u.Id == userProfile.Id);
+				if (user != null)
+				{
+					var roles = await _userManager.GetRolesAsync(user);
+					userProfile.RoleName = roles.FirstOrDefault(); // Lấy role đầu tiên nếu có nhiều role
+				}
+			}
+
+			return Ok(userProfiles);
+		}
+		[Authorize(Roles = "Admin")]
+		[HttpPost("CreateStaffAccount")]
+		public async Task<IActionResult> CreateStaffAccount([FromBody] RegisterModel registerModel)
+		{
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+				registerModel.Email = registerModel.Email.ToLower();
+				if (await _userManager.FindByEmailAsync(registerModel.Email) != null)
+				{
+					return BadRequest("Email is already taken");
+				}
+				var user = _mapper.Map<User>(registerModel);
+				user.UserName = registerModel.Email;
+				user.Status = UserStatus.Active.ToString();
+				user.EmailConfirmed = true;
+				var createdUser = await _userManager.CreateAsync(user, registerModel.Password);
+				if (createdUser.Succeeded)
+				{
+					var roleResult = await _userManager.AddToRoleAsync(user, "Staff");
+					if (roleResult.Succeeded)
+					{
+						return Ok();
+					}
+					else
+					{
+						return BadRequest(roleResult.Errors);
+					}
+				}
+				else
+				{
+					return BadRequest(createdUser.Errors);
+				}
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPut("BanUser")]
+		public async Task<IActionResult> BanUser(string userId)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null)
+			{
+				return BadRequest("User not found");
+			}
+			user.Status = UserStatus.Ban.ToString();
+			user.EmailConfirmed = false;
+			var result = await _userManager.UpdateAsync(user);
+			if (result.Succeeded)
+			{
+				return Ok("User banned successfully");
+			}
+			else
+			{
+				return BadRequest(result.Errors);
+			}
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPut("ActiveUser")]
+		public async Task<IActionResult> ActiveUser(string userId)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null)
+			{
+				return BadRequest("User not found");
+			}
+			user.Status = UserStatus.Active.ToString();
+			user.EmailConfirmed = true;
+			var result = await _userManager.UpdateAsync(user);
+			if (result.Succeeded)
+			{
+				return Ok("User activated successfully");
+			}
+			else
+			{
+				return BadRequest(result.Errors);
 			}
 		}
 	}
