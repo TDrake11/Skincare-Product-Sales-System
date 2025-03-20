@@ -26,10 +26,10 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var orders = await _orderService.GetAllOrderAsync();
-            var orderModel = _mapper.Map<IEnumerable<OrderModel>>(orders);
-            return Ok(orderModel);
-        }
+                var orders = await _orderService.GetAllOrderAsync();
+                var orderModel = _mapper.Map<IEnumerable<OrderModel>>(orders);
+                return Ok(orderModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -41,12 +41,18 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var orders = await _orderService.GetOrderByIdAsync(id);
-            if (orders == null)
-                return NotFound();
-            return Ok(_mapper.Map<OrderModel>(orders));
-        }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+                var order = await _orderService.GetOrderByIdAsync(id);
+                if (order == null)
+                {
+                    return Ok("No order found.");
+                }
+                    
+                return Ok(_mapper.Map<OrderModel>(order));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("updateOrder")]

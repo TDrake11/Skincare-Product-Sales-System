@@ -44,7 +44,10 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var stepRoutine = await _stepRoutineService.GetStepRoutineById(id);
                 if (stepRoutine == null)
-                    return NotFound();
+                {
+                    return Ok("No StepRoutine found.");
+                }
+                    
                 return Ok(_mapper.Map<StepRoutineModel>(stepRoutine));
             }
             catch (Exception ex)
@@ -61,7 +64,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var stepRoutine = await _stepRoutineService.GetStepRoutinesByRoutineId(routineId);
                 if (stepRoutine == null || !stepRoutine.Any())
                 {
-                    return NotFound("No StepRoutine found for this SkinCareRoutine.");
+                    return Ok("No StepRoutine found for this SkinCareRoutine.");
                 }
                 var stepRoutineModel = _mapper.Map<IEnumerable<StepRoutineModel>>(stepRoutine);
                 return Ok(stepRoutineModel);

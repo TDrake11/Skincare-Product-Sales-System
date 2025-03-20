@@ -41,11 +41,13 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var comment = await _commentService.GetCommentById(id);
-            if (comment == null)
-                return NotFound();
-            return Ok(_mapper.Map<CommentModel>(comment));
-        }
+                var comment = await _commentService.GetCommentById(id);
+                if (comment == null)
+                {
+                    return Ok("No comment found.");
+                }
+                return Ok(_mapper.Map<CommentModel>(comment));
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -60,8 +62,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 var comments = await _commentService.GetCommentByProductId(productId);
                 if (comments == null || !comments.Any())
                 {
-                    return NotFound("No comments found for this product.");
-            }
+                    return Ok("No comments found for this product.");
+                }
                 var commentModels = _mapper.Map<IEnumerable<CommentModel>>(comments);
                 return Ok(commentModels);
             }
@@ -79,7 +81,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var comments = await _commentService.GetCommentsByCustomerId(customerId);
                 if (comments == null || !comments.Any())
                 {
-                    return NotFound("No comments found for this Customer.");
+                    return Ok("No comments found for this Customer.");
                 }
                 var commentModels = _mapper.Map<IEnumerable<CommentModel>>(comments);
                 return Ok(commentModels);
