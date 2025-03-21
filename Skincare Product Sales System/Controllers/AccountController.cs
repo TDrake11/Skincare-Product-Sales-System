@@ -223,7 +223,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return Unauthorized("User not authenticated");
 				}
-				user.Wallet = money;
+				user.Wallet += money;
 				var result = await _userManager.UpdateAsync(user);
 				if (result.Succeeded)
 				{
