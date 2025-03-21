@@ -12,8 +12,8 @@ using Skincare_Product_Sales_System_Infrastructure.Data;
 namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250228091252_InitV2")]
-    partial class InitV2
+    [Migration("20250321054827_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,12 +105,10 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -147,12 +145,10 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -264,16 +260,13 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("OrderDetailStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -299,15 +292,15 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("CreatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("ExpiredDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("ExpiredDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -439,6 +432,10 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("SkinTestStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("SkinTypeId")
                         .HasColumnType("int");
 
@@ -489,6 +486,9 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     b.Property<string>("SkinTypeName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SkinTypeStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -708,11 +708,15 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Product", "Product")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
 
@@ -782,19 +786,16 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinTestAnswer", b =>
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinAnswer", "SkinAnswer")
-                        .WithMany()
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany("SkinTestAnswers")
+                        .HasForeignKey("AnswerId");
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", "SkinQuestion")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("SkinTestAnswers")
+                        .HasForeignKey("QuestionId");
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinTest", "SkinTest")
-                        .WithMany()
-                        .HasForeignKey("SkinTestId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany("SkinTestAnswer")
+                        .HasForeignKey("SkinTestId");
 
                     b.Navigation("SkinAnswer");
 
@@ -835,6 +836,11 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Navigation("OrderDetails");
                 });
 
+            modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinAnswer", b =>
+                {
+                    b.Navigation("SkinTestAnswers");
+                });
+
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinCareRoutine", b =>
                 {
                     b.Navigation("StepRoutines");
@@ -843,6 +849,13 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinQuestion", b =>
                 {
                     b.Navigation("SkinAnswers");
+
+                    b.Navigation("SkinTestAnswers");
+                });
+
+            modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinTest", b =>
+                {
+                    b.Navigation("SkinTestAnswer");
                 });
 
             modelBuilder.Entity("Skincare_Product_Sales_System_Domain.Entities.SkinType", b =>

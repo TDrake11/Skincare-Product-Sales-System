@@ -263,7 +263,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -711,7 +711,9 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Product", "Product")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
 
