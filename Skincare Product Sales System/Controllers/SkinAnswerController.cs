@@ -127,7 +127,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var skinA = await _skinAnswerService.GetSkinAnswerById(id);
                 if (skinA == null)
                 {
-                    return BadRequest("SkinAnswer not found");
+                    return Ok("SkinAnswer not found");
                 }
                 await _skinAnswerService.DeleteSkinAnswer(id);
                 return Ok("SkinAnswer deleted successfully.");

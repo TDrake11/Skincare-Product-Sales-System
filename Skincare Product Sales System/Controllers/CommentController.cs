@@ -26,10 +26,10 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-            var comments = await _commentService.GetAllComments();
-            var commentModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
-            return Ok(commentModel);
-        }
+                var comments = await _commentService.GetAllComments();
+                var commentModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
+                return Ok(commentModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -131,7 +131,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var comment = await _commentService.GetCommentById(id);
                 if (comment == null)
                 {
-                    return BadRequest("Comment not found");
+                    return Ok("Comment not found");
                 }
             await _commentService.DeleteCommentAsync(id);
                 return Ok("Comment deleted successfully.");

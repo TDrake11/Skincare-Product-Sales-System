@@ -115,7 +115,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var skinRT = await _skinCareRoutineService.GetSkinCareRoutineById(id);
                 if (skinRT == null)
                 {
-                    return BadRequest("SkinCareRoutine not found");
+                    return Ok("SkinCareRoutine not found");
                 }
                 await _skinCareRoutineService.DeleteSkinCareRoutineAsync(id);
                 return Ok("SkinCareRoutine deleted successfully.");

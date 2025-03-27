@@ -110,7 +110,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var category = await _categoryService.GetCategoryByIdAsync(id);
                 if (category == null)
         {
-                    return BadRequest("Category not found");
+                    return Ok("Category not found");
                 }
             await _categoryService.DeleteCategoryAsync(id);
                 return Ok("Category deleted successfully.");
