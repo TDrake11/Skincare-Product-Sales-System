@@ -16,5 +16,6 @@
     {
         public int Id { get; set; }
         public string QuestionText { get; set; }
+        public string SkinQuestionStatus { get; set; }
     }
 }

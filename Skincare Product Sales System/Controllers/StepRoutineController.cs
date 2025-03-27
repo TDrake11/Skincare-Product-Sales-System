@@ -114,7 +114,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var stepRoutine = await _stepRoutineService.GetStepRoutineById(id);
                 if (stepRoutine == null)
                 {
-                    return BadRequest("StepRoutine not found");
+                    return Ok("StepRoutine not found");
                 }
                 await _stepRoutineService.DeleteStepRoutine(id);
                 return Ok("StepRoutine deleted successfully.");

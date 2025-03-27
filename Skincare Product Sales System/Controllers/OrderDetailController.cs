@@ -83,7 +83,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var orderDt = await _orderDetailService.GetOrderDetailByIdAsync(id);
                 if (orderDt == null)
                 {
-                    return BadRequest("OrderDetail not found");
+                    return Ok("OrderDetail not found");
                 }
             await _orderDetailService.DeleteOrderDetailAsync(id);
                 return Ok("OrderDetail deleted successfully.");
