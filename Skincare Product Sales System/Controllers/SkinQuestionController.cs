@@ -83,7 +83,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var skinQ = await _skinQuestionService.GetSkinQuestionByIdAsync(id);
                 if (skinQ == null)
                 {
-                    return BadRequest("SkinQuestion not found");
+                    return Ok("SkinQuestion not found");
                 }
                 await _skinQuestionService.DeleteSkinQuestionAsync(id);
                 return Ok("SkinQuestion deleted successfully.");

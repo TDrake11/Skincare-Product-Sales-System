@@ -75,7 +75,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var order = await _orderService.GetOrderByIdAsync(id);
                 if (order == null)
                 {
-                    return BadRequest("Order not found");
+                    return Ok("Order not found");
                 }
             await _orderService.DeleteOrderAsync(id);
                 return Ok("Order deleted successfully.");

@@ -95,7 +95,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
                 if (skinType == null)
                 {
-                    return BadRequest("SkinType not found");
+                    return Ok("SkinType not found");
                 }
                 await _skinTypeService.DeleteSkinType(id);
                 return Ok("SkinType deleted successfully.");
