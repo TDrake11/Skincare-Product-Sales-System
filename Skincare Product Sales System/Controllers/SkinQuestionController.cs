@@ -68,11 +68,28 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
+                string? normalizedStatus = skinQModel.SkinQuestionStatus.ToLower() switch
+                {
+                    "active" => "Active",
+                    "inactive" => "Inactive",
+                    _ => null
+                };
+
+                if (normalizedStatus == null)
+                {
+                    return BadRequest("The status is not valid.");
+                }
+
+                skinQModel.SkinQuestionStatus = normalizedStatus;
+
                 var skinQ = _mapper.Map<SkinQuestion>(skinQModel);
                 await _skinQuestionService.UpdateSkinQuestionAsync(skinQ);
                 return Ok("SkinQuestion updated successfully.");
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("deleteSkinQuestion/{id}")]

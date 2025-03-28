@@ -112,6 +112,19 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
+                string? normalizedStatus = skinAModel.SkinAnswerStatus.ToLower() switch
+                {
+                    "active" => "Active",
+                    "inactive" => "Inactive",
+                    _ => null
+                };
+
+                if (normalizedStatus == null)
+                {
+                    return BadRequest("The status is not valid.");
+                }
+
+                skinAModel.SkinAnswerStatus = normalizedStatus;
                 var skinA = _mapper.Map<SkinAnswer>(skinAModel);
                 await _skinAnswerService.UpdateSkinAnswer(skinA);
                 return Ok("SkinAnswer updated successfully.");
