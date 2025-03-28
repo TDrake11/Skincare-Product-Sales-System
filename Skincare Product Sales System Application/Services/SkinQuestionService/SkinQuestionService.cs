@@ -38,7 +38,6 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinQuestionService
         public async Task UpdateSkinQuestionAsync(SkinQuestion skinQuestion)
         {
             _unitOfWork.Repository<SkinQuestion>().Update(skinQuestion);
-            skinQuestion.SkinQuestionStatus = SkinQuestionStatus.Active.ToString();
             await _unitOfWork.Complete();
         }
 
