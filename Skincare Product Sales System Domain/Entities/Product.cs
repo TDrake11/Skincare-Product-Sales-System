@@ -20,7 +20,7 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public string? ProductStatus { get; set; }
 
 		[ForeignKey("Category")]
-		public int? CategoryId { get; set; }
+		public int CategoryId { get; set; }
 		public virtual Category? Category { get; set; } // 1 product thuoc ve 1 category
 
 		[ForeignKey("Staff")]
@@ -28,7 +28,7 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 		public virtual User? Staff { get; set; } // 1 product chi duoc quan li boi 1 nhan vien
 
 		[ForeignKey("SkinType")]
-		public int? SkinTypeId { get; set; }
+		public int SkinTypeId { get; set; }
 		public virtual SkinType? SkinType { get; set; } // 1 product thuoc ve 1 skin type
 
 		public virtual ICollection<Comment>? Comments { get; set; } // 1 product co nhieu comment
