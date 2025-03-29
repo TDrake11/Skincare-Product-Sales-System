@@ -13,6 +13,8 @@ using Skincare_Product_Sales_System_Application.Services.ProductService;
 using Skincare_Product_Sales_System_Application.Services.SkinAnswerService;
 using Skincare_Product_Sales_System_Application.Services.SkinCareRoutineService;
 using Skincare_Product_Sales_System_Application.Services.SkinQuestionService;
+using Skincare_Product_Sales_System_Application.Services.SkinTestAnswerService;
+using Skincare_Product_Sales_System_Application.Services.SkinTestService;
 using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
 using Skincare_Product_Sales_System_Application.Services.StepRoutineServices;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
@@ -73,6 +75,8 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddScoped<ISkinQuestionService, SkinQuestionService>();
 			services.AddScoped<ISkinAnswerService, SkinAnswerService>();
 			services.AddScoped<ISkinTypeService, SkinTypeService>();
+			services.AddScoped<ISkinTestService, SkinTestService>();
+			services.AddScoped<ISkinTestAnswerService, SkinTestAnswerService>();
 			services.AddScoped<ISkinCareRoutineService, SkinCareRoutineService>();
 			services.AddScoped<IStepRoutineService, StepRoutineService>();
 			return services;
