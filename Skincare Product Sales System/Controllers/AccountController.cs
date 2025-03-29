@@ -125,6 +125,13 @@ namespace Skincare_Product_Sales_System.Controllers
 			var role = await _userManager.GetRolesAsync(user);
 			var userProfile = _mapper.Map<UserProfileModel>(user);
 			userProfile.RoleName = role.FirstOrDefault();
+
+			// Thêm URL tuyệt đối cho avatar
+			if (!string.IsNullOrEmpty(user.Avatar))
+			{
+				var baseUrl = $"{Request.Scheme}://{Request.Host}";
+				userProfile.Avatar = $"{baseUrl}{user.Avatar}";
+			}
 			return Ok(userProfile);
 		}
 		[Authorize]

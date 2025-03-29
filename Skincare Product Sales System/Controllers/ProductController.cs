@@ -27,6 +27,17 @@ namespace Skincare_Product_Sales_System.Controllers
 			{
 				var products = await _productService.GetListProducts();
 				var listProduct = _mapper.Map<List<ProductModel>>(products);
+				var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
+				// Cập nhật đường dẫn ảnh
+				foreach (var product in listProduct)
+				{
+					if (!string.IsNullOrEmpty(product.Image))
+					{
+						product.Image = $"{baseUrl}{product.Image}";
+					}
+				}
+
 				return Ok(listProduct);
 			}
 			catch (Exception ex)
@@ -34,6 +45,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
 
 		[HttpGet("getProductById/{id}")]
 		public IActionResult GetProductById(int id)
@@ -45,7 +57,15 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return BadRequest("Product not found");
 				}
+
 				var productModel = _mapper.Map<ProductModel>(product);
+				var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
+				if (!string.IsNullOrEmpty(productModel.Image))
+				{
+					productModel.Image = $"{baseUrl}{productModel.Image}";
+				}
+
 				return Ok(productModel);
 			}
 			catch (Exception ex)
@@ -54,8 +74,9 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
+
 		[HttpPost("createProduct")]
-		public async Task<IActionResult> CreateProduct([FromForm] ProductModel productModel)
+		public async Task<IActionResult> CreateProduct([FromBody] ProductModel productModel)
 		{
 			try
 			{
