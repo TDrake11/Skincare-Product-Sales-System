@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.FileProviders;
 using Skincare_Product_Sales_System.Extensions;
 using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Infrastructure.Data;
@@ -40,6 +41,12 @@ namespace Skincare_Product_Sales_System
 
 			app.UseHttpsRedirection();
 			app.UseCors("AllowAll");
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+				Path.Combine(Directory.GetCurrentDirectory(), "Uploads")),
+				RequestPath = "/Uploads"
+			});
 			app.UseAuthentication();
 			app.UseAuthorization();
 
