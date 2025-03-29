@@ -16,7 +16,7 @@ namespace Skincare_Product_Sales_System.Models
 
     public class CreateSkinTestModel
     {
-        public string CustomerId { get; set; }
         public int SkinTypeId { get; set; }
-    }
+        public List<int>? ListAnswerId { get; set; }
+	}
 }
