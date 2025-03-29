@@ -55,14 +55,38 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 
 		[HttpPost("createProduct")]
-		public async Task<IActionResult> CreateProduct([FromBody] ProductModel productModel)
+		public async Task<IActionResult> CreateProduct([FromForm] ProductModel productModel)
 		{
 			try
 			{
+				// Ánh xạ từ DTO sang Entity
 				var product = _mapper.Map<Product>(productModel);
 				product.ProductStatus = ProductStatus.Available.ToString();
+
+				// Xử lý ảnh sản phẩm
+				if (productModel.AttachmentFile != null && productModel.AttachmentFile.Length > 0)
+				{
+					var productFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Products", product.Id.ToString());
+
+					if (!Directory.Exists(productFolder))
+					{
+						Directory.CreateDirectory(productFolder);
+					}
+
+					var fileName = Path.GetFileName(productModel.AttachmentFile.FileName);
+					var filePath = Path.Combine(productFolder, fileName);
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await productModel.AttachmentFile.CopyToAsync(stream);
+					}
+
+					// Lưu đường dẫn tương đối vào database
+					product.Image = $"/Uploads/Products/{product.Id}/{fileName}";
+				}
+
 				await _productService.CreateProduct(product);
-				return Ok("Product created successfully");
+				return Ok(new { message = "Product created successfully", imageUrl = product.Image });
 			}
 			catch (Exception ex)
 			{
@@ -70,21 +94,51 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
+
 		[HttpPut("updateProduct")]
-		public async Task<IActionResult> UpdateProduct([FromBody] ProductUpdateModel productModel)
+		public async Task<IActionResult> UpdateProduct([FromForm] ProductUpdateModel productModel)
 		{
 			try
 			{
 				var product = _productService.GetProductById(productModel.Id);
+				if (product == null)
+				{
+					return NotFound("Product not found");
+				}
+
 				_mapper.Map(productModel, product);
-				_productService.UpdateProduct(product);
-				return Ok("Product updated successfully");
+
+				// Xử lý cập nhật ảnh nếu có ảnh mới
+				if (productModel.AttachmentFile != null && productModel.AttachmentFile.Length > 0)
+				{
+					var productFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Products", product.Id.ToString());
+
+					if (!Directory.Exists(productFolder))
+					{
+						Directory.CreateDirectory(productFolder);
+					}
+
+					var fileName = Path.GetFileName(productModel.AttachmentFile.FileName);
+					var filePath = Path.Combine(productFolder, fileName);
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await productModel.AttachmentFile.CopyToAsync(stream);
+					}
+
+					// Cập nhật đường dẫn ảnh mới
+					product.Image = $"/Uploads/Products/{product.Id}/{fileName}";
+				}
+
+				await _productService.UpdateProduct(product);
+				return Ok(new { message = "Product updated successfully", imageUrl = product.Image });
 			}
 			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
 		}
+
 
 		[HttpDelete("deleteProduct/{id}")]
 		public  IActionResult DeleteProduct(int id)
