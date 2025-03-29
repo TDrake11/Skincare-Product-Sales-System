@@ -8,7 +8,7 @@ namespace Skincare_Product_Sales_System.Helpers
 	{
 		public MappingProfile()
 		{
-			CreateMap<Product, ProductModel>()
+            CreateMap<Product, ProductModel>()
 				.ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
 				.ForMember(dest => dest.SkinTypeName, opt => opt.MapFrom(src => src.SkinType.SkinTypeName))
 				.ForMember(dest => dest.StaffName, opt => opt.MapFrom(src => src.Staff.FirstName + src.Staff.LastName));
@@ -47,10 +47,22 @@ namespace Skincare_Product_Sales_System.Helpers
 			CreateMap<SkinAnswer, UpdateSkinAnswerModel>().ReverseMap();
 
             CreateMap<SkinType, SkinTypeModel>().ReverseMap();
-            CreateMap<SkinType, CreateSkinTypeModel>().ReverseMap();
+            CreateMap<SkinType, CreateSkinTypeModel>().ReverseMap();  
             CreateMap<SkinType, UpdateSkinTypeModel>().ReverseMap();
 
-			CreateMap<SkinCareRoutine, SkinCareRoutineModel>()
+			CreateMap<SkinTest, SkinTestModel>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Customer.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Customer.LastName))
+                .ForMember(dest => dest.SkinTypeName, opt => opt.MapFrom(src => src.SkinType.SkinTypeName)).ReverseMap();
+            CreateMap<SkinTest, CreateSkinTestModel>().ReverseMap();
+
+            CreateMap<SkinTestAnswer, SkinTestAnswerModel>()
+				//.ForMember(dest => dest.SkinTestId, opt => opt.MapFrom(src => src.SkinTest.Id))
+    //            .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.SkinQuestion.Id))
+				//.ForMember(dest => dest.AnswerId, opt => opt.MapFrom(src => src.SkinAnswer.Id))
+				.ReverseMap();
+
+            CreateMap<SkinCareRoutine, SkinCareRoutineModel>()
                 .ForMember(dest => dest.SkinTypeName, opt => opt.MapFrom(src => src.SkinType.SkinTypeName))
 				.ReverseMap();
 			CreateMap<SkinCareRoutine, CreateSkinCareRoutineModel>().ReverseMap();
