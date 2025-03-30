@@ -45,10 +45,10 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
             var existingSkinTests = await _unitOfWork.Repository<SkinTest>()
                 .ListAsync(st => st.CustomerId == customerId, null);
 
-            if (existingSkinTest.Any())
+            if (existingSkinTests.Any())
             {
                 bool hasUpdate = false;
-            foreach (var test in existingSkinTests)
+                foreach (var test in existingSkinTests)
                 {
                     if (test.SkinTestStatus != "Inactive")
                     {
@@ -63,26 +63,28 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
                     await _unitOfWork.Complete();
                 }
 
-            var skinAnswers = await _unitOfWork.Repository<SkinAnswer>()
-                .ListAsync(filter: a => answerIds.Contains(a.Id), orderBy: null, includeProperties: null);
+                var skinAnswers = await _unitOfWork.Repository<SkinAnswer>()
+                    .ListAsync(filter: a => answerIds.Contains(a.Id), orderBy: null, includeProperties: null);
 
-            var newSkinTest = new SkinTest
-            {
-                CustomerId = customerId,
-                SkinTypeId = skinTypeId,
-                CreateDate = DateTime.UtcNow,
-                SkinTestStatus = "Active",
-                SkinTestAnswer = skinAnswers.Select(a => new SkinTestAnswer
+                var newSkinTest = new SkinTest
                 {
-                    SkinAnswer = a,
-                    QuestionId = a.QuestionId
-                }).ToList()
-            };
+                    CustomerId = customerId,
+                    SkinTypeId = skinTypeId,
+                    CreateDate = DateTime.UtcNow,
+                    SkinTestStatus = "Active",
+                    SkinTestAnswer = skinAnswers.Select(a => new SkinTestAnswer
+                    {
+                        SkinAnswer = a,
+                        QuestionId = a.QuestionId
+                    }).ToList()
+                };
 
-            await _unitOfWork.Repository<SkinTest>().AddAsync(newSkinTest);
-            await _unitOfWork.Complete();
+                await _unitOfWork.Repository<SkinTest>().AddAsync(newSkinTest);
+                await _unitOfWork.Complete();
 
-            return newSkinTest;
-        }
+                return newSkinTest;
+            }
+            return null;
+		}
     }
 }
