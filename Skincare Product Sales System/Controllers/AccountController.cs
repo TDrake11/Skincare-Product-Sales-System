@@ -125,6 +125,13 @@ namespace Skincare_Product_Sales_System.Controllers
 			var role = await _userManager.GetRolesAsync(user);
 			var userProfile = _mapper.Map<UserProfileModel>(user);
 			userProfile.RoleName = role.FirstOrDefault();
+
+			// Thêm URL tuyệt đối cho avatar
+			if (!string.IsNullOrEmpty(user.Avatar))
+			{
+				var baseUrl = $"{Request.Scheme}://{Request.Host}";
+				userProfile.Avatar = $"{baseUrl}{user.Avatar}";
+			}
 			return Ok(userProfile);
 		}
 		[Authorize]
@@ -179,24 +186,46 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 		[Authorize]
 		[HttpPatch("UpdateAvatar")]
-		public async Task<IActionResult> UpdateAvatar(string avatar)
+		public async Task<IActionResult> UpdateAvatar(IFormFile attachmentFile)
 		{
 			try
 			{
-				if (!ModelState.IsValid)
+				if (attachmentFile == null || attachmentFile.Length == 0)
 				{
-					return BadRequest(ModelState);
+					return BadRequest("Invalid file.");
 				}
+
 				var user = await _userManager.GetUserAsync(User);
 				if (user == null)
 				{
 					return Unauthorized("User not authenticated");
 				}
-				user.Avatar = avatar;
+
+				// Tạo thư mục lưu avatar theo UserId
+				var userFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Avatars", user.Id.ToString());
+				if (!Directory.Exists(userFolder))
+				{
+					Directory.CreateDirectory(userFolder);
+				}
+
+				// Tạo đường dẫn file
+				var fileName = Path.GetFileName(attachmentFile.FileName);
+				var filePath = Path.Combine(userFolder, fileName);
+
+				// Lưu file vào thư mục
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await attachmentFile.CopyToAsync(stream);
+				}
+
+				// Lưu đường dẫn tương đối vào DB
+				var relativePath = $"/Uploads/Avatars/{user.Id}/{fileName}";
+				user.Avatar = relativePath;
+
 				var result = await _userManager.UpdateAsync(user);
 				if (result.Succeeded)
 				{
-					return Ok("Avatar updated successfully");
+					return Ok(new { message = "Avatar updated successfully", avatarUrl = relativePath });
 				}
 				else
 				{
@@ -223,7 +252,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return Unauthorized("User not authenticated");
 				}
-				user.Wallet = money;
+				user.Wallet += money;
 				var result = await _userManager.UpdateAsync(user);
 				if (result.Succeeded)
 				{

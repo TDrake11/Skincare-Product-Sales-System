@@ -9,6 +9,7 @@
 		public DateTime ExpiredDate { get; set; }
 		public double Price { get; set; }
 		public int Quantity { get; set; }
+		public IFormFile? AttachmentFile { get; set; }
 		public string? Image { get; set; }
 		public string? ProductStatus { get; set; }
 		public int? CategoryId { get; set; }
@@ -28,6 +29,7 @@
 		public DateTime ExpiredDate { get; set; }
 		public double Price { get; set; }
 		public int Quantity { get; set; }
+		public IFormFile? AttachmentFile { get; set; }
 		public string? Image { get; set; }
 		public string? ProductStatus { get; set; }
 		public int? CategoryId { get; set; }

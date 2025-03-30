@@ -19,5 +19,5 @@ namespace Skincare_Product_Sales_System.Models
         public string CustomerId { get; set; }
         public int SkinTypeId { get; set; }
         public List<int> AnswerIds { get; set; }
-    }
+	}
 }
