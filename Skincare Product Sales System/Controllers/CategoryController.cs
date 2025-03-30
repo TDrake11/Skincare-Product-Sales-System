@@ -21,46 +21,29 @@ namespace Skincare_Product_Sales_System.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("listCategory")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("getCategories")]
+        public async Task<IActionResult> GetAllCategories()
         {
             try
             {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            var categoryModels = _mapper.Map<IEnumerable<CategoryModel>>(categories);
-            return Ok(categoryModels);
-        }
+                var categories = await _categoryService.GetAllCategoriesAsync();
+                var categoryModels = _mapper.Map<IEnumerable<CategoryModel>>(categories);
+                return Ok(categoryModels);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet("getCategoryById/{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            try
-            {
-                var categorys = await _categoryService.GetCategoryByIdAsync(id);
-                if (categorys == null)
-                return NotFound();
-                return Ok(_mapper.Map<CategoryModel>(categorys));
-        }
-            catch (Exception ex) 
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost("createCategory")]
-        public async Task<IActionResult> Create(CreateCategoryRequest request)
+        public async Task<IActionResult> CreateCategory(CreateCategoryRequest request)
         {
             try
             {
                 var category = _mapper.Map<Category>(request);
-
                 await _categoryService.AddCategoryAsync(category);
-                return CreatedAtAction(nameof(GetById), new { id = category.Id }, _mapper.Map<CategoryModel>(category));
+                return Ok("Category created successfully");
             }
             catch (Exception ex)
             {
@@ -69,22 +52,23 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPut("updateCategory")]
-        #region OldUpdateMethod
-        // [HttpPut("updateCategory")]
-        // public async Task<IActionResult> Update(int id, CategoryModel categoryModel)
-        // {
-        //     if (id != categoryModel.Id)
-        //         return BadRequest();
-
-        //     var category = _mapper.Map<Category>(categoryModel);
-        //     await _categoryService.UpdateCategoryAsync(category);
-        //     return NoContent();
-        // }
-        #endregion
-        public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest updateCategory)
+        public async Task<IActionResult> UpdateCategory([FromBody] CategoryModel updateCategory)
         {
             try
             {
+                string? normalizedStatus = updateCategory.CategoryStatus.ToLower() switch
+                {
+                    "active" => "Active",
+                    "inactive" => "Inactive",
+                    _ => null
+                };
+
+                if (normalizedStatus == null)
+                {
+                    return BadRequest("The status is not valid.");
+                }
+
+                updateCategory.CategoryStatus = normalizedStatus;
                 var category = _mapper.Map<Category>(updateCategory);
                 await _categoryService.UpdateCategoryAsync(category);
                 return Ok("Category updated successfully");
@@ -96,24 +80,12 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpDelete("deleteCategory/{id}")]
-        #region OldDeleteMethod
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    await _categoryService.DeleteCategoryAsync(id);
-        //    return NoContent();
-        //}
-        #endregion
         public async Task<IActionResult> DeleteCategory(int id)
         {
             try
             {
-                var category = await _categoryService.GetCategoryByIdAsync(id);
-                if (category == null)
-        {
-                    return Ok("Category not found");
-                }
-            await _categoryService.DeleteCategoryAsync(id);
-                return Ok("Category deleted successfully.");
+                await _categoryService.DeleteCategoryAsync(id);
+                return Ok("Category deleted successfully");
             }
             catch (Exception ex)
             {

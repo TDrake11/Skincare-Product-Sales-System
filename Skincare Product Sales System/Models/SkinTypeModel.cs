@@ -11,10 +11,4 @@
     {
         public string SkinTypeName { get; set; }
     }
-
-    public class UpdateSkinTypeModel
-    {
-        public int Id { get; set; }
-        public string SkinTypeName { get; set; }
-    }
 }
