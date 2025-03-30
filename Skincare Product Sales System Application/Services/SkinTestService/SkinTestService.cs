@@ -22,7 +22,7 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
         public async Task<IEnumerable<SkinTest>> GetListSkinTests()
         {
             var skinTest = _unitOfWork.Repository<SkinTest>().GetAll()
-                    .Include(sta => sta.Customer)
+                .Include(sta => sta.Customer)
                 .Include(sta => sta.SkinType);
 
             return await skinTest.ToListAsync();
@@ -45,10 +45,10 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
             var existingSkinTests = await _unitOfWork.Repository<SkinTest>()
                 .ListAsync(st => st.CustomerId == customerId, null);
 
-            if (existingSkinTest.Any())
+            if (existingSkinTests.Any())
             {
                 bool hasUpdate = false;
-            foreach (var test in existingSkinTests)
+                foreach (var test in existingSkinTests)
                 {
                     if (test.SkinTestStatus != "Inactive")
                     {
@@ -62,6 +62,7 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
                 {
                     await _unitOfWork.Complete();
                 }
+            }
 
             var skinAnswers = await _unitOfWork.Repository<SkinAnswer>()
                 .ListAsync(filter: a => answerIds.Contains(a.Id), orderBy: null, includeProperties: null);
