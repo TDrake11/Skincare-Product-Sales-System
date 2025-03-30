@@ -9,7 +9,7 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinQuestionService
 {
     public interface ISkinQuestionService
     {
-        Task<IEnumerable<SkinQuestion>> GetAllSkinQuestionAsync();
+        Task<List<SkinQuestion>> GetAllSkinQuestionAsync();
         Task<SkinQuestion?> GetSkinQuestionByIdAsync(int id);
         Task AddSkinQuestionAsync(SkinQuestion skinQuestion);
         Task UpdateSkinQuestionAsync(SkinQuestion skinQuestion);
