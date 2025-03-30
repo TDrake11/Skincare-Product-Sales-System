@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
 using Skincare_Product_Sales_System_Application.Services.SkinTestAnswerService;
-using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [ApiController]
     public class SkinTestAnswerController : ControllerBase
     {
