@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using Skincare_Product_Sales_System.Helpers;
 using Skincare_Product_Sales_System_Application.Service.StepRoutineService;
 using Skincare_Product_Sales_System_Application.Services.CategoryService;
@@ -18,7 +14,6 @@ using Skincare_Product_Sales_System_Application.Services.SkinTestService;
 using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
 using Skincare_Product_Sales_System_Application.Services.StepRoutineServices;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
-using Skincare_Product_Sales_System_Domain.Entities;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using Skincare_Product_Sales_System_Infrastructure.Data;
 using Skincare_Product_Sales_System_Infrastructure.Extensions;

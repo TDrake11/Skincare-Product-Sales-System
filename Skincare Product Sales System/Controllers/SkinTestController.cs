@@ -59,7 +59,7 @@ namespace Skincare_Product_Sales_System.Controllers
         public async Task<IActionResult> CreateSkinTest([FromBody] CreateSkinTestModel request)
         {
             if (request == null || string.IsNullOrEmpty(request.CustomerId) || request.AnswerIds == null || !request.AnswerIds.Any())
-            {
+        {
                 return BadRequest("Invalid request data.");
             }
 
