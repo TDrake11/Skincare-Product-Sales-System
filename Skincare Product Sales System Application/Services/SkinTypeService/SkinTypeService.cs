@@ -24,26 +24,20 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTypeService
             return await _unitOfWork.Repository<SkinType>().ListAllAsync();
         }
 
-        public async Task<SkinType?> GetSkinTypeByIdAsync(int id)
+        public async Task AddSkinTypeAsync(SkinType skinType)
         {
-            return await _unitOfWork.Repository<SkinType>().GetByIdAsync(id);
-        }
-
-        public async Task AddSkinType(SkinType skinType)
-        {
-            await _unitOfWork.Repository<SkinType>().AddAsync(skinType);
             skinType.SkinTypeStatus = SkinTypeStatus.Active.ToString();
+            await _unitOfWork.Repository<SkinType>().AddAsync(skinType);
             await _unitOfWork.Complete();
         }
 
-        public async Task UpdateSkinType(SkinType skinType)
+        public async Task UpdateSkinTypeAsync(SkinType skinType)
         {
             _unitOfWork.Repository<SkinType>().Update(skinType);
-            skinType.SkinTypeStatus = SkinTypeStatus.Active.ToString();
             await _unitOfWork.Complete();
         }
 
-        public async Task DeleteSkinType(int id)
+        public async Task DeleteSkinTypeAsync(int id)
         {
             var skinType = await _unitOfWork.Repository<SkinType>().GetByIdAsync(id);
             if (skinType != null)
@@ -51,6 +45,10 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTypeService
                 skinType.SkinTypeStatus = SkinTypeStatus.Inactive.ToString();
                 _unitOfWork.Repository<SkinType>().Update(skinType);
                 await _unitOfWork.Complete();
+            }
+            else
+            {
+                throw new Exception("SkinType not found");
             }
         }
     }

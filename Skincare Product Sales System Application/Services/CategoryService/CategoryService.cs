@@ -23,14 +23,9 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
             return await _unitOfWork.Repository<Category>().ListAllAsync();
         }
 
-        public async Task<Category?> GetCategoryByIdAsync(int id)
+        public async Task AddCategoryAsync(Category category)
         {
-            return await _unitOfWork.Repository<Category>().GetByIdAsync(id);
-        }
-
-        public async Task AddCategoryAsync(Category category) 
-        {
-            category.CategoryStatus = CategoryStatus.Active.ToString(); // Gán trước khi thêm vào DB
+            category.CategoryStatus = CategoryStatus.Active.ToString();
             await _unitOfWork.Repository<Category>().AddAsync(category);
             await _unitOfWork.Complete();
         }
@@ -38,7 +33,6 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
         public async Task UpdateCategoryAsync(Category category)
         {
             _unitOfWork.Repository<Category>().Update(category);
-            category.CategoryStatus = CategoryStatus.Active.ToString();
             await _unitOfWork.Complete();
         }
 
@@ -50,7 +44,11 @@ namespace Skincare_Product_Sales_System_Application.Services.CategoryService
                 category.CategoryStatus = CategoryStatus.Inactive.ToString();
                 _unitOfWork.Repository<Category>().Update(category);
             await _unitOfWork.Complete();
+            }
+            else
+            {
+                throw new Exception("Category not found");
+            }
         }
     }
-}
 }
