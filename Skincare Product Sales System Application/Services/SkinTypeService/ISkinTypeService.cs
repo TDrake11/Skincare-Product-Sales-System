@@ -10,9 +10,8 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTypeService
     public interface ISkinTypeService
     {
         Task<IEnumerable<SkinType>> GetListSkinTypesAsync();
-        Task<SkinType> GetSkinTypeByIdAsync(int id);
-        Task AddSkinType(SkinType skinType);
-        Task UpdateSkinType(SkinType skinType);
-        Task DeleteSkinType(int id);
+        Task AddSkinTypeAsync(SkinType skinType);
+        Task UpdateSkinTypeAsync(SkinType skinType);
+        Task DeleteSkinTypeAsync(int id);
     }
 }

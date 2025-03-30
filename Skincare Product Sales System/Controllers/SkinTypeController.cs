@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -37,34 +38,14 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpGet("getSkinTypeById/{id}")]
-        public async Task<IActionResult> GetSkinTypeById(int id)
-        {
-            try
-            {
-                var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
-                if (skinType == null)
-                {
-                    return Ok("Skin type not found");
-                }
-                var skinTypeModel = _mapper.Map<SkinTypeModel>(skinType);
-                return Ok(skinTypeModel);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost("createSkinType")]
         public async Task<IActionResult> Create(CreateSkinTypeModel skinTypeModel)
         {
             try
             {
-                var SkinType = _mapper.Map<SkinType>(skinTypeModel);
-
-                await _skinTypeService.AddSkinType(SkinType);
-                return CreatedAtAction(nameof(GetSkinTypeById), new { id = SkinType.Id }, _mapper.Map<SkinTypeModel>(SkinType));
+                var skinType = _mapper.Map<SkinType>(skinTypeModel);
+                await _skinTypeService.AddSkinTypeAsync(skinType);
+                return Ok("SkinType created successfully");
             }
             catch (Exception ex)
             {
@@ -73,12 +54,25 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPut("updateSkinType")]
-        public async Task<IActionResult> Update([FromBody] UpdateSkinTypeModel skinTypeModel)
+        public async Task<IActionResult> Update([FromBody] SkinTypeModel skinTypeModel)
         {
             try
             {
+                string? normalizedStatus = skinTypeModel.SkinTypeStatus.ToLower() switch
+                {
+                    "active" => "Active",
+                    "inactive" => "Inactive",
+                    _ => null
+                };
+
+                if (normalizedStatus == null)
+                {
+                    return BadRequest("The status is not valid.");
+                }
+
+                skinTypeModel.SkinTypeStatus = normalizedStatus;
                 var skinType = _mapper.Map<SkinType>(skinTypeModel);
-                await _skinTypeService.UpdateSkinType(skinType);
+                await _skinTypeService.UpdateSkinTypeAsync(skinType);
                 return Ok("SkinType updated successfully");
             }
             catch (Exception ex)
@@ -92,13 +86,8 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinType = await _skinTypeService.GetSkinTypeByIdAsync(id);
-                if (skinType == null)
-                {
-                    return Ok("SkinType not found");
-                }
-                await _skinTypeService.DeleteSkinType(id);
-                return Ok("SkinType deleted successfully.");
+                await _skinTypeService.DeleteSkinTypeAsync(id);
+                return Ok("SkinType deleted successfully");
             }
             catch (Exception ex)
             {
