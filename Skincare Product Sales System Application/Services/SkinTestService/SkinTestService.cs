@@ -21,32 +21,34 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
 
         public async Task<IEnumerable<SkinTest>> GetListSkinTests()
         {
-            return await _unitOfWork.Repository<SkinTest>().ListAsync(
-                includeProperties: query => query
+            var skinTest = _unitOfWork.Repository<SkinTest>().GetAll()
                     .Include(sta => sta.Customer)
-                    .Include(sta => sta.SkinType)
-            );
-        }
-        public async Task<SkinTest> GetSkinTestById(int id)
-        {
-            var skinTest = await _unitOfWork.Repository<SkinTest>()
-                .GetAll()
-                .Include(st => st.Customer)
-                .Include(st => st.SkinType)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(st => st.Id == id);
-            return skinTest;
+                .Include(sta => sta.SkinType);
+
+            return await skinTest.ToListAsync();
         }
 
-        public async Task AddSkinTest(SkinTest skinTest)
+
+        public async Task<List<SkinTest>> GetListSkinTestsByCustomerId(string customerId)
         {
-            var existingSkinTest = await _unitOfWork.Repository<SkinTest>()
-                .ListAsync(st => st.CustomerId == skinTest.CustomerId, null);
+            var skinTest = _unitOfWork.Repository<SkinTest>().GetAll()
+                .Include(c => c.SkinType)
+                .Include(c => c.Customer)
+                .Where(c => c.CustomerId == customerId);
+
+            return await skinTest.ToListAsync();
+        }
+
+
+        public async Task<SkinTest> CreateSkinTestAsync(string customerId, int skinTypeId, List<int> answerIds)
+        {
+            var existingSkinTests = await _unitOfWork.Repository<SkinTest>()
+                .ListAsync(st => st.CustomerId == customerId, null);
 
             if (existingSkinTest.Any())
             {
                 bool hasUpdate = false;
-                foreach (var test in existingSkinTest)
+            foreach (var test in existingSkinTests)
                 {
                     if (test.SkinTestStatus != "Inactive")
                     {
@@ -55,15 +57,32 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
                         hasUpdate = true;
                     }
                 }
+
                 if (hasUpdate)
                 {
                     await _unitOfWork.Complete();
                 }
-            }
-            skinTest.SkinTestStatus = "Active";
-            skinTest.CreateDate = DateTime.Now;
-            await _unitOfWork.Repository<SkinTest>().AddAsync(skinTest);
+
+            var skinAnswers = await _unitOfWork.Repository<SkinAnswer>()
+                .ListAsync(filter: a => answerIds.Contains(a.Id), orderBy: null, includeProperties: null);
+
+            var newSkinTest = new SkinTest
+            {
+                CustomerId = customerId,
+                SkinTypeId = skinTypeId,
+                CreateDate = DateTime.UtcNow,
+                SkinTestStatus = "Active",
+                SkinTestAnswer = skinAnswers.Select(a => new SkinTestAnswer
+                {
+                    SkinAnswer = a,
+                    QuestionId = a.QuestionId
+                }).ToList()
+            };
+
+            await _unitOfWork.Repository<SkinTest>().AddAsync(newSkinTest);
             await _unitOfWork.Complete();
+
+            return newSkinTest;
         }
     }
 }
