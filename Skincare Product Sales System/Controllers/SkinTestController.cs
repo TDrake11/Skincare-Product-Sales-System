@@ -36,17 +36,17 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpGet("getSkinTestById/{id}")]
-        public async Task<IActionResult> GetSkinTestById(int id)
+        [HttpGet("getSkinTestsByCustomerId/{customerId}")]
+        public async Task<IActionResult> GetListSkinTestsByCustomerId(string customerId)
         {
             try
             {
-                var skinTest = await _skinTestService.GetSkinTestById(id);
-                if (skinTest == null)
+                var skinTest = await _skinTestService.GetListSkinTestsByCustomerId(customerId);
+                if (skinTest == null || !skinTest.Any())
                 {
-                    return Ok("Skin test not found");
+                    return Ok("No SkinTest found for this Customer.");
                 }
-                var skinTestModel = _mapper.Map<SkinTestModel>(skinTest);
+                var skinTestModel = _mapper.Map<IEnumerable<SkinTestModel>>(skinTest);
                 return Ok(skinTestModel);
             }
             catch (Exception ex)
@@ -56,19 +56,26 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPost("createSkinTest")]
-        public async Task<IActionResult> CreateSKinTest(CreateSkinTestModel skinTModel)
+        public async Task<IActionResult> CreateSkinTest([FromBody] CreateSkinTestModel request)
         {
+            if (request == null || string.IsNullOrEmpty(request.CustomerId) || request.AnswerIds == null || !request.AnswerIds.Any())
+            {
+                return BadRequest("Invalid request data.");
+            }
+
             try
             {
-                var skinT = _mapper.Map<SkinTest>(skinTModel);
+                var newSkinTest = await _skinTestService.CreateSkinTestAsync(request.CustomerId, request.SkinTypeId, request.AnswerIds);
 
-                await _skinTestService.AddSkinTest(skinT);
-                return CreatedAtAction(nameof(GetSkinTestById), new { id = skinT.Id }, _mapper.Map<SkinTestModel>(skinT));
+                var result = _mapper.Map<SkinTestModel>(newSkinTest);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
     }
 }

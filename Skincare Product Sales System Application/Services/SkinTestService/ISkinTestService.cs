@@ -10,7 +10,7 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
     public interface ISkinTestService
     {
         Task<IEnumerable<SkinTest>> GetListSkinTests();
-        Task<SkinTest> GetSkinTestById(int id);
-        Task AddSkinTest(SkinTest skinTest);
+        Task<List<SkinTest>> GetListSkinTestsByCustomerId(string customerId);
+        Task<SkinTest> CreateSkinTestAsync(string customerId, int skinTypeId, List<int> answerIds);
     }
 }
