@@ -25,7 +25,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var sta = await _skinTestAnswer.GetListSkinTestAnswers();
+                var sta = await _skinTestAnswer.GetListSkinTestAnswersAsync();
                 var listSTA = _mapper.Map<List<SkinTestAnswerModel>>(sta);
                 return Ok(listSTA);
             }
@@ -40,7 +40,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var sta = await _skinTestAnswer.GetListSkinTestAnswersBySkinTestId(skinTestId);
+                var sta = await _skinTestAnswer.GetListSkinTestAnswersBySkinTestIdAsync(skinTestId);
                 if (sta == null || !sta.Any())
                 {
                     return Ok("No SkinTestAnswer found for this Customer.");

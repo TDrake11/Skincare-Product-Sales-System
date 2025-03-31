@@ -56,7 +56,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                string? normalizedStatus = updateCategory.CategoryStatus.ToLower() switch
+                string? normalizedStatus = updateCategory.CategoryStatus?.ToLower() switch
                 {
                     "active" => "Active",
                     "inactive" => "Inactive",

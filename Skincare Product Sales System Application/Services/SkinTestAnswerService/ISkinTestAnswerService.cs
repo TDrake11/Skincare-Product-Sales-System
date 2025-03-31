@@ -9,7 +9,7 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestAnswerServi
 {
     public interface ISkinTestAnswerService
     {
-        Task<IEnumerable<SkinTestAnswer>> GetListSkinTestAnswers();
-        Task<List<SkinTestAnswer>> GetListSkinTestAnswersBySkinTestId(int skinTestId);
+        Task<IEnumerable<SkinTestAnswer>> GetListSkinTestAnswersAsync();
+        Task<List<SkinTestAnswer>> GetListSkinTestAnswersBySkinTestIdAsync(int skinTestId);
     }
 }

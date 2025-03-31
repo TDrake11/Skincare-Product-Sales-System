@@ -114,7 +114,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                string? normalizedStatus = skinAModel.SkinAnswerStatus.ToLower() switch
+                string? normalizedStatus = skinAModel.SkinAnswerStatus?.ToLower() switch
                 {
                     "active" => "Active",
                     "inactive" => "Inactive",
