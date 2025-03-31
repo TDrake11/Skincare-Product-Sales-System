@@ -25,6 +25,7 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             var listStepRoutine = await _unitOfWork.Repository<StepRoutine>()
                 .GetAll()
                 .Include(sr => sr.Routine)
+                .Include(sr => sr.Product)
                 .ToListAsync();
             return listStepRoutine;
         }
@@ -34,6 +35,7 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             var stepRoutine = await _unitOfWork.Repository<StepRoutine>()
                 .GetAll()
                 .Include(sr => sr.Routine)
+                .Include(sr => sr.Product)
                 .FirstOrDefaultAsync(sr => sr.Id == id);
             return stepRoutine;
 
@@ -42,6 +44,7 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
         {
             var stepRoutines = _unitOfWork.Repository<StepRoutine>().GetAll()
                 .Include(sr => sr.Routine)
+                .Include(sr => sr.Product)
                 .Where(c => c.RoutineId == routineId)
                 .OrderBy(c => c.StepNumber);
 

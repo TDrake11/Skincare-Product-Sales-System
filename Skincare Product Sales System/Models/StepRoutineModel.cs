@@ -9,6 +9,7 @@
         public int RoutineId { get; set; }
         public string? RoutineName { get; set; }
         public int ProductId { get; set; }
+        public string? ProductName { get; set; }
     }
 
     public class CreateStepRoutineModel
