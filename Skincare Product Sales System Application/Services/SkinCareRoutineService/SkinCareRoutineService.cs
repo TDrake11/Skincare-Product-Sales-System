@@ -39,11 +39,11 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinCareRoutineServ
 
         public async Task<List<SkinCareRoutine>> GetSkinCareRoutineBySkinTypeIdAsync(int skinTypeId)
         {
-            var listSkinRoutine = _unitOfWork.Repository<SkinCareRoutine>().GetAll()
+            var skinTest = _unitOfWork.Repository<SkinCareRoutine>().GetAll()
                 .Include(sr => sr.SkinType)
                 .Where(c => c.SkinTypeId == skinTypeId);
 
-            return await listSkinRoutine.ToListAsync();
+            return await skinTest.ToListAsync();
         }
 
         public async Task AddSkinCareRoutineAsync(SkinCareRoutine skinCareRoutine)
@@ -55,10 +55,23 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinCareRoutineServ
 
         public async Task UpdateSkinCareRoutineAsync(SkinCareRoutine skinCareRoutine)
         {
-            skinCareRoutine.Status = SkinCareRoutineStatus.Active.ToString();
-            _unitOfWork.Repository<SkinCareRoutine>().Update(skinCareRoutine);
+            var existingSkinCareRoutine = await _unitOfWork.Repository<SkinCareRoutine>().GetByIdAsync(skinCareRoutine.Id);
+
+            if (existingSkinCareRoutine == null)
+            {
+                throw new Exception("SkinCareRoutine not found");
+            }
+
+            skinCareRoutine.TotalSteps = existingSkinCareRoutine.TotalSteps;
+            existingSkinCareRoutine.RoutineName = skinCareRoutine.RoutineName;
+            existingSkinCareRoutine.Description = skinCareRoutine.Description;
+            existingSkinCareRoutine.SkinTypeId = skinCareRoutine.SkinTypeId;
+            existingSkinCareRoutine.Status = skinCareRoutine.Status;
+
+            _unitOfWork.Repository<SkinCareRoutine>().Update(existingSkinCareRoutine);
             await _unitOfWork.Complete();
         }
+
 
         public async Task DeleteSkinCareRoutineAsync(int id)
         {
