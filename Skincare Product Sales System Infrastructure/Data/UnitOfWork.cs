@@ -49,8 +49,25 @@ namespace Skincare_Product_Sales_System_Infrastructure.Data
 
 		public async Task<int> Complete()
 		{
-			
-			return await _context.SaveChangesAsync();
+			try
+			{
+				return await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateException ex)
+			{
+				// Kiểm tra lỗi nội bộ từ database
+				var innerMessage = ex.InnerException?.Message ?? "No inner exception";
+				Console.WriteLine($"DbUpdateException: {ex.Message}");
+				Console.WriteLine($"Inner Exception: {innerMessage}");
+
+				// Nếu cần, có thể log lỗi vào file hoặc hệ thống giám sát
+				throw; // Ném lại lỗi để debug dễ hơn
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Unexpected Error: {ex.Message}");
+				throw;
+			}
 		}
 
 		public void Dispose()
