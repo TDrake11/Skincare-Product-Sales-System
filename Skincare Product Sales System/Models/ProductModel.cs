@@ -1,4 +1,6 @@
-﻿namespace Skincare_Product_Sales_System.Models
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Skincare_Product_Sales_System.Models
 {
 	public class ProductModel
 	{
@@ -23,8 +25,8 @@
     public class ProductUpdateModel
     {
 		public int Id { get; set; }
-		public string ProductName { get; set; }
-		public string Description { get; set; }
+		public string? ProductName { get; set; }
+		public string? Description { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public DateTime ExpiredDate { get; set; }
 		public double Price { get; set; }

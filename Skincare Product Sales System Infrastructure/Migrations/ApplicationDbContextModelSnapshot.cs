@@ -286,7 +286,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -315,7 +315,7 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SkinTypeId")
+                    b.Property<int>("SkinTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("StaffId")
@@ -724,11 +724,15 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                 {
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.SkinType", "SkinType")
                         .WithMany("Products")
-                        .HasForeignKey("SkinTypeId");
+                        .HasForeignKey("SkinTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Skincare_Product_Sales_System_Domain.Entities.User", "Staff")
                         .WithMany("Products")

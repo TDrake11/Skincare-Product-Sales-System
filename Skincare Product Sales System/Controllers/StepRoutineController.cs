@@ -27,7 +27,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var stepRoutines = await _stepRoutineService.GetAllStepRoutine();
+                var stepRoutines = await _stepRoutineService.GetAllStepRoutineAsync();
                 var stepRoutineModel = _mapper.Map<IEnumerable<StepRoutineModel>>(stepRoutines);
                 return Ok(stepRoutineModel);
             }
@@ -42,7 +42,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var stepRoutine = await _stepRoutineService.GetStepRoutineById(id);
+                var stepRoutine = await _stepRoutineService.GetStepRoutineByIdAsync(id);
                 if (stepRoutine == null)
                 {
                     return Ok("No StepRoutine found.");
@@ -61,7 +61,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var stepRoutine = await _stepRoutineService.GetStepRoutinesByRoutineId(routineId);
+                var stepRoutine = await _stepRoutineService.GetStepRoutinesByRoutineIdAsync(routineId);
                 if (stepRoutine == null || !stepRoutine.Any())
                 {
                     return Ok("No StepRoutine found for this SkinCareRoutine.");
@@ -81,9 +81,8 @@ namespace Skincare_Product_Sales_System.Controllers
             try
             {
                 var stepRoutine = _mapper.Map<StepRoutine>(stepRoutineModel);
-
-                await _stepRoutineService.AddStepRoutine(stepRoutine);
-                return CreatedAtAction(nameof(GetStepRoutineById), new { id = stepRoutine.Id }, _mapper.Map<StepRoutineModel>(stepRoutine));
+                await _stepRoutineService.AddStepRoutineAsync(stepRoutine);
+                return Ok("StepRoutine created successfully");
             }
             catch (Exception ex)
             {
@@ -110,7 +109,7 @@ namespace Skincare_Product_Sales_System.Controllers
 
                 stepRoutineModel.Status = normalizedStatus;
                 var stepRoutine = _mapper.Map<StepRoutine>(stepRoutineModel);
-                await _stepRoutineService.UpdateStepRoutine(stepRoutine);
+                await _stepRoutineService.UpdateStepRoutineAsync(stepRoutine);
                 return Ok("StepRoutine updated successfully");
             }
             catch (Exception ex)
@@ -124,12 +123,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var stepRoutine = await _stepRoutineService.GetStepRoutineById(id);
-                if (stepRoutine == null)
-                {
-                    return Ok("StepRoutine not found");
-                }
-                await _stepRoutineService.DeleteStepRoutine(id);
+                await _stepRoutineService.DeleteStepRoutineAsync(id);
                 return Ok("StepRoutine deleted successfully.");
             }
             catch (Exception ex)

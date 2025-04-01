@@ -48,8 +48,8 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinCareRoutineServ
 
         public async Task AddSkinCareRoutineAsync(SkinCareRoutine skinCareRoutine)
         {
-            await _unitOfWork.Repository<SkinCareRoutine>().AddAsync(skinCareRoutine);
             skinCareRoutine.Status = SkinCareRoutineStatus.Active.ToString();
+            await _unitOfWork.Repository<SkinCareRoutine>().AddAsync(skinCareRoutine);
             await _unitOfWork.Complete();
         }
 

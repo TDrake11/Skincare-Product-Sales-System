@@ -26,7 +26,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinTest = await _skinTestService.GetListSkinTests();
+                var skinTest = await _skinTestService.GetListSkinTestsAsync();
                 var skinTModel = _mapper.Map<IEnumerable<SkinTestModel>>(skinTest);
                 return Ok(skinTModel);
             }
@@ -41,7 +41,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinTest = await _skinTestService.GetListSkinTestsByCustomerId(customerId);
+                var skinTest = await _skinTestService.GetListSkinTestsByCustomerIdAsync(customerId);
                 if (skinTest == null || !skinTest.Any())
                 {
                     return Ok("No SkinTest found for this Customer.");
@@ -67,9 +67,7 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var newSkinTest = await _skinTestService.CreateSkinTestAsync(request.CustomerId, request.SkinTypeId, request.AnswerIds);
 
-                var result = _mapper.Map<SkinTestModel>(newSkinTest);
-
-                return Ok(result);
+                return Ok("SkinTest created successfully");
             }
             catch (Exception ex)
             {

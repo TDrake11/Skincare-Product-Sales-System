@@ -27,7 +27,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinAs = await _skinAnswerService.GetAllSkinAnswer();
+                var skinAs = await _skinAnswerService.GetAllSkinAnswerAsync();
                 var skinAModel = _mapper.Map<IEnumerable<SkinAnswerModel>>(skinAs);
                 return Ok(skinAModel);
             }
@@ -39,7 +39,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinA = await _skinAnswerService.GetSkinAnswerById(id);
+                var skinA = await _skinAnswerService.GetSkinAnswerByIdAsync(id);
                 if (skinA == null)
                 {
                     return Ok("No skin answer found.");
@@ -58,7 +58,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinTypeId(skinTypeId);
+                var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinTypeIdAsync(skinTypeId);
                 if (skinAnswers == null || !skinAnswers.Any())
                 {
                     return Ok("No SkinAnswers found for this SkinType.");
@@ -78,7 +78,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinQuestionId(skinQuestionId);
+                var skinAnswers = await _skinAnswerService.GetSkinAnswersBySkinQuestionIdAsync(skinQuestionId);
 
                 if (skinAnswers == null || !skinAnswers.Any())
                 {
@@ -99,12 +99,14 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinA = _mapper.Map<SkinAnswer>(skinAModel);
-
-                await _skinAnswerService.AddSkinAnswer(skinA);
-                return CreatedAtAction(nameof(GetSkinAnswerById), new { id = skinA.Id }, _mapper.Map<SkinAnswerModel>(skinA));
+                var skinAnswer = _mapper.Map<SkinAnswer>(skinAModel);
+                await _skinAnswerService.AddSkinAnswerAsync(skinAnswer);
+                return Ok("SkinAnswer created successfully");
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("updateSkinAnswer")]
@@ -112,7 +114,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                string? normalizedStatus = skinAModel.SkinAnswerStatus.ToLower() switch
+                string? normalizedStatus = skinAModel.SkinAnswerStatus?.ToLower() switch
                 {
                     "active" => "Active",
                     "inactive" => "Inactive",
@@ -126,10 +128,13 @@ namespace Skincare_Product_Sales_System.Controllers
 
                 skinAModel.SkinAnswerStatus = normalizedStatus;
                 var skinA = _mapper.Map<SkinAnswer>(skinAModel);
-                await _skinAnswerService.UpdateSkinAnswer(skinA);
+                await _skinAnswerService.UpdateSkinAnswerAsync(skinA);
                 return Ok("SkinAnswer updated successfully.");
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            { 
+                return BadRequest(ex.Message); 
+            }
         }
 
         [HttpDelete("deleteSkinAnswer/{id}")]
@@ -137,12 +142,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinA = await _skinAnswerService.GetSkinAnswerById(id);
-                if (skinA == null)
-                {
-                    return Ok("SkinAnswer not found");
-                }
-                await _skinAnswerService.DeleteSkinAnswer(id);
+                await _skinAnswerService.DeleteSkinAnswerAsync(id);
                 return Ok("SkinAnswer deleted successfully.");
             }
             catch (Exception ex)
