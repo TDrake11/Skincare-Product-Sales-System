@@ -9,7 +9,7 @@ using Skincare_Product_Sales_System_Domain.Enums;
 namespace Skincare_Product_Sales_System.Controllers
 {
 	//[Authorize(Roles ="Admin,Staff")]
-	[Route("api/product")]
+	[Route("api/Product")]
 	[ApiController]
 	public class ProductController : ControllerBase
 	{
@@ -107,7 +107,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				}
 
 				await _productService.CreateProduct(product);
-				return Ok(new { message = "Product created successfully", imageUrl = product.Image });
+				return Ok(new { message = "Product created successfully", product });
 			}
 			catch (Exception ex)
 			{
@@ -152,7 +152,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				}
 
 				await _productService.UpdateProduct(product);
-				return Ok(new { message = "Product updated successfully", imageUrl = product.Image });
+				return Ok(new { message = "Product updated successfully", product });
 			}
 			catch (Exception ex)
 			{
