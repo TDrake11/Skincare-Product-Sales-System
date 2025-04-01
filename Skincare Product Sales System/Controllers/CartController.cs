@@ -196,9 +196,31 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 			cart.TotalPrice -= totalPrice;
 			user.Wallet -= totalPrice;
+			user.Point += (int)(totalPrice * 0.01);
 			await _userManager.UpdateAsync(user);
 			await _orderService.UpdateOrderAsync(cart);
 			return Ok();
 		}
+
+		[HttpPut("CanceledOrder")]
+		public async Task<IActionResult> CanceledOrder(int orderId, double totalPrice, string status)
+		{
+			var order = await _orderService.GetOrderByIdAsync(orderId);
+			var user = await _userManager.GetUserAsync(User);
+			if (order == null)
+			{
+				return BadRequest("Order not found");
+			}
+			if (order.OrderStatus != OrderStatus.Pending.ToString())
+			{
+				return BadRequest("Order can not be canceled");
+			}
+			order.OrderStatus = OrderStatus.Canceled.ToString();
+			user.Wallet += totalPrice;
+			user.Point -= (int)(totalPrice*0.01);
+			await _orderService.UpdateOrderAsync(order);
+			return Ok();
+		}
+
 	}
 }

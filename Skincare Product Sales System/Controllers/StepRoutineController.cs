@@ -95,6 +95,19 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
+                string? normalizedStatus = stepRoutineModel.Status?.ToLower() switch
+                {
+                    "active" => "Active",
+                    "inactive" => "Inactive",
+                    _ => null
+                };
+
+                if (normalizedStatus == null)
+                {
+                    return BadRequest("The status is not valid.");
+                }
+
+                stepRoutineModel.Status = normalizedStatus;
                 var stepRoutine = _mapper.Map<StepRoutine>(stepRoutineModel);
                 await _stepRoutineService.UpdateStepRoutineAsync(stepRoutine);
                 return Ok("StepRoutine updated successfully");
