@@ -7,7 +7,7 @@ using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [ApiController]
     public class SkinTestAnswerController : ControllerBase
     {
