@@ -126,8 +126,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return NotFound("Product not found");
 				}
-
-				_mapper.Map(productModel, product);
+				product = _mapper.Map<Product>(productModel);
 
 				// Xử lý cập nhật ảnh nếu có ảnh mới
 				if (productModel.AttachmentFile != null && productModel.AttachmentFile.Length > 0)
