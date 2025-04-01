@@ -13,6 +13,6 @@ namespace Skincare_Product_Sales_System_Domain.Enums
 		Confirmed, // Order has been confirmed by the system
 		Processing, //  Order is being prepared/packed.
 		Completed, // Order has been successfully received.
-		Cancelled // Order was canceled or failed
+		Canceled // Order was canceled or failed
 	}
 }
