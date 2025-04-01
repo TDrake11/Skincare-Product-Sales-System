@@ -112,7 +112,27 @@ namespace Skincare_Product_Sales_System.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+		[Authorize(Roles = "Admin,Staff")]
+		[HttpGet("GetAllUsers")]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			var users = await _userManager.Users.ToListAsync();
+			var userProfiles = _mapper.Map<List<UserProfileModel>>(users);
+			var baseUrl = $"{Request.Scheme}://{Request.Host}";
+			foreach (var userProfile in userProfiles)
+			{
+				var user = users.FirstOrDefault(u => u.Id == userProfile.Id);
+				if (user != null)
+				{
+					var roles = await _userManager.GetRolesAsync(user);
+					userProfile.RoleName = roles.FirstOrDefault(); // Lấy role đầu tiên nếu có nhiều role
+					userProfile.Avatar = $"{baseUrl}{user.Avatar}";
+				}
 
+			}
+
+			return Ok(userProfiles);
+		}
 		[Authorize]
 		[HttpGet("GetUserProfile")]
 		public async Task<IActionResult> GetUserProfile()
@@ -269,25 +289,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-		[Authorize(Roles = "Admin,Staff")]
-		[HttpGet("GetAllUsers")]
-		public async Task<IActionResult> GetAllUsers()
-		{
-			var users = await _userManager.Users.ToListAsync();
-			var userProfiles = _mapper.Map<List<UserProfileModel>>(users);
-
-			foreach (var userProfile in userProfiles)
-			{
-				var user = users.FirstOrDefault(u => u.Id == userProfile.Id);
-				if (user != null)
-				{
-					var roles = await _userManager.GetRolesAsync(user);
-					userProfile.RoleName = roles.FirstOrDefault(); // Lấy role đầu tiên nếu có nhiều role
-				}
-			}
-
-			return Ok(userProfiles);
-		}
+		
 		[Authorize(Roles = "Admin,Staff")]
 		[HttpPost("CreateStaffAccount")]
 		public async Task<IActionResult> CreateStaffAccount([FromBody] RegisterModel registerModel)
@@ -332,16 +334,23 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		[HttpPut("BanUser")]
-		public async Task<IActionResult> BanUser(string userId)
+		[HttpPut("UpdateUserStatus")]
+		public async Task<IActionResult> BanUser(string userId, string status)
 		{
 			var user = await _userManager.FindByIdAsync(userId);
 			if (user == null)
 			{
 				return BadRequest("User not found");
 			}
-			user.Status = UserStatus.Ban.ToString();
-			user.EmailConfirmed = false;
+			user.Status = status;
+			if (status.Equals("Ban"))
+			{
+				user.EmailConfirmed = false;
+			}
+			else if (status.Equals("Active"))
+			{
+				user.EmailConfirmed = true;
+			}
 			var result = await _userManager.UpdateAsync(user);
 			if (result.Succeeded)
 			{
@@ -353,26 +362,26 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-		[Authorize(Roles = "Admin")]
-		[HttpPut("ActiveUser")]
-		public async Task<IActionResult> ActiveUser(string userId)
-		{
-			var user = await _userManager.FindByIdAsync(userId);
-			if (user == null)
-			{
-				return BadRequest("User not found");
-			}
-			user.Status = UserStatus.Active.ToString();
-			user.EmailConfirmed = true;
-			var result = await _userManager.UpdateAsync(user);
-			if (result.Succeeded)
-			{
-				return Ok("User activated successfully");
-			}
-			else
-			{
-				return BadRequest(result.Errors);
-			}
-		}
+		//[Authorize(Roles = "Admin")]
+		//[HttpPut("ActiveUser")]
+		//public async Task<IActionResult> ActiveUser(string userId)
+		//{
+		//	var user = await _userManager.FindByIdAsync(userId);
+		//	if (user == null)
+		//	{
+		//		return BadRequest("User not found");
+		//	}
+		//	user.Status = UserStatus.Active.ToString();
+		//	user.EmailConfirmed = true;
+		//	var result = await _userManager.UpdateAsync(user);
+		//	if (result.Succeeded)
+		//	{
+		//		return Ok("User activated successfully");
+		//	}
+		//	else
+		//	{
+		//		return BadRequest(result.Errors);
+		//	}
+		//}
 	}
 }

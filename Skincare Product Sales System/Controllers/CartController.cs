@@ -195,6 +195,7 @@ namespace Skincare_Product_Sales_System.Controllers
 		public async Task<IActionResult> CanceledOrder(int orderId, double totalPrice, string status)
 		{
 			var order = await _orderService.GetOrderByIdAsync(orderId);
+			var listOrderDetail = await _orderDetailService.GetOrderDetailByOrderIdAsync(orderId);
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null)
 			{
@@ -207,6 +208,11 @@ namespace Skincare_Product_Sales_System.Controllers
 			if (order.OrderStatus != OrderStatus.Pending.ToString())
 			{
 				return BadRequest("Order can not be canceled");
+			}
+			foreach (var orderDetail in listOrderDetail) 
+			{
+				var product = _productService.GetProductById(orderDetail.ProductId);
+				product.Quantity += orderDetail.Quantity;
 			}
 			order.OrderStatus = OrderStatus.Canceled.ToString();
 			user.Wallet += totalPrice;
