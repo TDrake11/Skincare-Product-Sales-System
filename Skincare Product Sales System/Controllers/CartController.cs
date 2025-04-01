@@ -141,25 +141,6 @@ namespace Skincare_Product_Sales_System.Controllers
 			return Ok();
 		}
 
-		//[HttpPut("Checkout")]
-		//public async Task<IActionResult> Checkout()
-		//{
-		//	var user = await _userManager.GetUserAsync(User);
-		//	var order = _orderService.GetCartByUserAsync(user);
-		//	var orderDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
-		//	if (orderDetails == null)
-		//	{
-		//		return BadRequest("Cart is empty");
-		//	}
-		//	if(order.TotalPrice > user.Wallet)
-		//	{
-		//		return BadRequest("Not enough money in wallet");
-		//	}
-		//	user.Wallet -= order.TotalPrice;
-		//	order.OrderStatus = OrderStatus.Pending.ToString();
-		//	await _orderService.UpdateOrderAsync(order);
-		//	return Ok();
-		//}
 
 		[HttpPut("Checkout")]
 		public async Task<IActionResult> Checkout(List<int> orderDetailsId, double totalPrice)
@@ -207,6 +188,10 @@ namespace Skincare_Product_Sales_System.Controllers
 		{
 			var order = await _orderService.GetOrderByIdAsync(orderId);
 			var user = await _userManager.GetUserAsync(User);
+			if (user == null)
+			{
+				return Unauthorized("User not authenticated");
+			}
 			if (order == null)
 			{
 				return BadRequest("Order not found");
