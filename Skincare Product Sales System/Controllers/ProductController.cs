@@ -76,7 +76,7 @@ namespace Skincare_Product_Sales_System.Controllers
 
 
 		[HttpPost("createProduct")]
-		public async Task<IActionResult> CreateProduct([FromBody] ProductModel productModel)
+		public async Task<IActionResult> CreateProduct([FromForm] ProductModel productModel)
 		{
 			try
 			{
