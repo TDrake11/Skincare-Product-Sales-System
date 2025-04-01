@@ -9,7 +9,7 @@ using Skincare_Product_Sales_System_Domain.Enums;
 namespace Skincare_Product_Sales_System.Controllers
 {
 	//[Authorize(Roles ="Admin,Staff")]
-	[Route("api/Product")]
+	[Route("api/product")]
 	[ApiController]
 	public class ProductController : ControllerBase
 	{
