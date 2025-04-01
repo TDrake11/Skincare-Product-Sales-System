@@ -131,6 +131,8 @@ namespace Skincare_Product_Sales_System.Controllers
 				// Xử lý cập nhật ảnh nếu có ảnh mới
 				if (productModel.AttachmentFile != null && productModel.AttachmentFile.Length > 0)
 				{
+					// Cập nhật dữ liệu từ productModel vào product đã có
+					_mapper.Map(productModel, product);
 					var productFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Products", product.Id.ToString());
 
 					if (!Directory.Exists(productFolder))
@@ -152,9 +154,9 @@ namespace Skincare_Product_Sales_System.Controllers
 				else
 				{
 					productModel.Image = product.Image;
+					// Cập nhật dữ liệu từ productModel vào product đã có
+					_mapper.Map(productModel, product);
 				}
-				// Cập nhật dữ liệu từ productModel vào product đã có
-				_mapper.Map(productModel, product);
 				await _productService.UpdateProduct(product);
 				return Ok(new { message = "Product updated successfully", product });
 			}
