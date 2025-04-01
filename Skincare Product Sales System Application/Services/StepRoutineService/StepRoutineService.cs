@@ -88,12 +88,12 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
                 throw new Exception("StepRoutine not found");
             }
 
-            if (existingStepRoutine.Status == StepRoutineStatus.Inactive.ToString())
-            {
-                throw new Exception("This StepRoutine does not exist!!!!!!");
-            }
+            //if (existingStepRoutine.Status == StepRoutineStatus.Inactive.ToString())
+            //{
+            //    throw new Exception("This StepRoutine does not exist!!!!!!");
+            //}
 
-            if (existingStepRoutine.Status == StepRoutineStatus.Active.ToString())
+            if (existingStepRoutine.Status == StepRoutineStatus.Active.ToString() || existingStepRoutine.Status == StepRoutineStatus.Inactive.ToString())
             {
                 var existingStep = await _unitOfWork.Repository<StepRoutine>()
                     .ListAsync(
