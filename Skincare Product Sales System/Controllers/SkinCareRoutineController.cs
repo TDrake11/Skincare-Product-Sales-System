@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -96,6 +97,19 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
+                string? normalizedStatus = skinRTModel.Status.ToLower() switch
+                {
+                    "active" => "Active",
+                    "inactive" => "Inactive",
+                    _ => null
+                };
+
+                if (normalizedStatus == null)
+                {
+                    return BadRequest("The status is not valid.");
+                }
+
+                skinRTModel.Status = normalizedStatus;
                 var skinRT = _mapper.Map<SkinCareRoutine>(skinRTModel);
                 await _skinCareRoutineService.UpdateSkinCareRoutineAsync(skinRT);
                 return Ok("SkinCareRoutine updated successfully.");
