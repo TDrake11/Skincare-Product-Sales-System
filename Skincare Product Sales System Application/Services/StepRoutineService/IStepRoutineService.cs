@@ -9,11 +9,11 @@ namespace Skincare_Product_Sales_System_Application.Services.StepRoutineServices
 {
     public interface IStepRoutineService
     {
-        Task<List<StepRoutine>> GetAllStepRoutine();
-        Task<StepRoutine> GetStepRoutineById(int id);
-        Task<List<StepRoutine>> GetStepRoutinesByRoutineId(int routineId);
-        Task AddStepRoutine(StepRoutine stepRoutine);
-        Task UpdateStepRoutine(StepRoutine stepRoutine);
-        Task DeleteStepRoutine(int id);
+        Task<List<StepRoutine>> GetAllStepRoutineAsync();
+        Task<StepRoutine?> GetStepRoutineByIdAsync(int id);
+        Task<List<StepRoutine>> GetStepRoutinesByRoutineIdAsync(int routineId);
+        Task AddStepRoutineAsync(StepRoutine stepRoutine);
+        Task UpdateStepRoutineAsync(StepRoutine stepRoutine);
+        Task DeleteStepRoutineAsync(int id);
     }
 }

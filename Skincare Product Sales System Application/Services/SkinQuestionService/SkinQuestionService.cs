@@ -18,20 +18,22 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinQuestionService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<SkinQuestion>> GetAllSkinQuestionAsync()
+        public async Task<List<SkinQuestion>> GetAllSkinQuestionAsync()
         {
-            return await _unitOfWork.Repository<SkinQuestion>().ListAllAsync();
+            var listSkinQuestion = (await _unitOfWork.Repository<SkinQuestion>().ListAllAsync()).ToList();
+            return listSkinQuestion;
         }
 
         public async Task<SkinQuestion?> GetSkinQuestionByIdAsync(int id)
         {
-            return await _unitOfWork.Repository<SkinQuestion>().GetByIdAsync(id);
+            var skinQuestion = await _unitOfWork.Repository<SkinQuestion>().GetByIdAsync(id);
+            return skinQuestion;
         }
 
         public async Task AddSkinQuestionAsync(SkinQuestion skinQuestion)
         {
+            skinQuestion.SkinQuestionStatus = SkinQuestionStatus.Active.ToString();
             await _unitOfWork.Repository<SkinQuestion>().AddAsync(skinQuestion);
-            skinQuestion.SkinQuestionStatus = SkinQuestionStatus.Active.ToString(); // Gán trạng thái sau khi thêm mới
             await _unitOfWork.Complete();
         }
 
@@ -49,6 +51,10 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinQuestionService
                 skinQuestion.SkinQuestionStatus = SkinQuestionStatus.Inactive.ToString();
                 _unitOfWork.Repository<SkinQuestion>().Update(skinQuestion);
                 await _unitOfWork.Complete();
+            }
+            else
+            {
+                throw new Exception("SkinQuestion not found");
             }
         }
     }

@@ -20,44 +20,44 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Comment>> GetAllComments()
+        public async Task<List<Comment>> GetAllCommentsAsync()
         {
             var comments = await _unitOfWork.Repository<Comment>()
                 .GetAll()
                 .Include(c => c.Product)
                 .Include(c => c.Customer)
-                .AsNoTracking()
                 .ToListAsync();
             return comments;
         }
 
-        public async Task<Comment?> GetCommentById(int id)
+        public async Task<Comment?> GetCommentByIdAsync(int id)
         {
             var comments = await _unitOfWork.Repository<Comment>()
                 .GetAll()
                 .Include(c => c.Product)
                 .Include(c => c.Customer)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
             return comments;
         }
 
-        public async Task<List<Comment>> GetCommentByProductId(int productId)
+        public async Task<List<Comment>> GetCommentByProductIdAsync(int productId)
         {
-            var comments = await _unitOfWork.Repository<Comment>()
-                .ListAsync(c => c.ProductId == productId,
-                           includeProperties: q => q.Include(c => c.Product)
-                                                    .Include(c => c.Customer));
-            return comments.ToList();
+            var comments = _unitOfWork.Repository<Comment>().GetAll()
+                .Include(c => c.Product)
+                .Include(c => c.Customer)
+                .Where(c => c.ProductId == productId);
+
+            return await comments.ToListAsync();
         }
 
-        public async Task<List<Comment>> GetCommentsByCustomerId(string customerId)
+        public async Task<List<Comment>> GetCommentsByCustomerIdAsync(string customerId)
         {
-            var comments = await _unitOfWork.Repository<Comment>()
-                .ListAsync(c => c.CustomerId == customerId,
-                           includeProperties: q => q.Include(c => c.Product)
-                                                    .Include(c => c.Customer));
-            return comments.ToList();
+            var comments = _unitOfWork.Repository<Comment>().GetAll()
+                .Include(c => c.Product)
+                .Include(c => c.Customer)
+                .Where(c => c.CustomerId == customerId);
+
+            return await comments.ToListAsync();
         }
 
         public async Task AddCommentAsync(Comment comment)
@@ -82,6 +82,10 @@ namespace Skincare_Product_Sales_System_Application.Services.CommentService
                 comment.CommentStatus = CommentStatus.Inactive.ToString();
                 _unitOfWork.Repository<Comment>().Update(comment);
                 await _unitOfWork.Complete();
+            }
+            else
+            {
+                throw new Exception("Comment not found");
             }
         }
     }

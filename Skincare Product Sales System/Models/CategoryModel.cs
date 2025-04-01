@@ -8,7 +8,6 @@
         public string CategoryStatus { get; set; }
     }
 
-    // Hàm không chứa CategoryStatus
     public class CreateCategoryRequest
     {
         public string CategoryName { get; set; }

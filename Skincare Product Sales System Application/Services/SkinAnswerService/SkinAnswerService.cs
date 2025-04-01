@@ -19,60 +19,60 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinAnswerService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<SkinAnswer>> GetAllSkinAnswer()
+        public async Task<List<SkinAnswer>> GetAllSkinAnswerAsync()
         {
             var listSkinAnswer = await _unitOfWork.Repository<SkinAnswer>()
                 .GetAll()
                 .Include(sa => sa.SkinType)
                 .Include(sa => sa.SkinQuestion)
-                .AsNoTracking() //Chỉ đọc
                 .ToListAsync();
             return listSkinAnswer;
         }
 
-        public async Task<SkinAnswer> GetSkinAnswerById(int id)
+        public async Task<SkinAnswer?> GetSkinAnswerByIdAsync(int id)
         {
             var skinAnswer = await _unitOfWork.Repository<SkinAnswer>()
                 .GetAll()
                 .Include(sa => sa.SkinType)
                 .Include(sa => sa.SkinQuestion)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(sa => sa.Id == id);
             return skinAnswer;
                 
         }
-        public async Task<List<SkinAnswer>> GetSkinAnswersBySkinTypeId(int skinTypeId)
+        public async Task<List<SkinAnswer>> GetSkinAnswersBySkinTypeIdAsync(int skinTypeId)
         {
-            var listSkinAnswer = await _unitOfWork.Repository<SkinAnswer>()
-                .ListAsync(sa => sa.SkinTypeId == skinTypeId,
-                           includeProperties: q => q.Include(sa => sa.SkinType)
-                                                    .Include(sa => sa.SkinQuestion));
-            return listSkinAnswer.ToList();
+            var skinAnswer = _unitOfWork.Repository<SkinAnswer>().GetAll()
+                .Include(sa => sa.SkinType)
+                .Include(sa => sa.SkinQuestion)
+                .Where(c => c.SkinTypeId == skinTypeId);
+
+            return await skinAnswer.ToListAsync();
         }
 
-        public async Task<List<SkinAnswer>> GetSkinAnswersBySkinQuestionId(int skinQuestionId)
+        public async Task<List<SkinAnswer>> GetSkinAnswersBySkinQuestionIdAsync(int skinQuestionId)
         {
-            var listSkinAnswer = await _unitOfWork.Repository<SkinAnswer>()
-                .ListAsync(sa => sa.QuestionId == skinQuestionId,
-                           includeProperties: q => q.Include(sa => sa.SkinType)
-                                                    .Include(sa => sa.SkinQuestion));
-            return listSkinAnswer.ToList();
+            var skinAnswer = _unitOfWork.Repository<SkinAnswer>().GetAll()
+                .Include(sa => sa.SkinType)
+                .Include(sa => sa.SkinQuestion)
+                .Where(c => c.QuestionId == skinQuestionId);
+
+            return await skinAnswer.ToListAsync();
         }
 
-        public async Task AddSkinAnswer(SkinAnswer skinAnswer)
+        public async Task AddSkinAnswerAsync(SkinAnswer skinAnswer)
         {
             skinAnswer.SkinAnswerStatus = SkinAnswerStatus.Active.ToString();
             await _unitOfWork.Repository<SkinAnswer>().AddAsync(skinAnswer);
             await _unitOfWork.Complete();
         }
 
-        public async Task UpdateSkinAnswer(SkinAnswer skinAnswer)
+        public async Task UpdateSkinAnswerAsync(SkinAnswer skinAnswer)
         {
             _unitOfWork.Repository<SkinAnswer>().Update(skinAnswer);
             await _unitOfWork.Complete();
         }
 
-        public async Task DeleteSkinAnswer(int id)
+        public async Task DeleteSkinAnswerAsync(int id)
         {
             var skinAnswer = await _unitOfWork.Repository<SkinAnswer>().GetByIdAsync(id);
             if (skinAnswer != null)
@@ -80,6 +80,10 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinAnswerService
                 skinAnswer.SkinAnswerStatus = SkinAnswerStatus.Inactive.ToString();
                 _unitOfWork.Repository<SkinAnswer>().Update(skinAnswer);
                 await _unitOfWork.Complete();
+            }
+            else
+            {
+                throw new Exception("Comment not found");
             }
         }
     }

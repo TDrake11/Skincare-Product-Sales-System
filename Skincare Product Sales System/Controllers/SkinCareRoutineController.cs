@@ -27,7 +27,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinRTs = await _skinCareRoutineService.GetAllSkinCareRoutines(); 
+                var skinRTs = await _skinCareRoutineService.GetAllSkinCareRoutinesAsync(); 
                 var skinRTModel = _mapper.Map<IEnumerable<SkinCareRoutineModel>>(skinRTs);
                 return Ok(skinRTModel);
             }
@@ -37,12 +37,12 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpGet("getSkinCareRoutinById/{id}")]
+        [HttpGet("getSkinCareRoutineById/{id}")]
         public async Task<IActionResult> GetSkinCareRoutineById(int id)
         {
             try
             {
-                var skinRT = await _skinCareRoutineService.GetSkinCareRoutineById(id);
+                var skinRT = await _skinCareRoutineService.GetSkinCareRoutineByIdAsync(id);
 
                 if (skinRT == null)
                 {
@@ -57,12 +57,12 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpGet("getSkinCareRoutinsBySkinTypeId/{skinTypeId}")]
+        [HttpGet("getSkinCareRoutinesBySkinTypeId/{skinTypeId}")]
         public async Task<IActionResult> GetSkinCareRoutineBySkinTypeId(int skinTypeId)
         {
             try
             {
-                var skinRTs = await _skinCareRoutineService.GetSkinCareRoutineBySkinTypeId(skinTypeId);
+                var skinRTs = await _skinCareRoutineService.GetSkinCareRoutineBySkinTypeIdAsync(skinTypeId);
                 if (skinRTs == null || !skinRTs.Any())
                 {
                     return Ok("No SkinCareRoutine found for this SkinType.");
@@ -76,15 +76,14 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpPost("createSkinCareRoutin")]
-        public async Task<IActionResult> Create(CreateSkinCareRoutineModel skinRTModel)
+        [HttpPost("createSkinCareRoutine")]
+        public async Task<IActionResult> CreateSkinCareRoutine(CreateSkinCareRoutineModel skinRTModel)
         {
             try
             {
                 var skinRT = _mapper.Map<SkinCareRoutine>(skinRTModel);
-
                 await _skinCareRoutineService.AddSkinCareRoutineAsync(skinRT);
-                return CreatedAtAction(nameof(GetSkinCareRoutineById), new { id = skinRT.Id }, _mapper.Map<SkinCareRoutineModel>(skinRT));
+                return Ok("SkinCareRoutine created successfully");
             }
             catch (Exception ex)
             {
@@ -92,8 +91,8 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpPut("updateSkinCareRoutin")]
-        public async Task<IActionResult> Update([FromBody] UpdateSkinCareRoutineModel skinRTModel)
+        [HttpPut("updateSkinCareRoutine")]
+        public async Task<IActionResult> UpdateSkinCareRoutine([FromBody] UpdateSkinCareRoutineModel skinRTModel)
         {
             try
             {
@@ -107,16 +106,11 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpDelete("deleteSkinCareRoutin/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("deleteSkinCareRoutine/{id}")]
+        public async Task<IActionResult> DeleteSkinCareRoutine(int id)
         {
             try
             {
-                var skinRT = await _skinCareRoutineService.GetSkinCareRoutineById(id);
-                if (skinRT == null)
-                {
-                    return Ok("SkinCareRoutine not found");
-                }
                 await _skinCareRoutineService.DeleteSkinCareRoutineAsync(id);
                 return Ok("SkinCareRoutine deleted successfully.");
             }

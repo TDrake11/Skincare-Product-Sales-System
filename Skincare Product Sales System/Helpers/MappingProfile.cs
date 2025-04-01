@@ -67,7 +67,8 @@ namespace Skincare_Product_Sales_System.Helpers
 
             CreateMap<StepRoutine, StepRoutineModel>()
                 .ForMember(dest => dest.RoutineName, opt => opt.MapFrom(src => src.Routine.RoutineName))
-				.ReverseMap();
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
+                .ReverseMap();
 			CreateMap<StepRoutine, CreateStepRoutineModel>() .ReverseMap();
 			CreateMap<StepRoutine, UpdateStepRoutineModel>() .ReverseMap();
 

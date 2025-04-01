@@ -20,37 +20,46 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<StepRoutine>> GetAllStepRoutine()
+        public async Task<List<StepRoutine>> GetAllStepRoutineAsync()
         {
             var listStepRoutine = await _unitOfWork.Repository<StepRoutine>()
                 .GetAll()
                 .Include(sr => sr.Routine)
-                .AsNoTracking() //Chỉ đọc
+                .Include(sr => sr.Product)
                 .ToListAsync();
             return listStepRoutine;
         }
 
-        public async Task<StepRoutine> GetStepRoutineById(int id)
+        public async Task<StepRoutine?> GetStepRoutineByIdAsync(int id)
         {
             var stepRoutine = await _unitOfWork.Repository<StepRoutine>()
                 .GetAll()
                 .Include(sr => sr.Routine)
-                .AsNoTracking() //Chỉ đọc
+                .Include(sr => sr.Product)
                 .FirstOrDefaultAsync(sr => sr.Id == id);
             return stepRoutine;
 
         }
-        public async Task<List<StepRoutine>> GetStepRoutinesByRoutineId(int routineId)
+        public async Task<List<StepRoutine>> GetStepRoutinesByRoutineIdAsync(int routineId)
         {
-            var listStepRoutine = await _unitOfWork.Repository<StepRoutine>()
-                .ListAsync(sr => sr.RoutineId == routineId, includeProperties: q => q.Include(sr => sr.Routine));
-            return listStepRoutine.ToList();
+            var stepRoutines = _unitOfWork.Repository<StepRoutine>().GetAll()
+                .Include(sr => sr.Routine)
+                .Include(sr => sr.Product)
+                .Where(c => c.RoutineId == routineId)
+                .OrderBy(c => c.StepNumber);
+
+            return await stepRoutines.ToListAsync();
         }
 
-        public async Task AddStepRoutine(StepRoutine stepRoutine)
+        public async Task AddStepRoutineAsync(StepRoutine stepRoutine)
         {
+            if (stepRoutine.RoutineId == null)
+            {
+                throw new InvalidOperationException("RoutineId cannot be null");
+            }
+
             //Dùng GenericRepository để kiểm tra StepNumber trùng với trạng thái Active
-               var existingActiveStep = await _unitOfWork.Repository<StepRoutine>()
+            var existingActiveStep = await _unitOfWork.Repository<StepRoutine>()
                .ListAsync(
                    filter: s => s.RoutineId == stepRoutine.RoutineId
                                 && s.StepNumber == stepRoutine.StepNumber
@@ -68,7 +77,7 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             stepRoutine.Status = StepRoutineStatus.Active.ToString();
             await _unitOfWork.Repository<StepRoutine>().AddAsync(stepRoutine);
             await _unitOfWork.Complete();
-
+            
             // Kêu TotalSteps trong SkinCareRoutine (cộng thêm 1 thay vì truy vấn toàn bộ)
             var routine = await _unitOfWork.Repository<SkinCareRoutine>().GetByIdAsync((int)stepRoutine.RoutineId);
             if (routine != null)
@@ -79,7 +88,7 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             }
         }
 
-        public async Task UpdateStepRoutine(StepRoutine stepRoutine)
+        public async Task UpdateStepRoutineAsync(StepRoutine stepRoutine)
         {
             var existingStepRoutine = await _unitOfWork.Repository<StepRoutine>().GetByIdAsync(stepRoutine.Id);
 
@@ -120,7 +129,7 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             await _unitOfWork.Complete();
         }
 
-        public async Task DeleteStepRoutine(int id)
+        public async Task DeleteStepRoutineAsync(int id)
         {
             var stepRoutine = await _unitOfWork.Repository<StepRoutine>().GetByIdAsync(id);
             if (stepRoutine != null)
@@ -129,11 +138,20 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
                 _unitOfWork.Repository<StepRoutine>().Update(stepRoutine);
                 await _unitOfWork.Complete();
             }
+            else
+            {
+                throw new Exception("StepRoutine not found");
+            }
+
+            if (stepRoutine.RoutineId == null)
+            {
+                throw new InvalidOperationException("RoutineId cannot be null");
+            }
 
             var routine = await _unitOfWork.Repository<SkinCareRoutine>().GetByIdAsync((int)stepRoutine.RoutineId);
             if (routine != null)
             {
-                routine.TotalSteps -= 1;  // trừ trực tiếp
+                routine.TotalSteps -= 1;
                 _unitOfWork.Repository<SkinCareRoutine>().Update(routine);
                 await _unitOfWork.Complete();
             }
