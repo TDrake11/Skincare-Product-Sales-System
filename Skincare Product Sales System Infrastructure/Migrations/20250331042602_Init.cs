@@ -213,9 +213,9 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SkinTypeId = table.Column<int>(type: "int", nullable: true)
+                    SkinTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,12 +224,14 @@ namespace Skincare_Product_Sales_System_Infrastructure.Migrations
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Products_SkinTypes_SkinTypeId",
                         column: x => x.SkinTypeId,
                         principalTable: "SkinTypes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Products_Users_StaffId",
                         column: x => x.StaffId,

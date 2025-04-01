@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -26,7 +27,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comments = await _commentService.GetAllComments();
+                var comments = await _commentService.GetAllCommentsAsync();
                 var commentModel = _mapper.Map<IEnumerable<CommentModel>>(comments);
                 return Ok(commentModel);
             }
@@ -41,7 +42,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comment = await _commentService.GetCommentById(id);
+                var comment = await _commentService.GetCommentByIdAsync(id);
                 if (comment == null)
                 {
                     return Ok("No comment found.");
@@ -59,7 +60,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comments = await _commentService.GetCommentByProductId(productId);
+                var comments = await _commentService.GetCommentByProductIdAsync(productId);
                 if (comments == null || !comments.Any())
                 {
                     return Ok("No comments found for this product.");
@@ -78,7 +79,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var comments = await _commentService.GetCommentsByCustomerId(customerId);
+                var comments = await _commentService.GetCommentsByCustomerIdAsync(customerId);
                 if (comments == null || !comments.Any())
                 {
                     return Ok("No comments found for this Customer.");
@@ -93,15 +94,14 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPost("createComment")]
-        public async Task<IActionResult> Create(CreateCommentModel commentModel)
+        public async Task<IActionResult> CreateComment(CreateCommentModel commentModel)
         {
             try
             {
-            var comment = _mapper.Map<Comment>(commentModel);
-
-            await _commentService.AddCommentAsync(comment);
-            return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, _mapper.Map<CommentModel>(comment));
-        }
+                var comment = _mapper.Map<Comment>(commentModel);
+                await _commentService.AddCommentAsync(comment);
+                return Ok("Category created successfully");
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -109,12 +109,12 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpPut("updateComment")]
-        public async Task<IActionResult> Update([FromBody] UpdateCommentModel commentModel)
+        public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentModel commentModel)
         {
             try
             {
-            var comment = _mapper.Map<Comment>(commentModel);
-            await _commentService.UpdateCommentAsync(comment);
+                var comment = _mapper.Map<Comment>(commentModel);
+                await _commentService.UpdateCommentAsync(comment);
                 return Ok("Comment updated successfully.");
             }
             catch (Exception ex)
@@ -124,16 +124,11 @@ namespace Skincare_Product_Sales_System.Controllers
         }
 
         [HttpDelete("deleteComment/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteComment(int id)
         {
             try
             {
-                var comment = await _commentService.GetCommentById(id);
-                if (comment == null)
-                {
-                    return Ok("Comment not found");
-                }
-            await _commentService.DeleteCommentAsync(id);
+                await _commentService.DeleteCommentAsync(id);
                 return Ok("Comment deleted successfully.");
             }
             catch (Exception ex)
