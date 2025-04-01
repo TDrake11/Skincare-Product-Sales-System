@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
 using Skincare_Product_Sales_System_Application.Services.OrderService;
@@ -14,11 +15,13 @@ namespace Skincare_Product_Sales_System.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public OrderController(IOrderService orderService, IMapper mapper)
+        public OrderController(IOrderService orderService, IMapper mapper, UserManager<User> userManager)
         {
             _orderService = orderService;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpGet("ListOrders")]
@@ -28,6 +31,14 @@ namespace Skincare_Product_Sales_System.Controllers
             {
                 var orders = await _orderService.GetAllOrderAsync();
                 var orderModel = _mapper.Map<IEnumerable<OrderModel>>(orders);
+                foreach (var order in orderModel)
+                {
+                    var user = await _userManager.FindByIdAsync(order.CustomerId);
+                    var staff = await _userManager.FindByIdAsync(order.StaffId);
+
+                    order.CustomerName = user.FirstName + " " + user.LastName;
+                    order.StaffName = staff.FirstName + " " + staff.LastName;
+                }
                 return Ok(orderModel);
             }
             catch (Exception ex)
