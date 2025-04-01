@@ -58,7 +58,7 @@ namespace Skincare_Product_Sales_System_Application.Services.OrderService
             var order = await _unitOfWork.Repository<Order>().GetByIdAsync(id);
             if (order != null)
             {
-                order.OrderStatus = OrderStatus.Cancelled.ToString();
+                order.OrderStatus = OrderStatus.Canceled.ToString();
                 _unitOfWork.Repository<Order>().Update(order);
             await _unitOfWork.Complete();
             }
