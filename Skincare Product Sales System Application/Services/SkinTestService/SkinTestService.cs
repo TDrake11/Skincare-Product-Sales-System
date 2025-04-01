@@ -19,17 +19,17 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<SkinTest>> GetListSkinTests()
+        public async Task<List<SkinTest>> GetListSkinTestsAsync()
         {
             var skinTest = _unitOfWork.Repository<SkinTest>().GetAll()
-                    .Include(sta => sta.Customer)
+                .Include(sta => sta.Customer)
                 .Include(sta => sta.SkinType);
 
             return await skinTest.ToListAsync();
         }
 
 
-        public async Task<List<SkinTest>> GetListSkinTestsByCustomerId(string customerId)
+        public async Task<List<SkinTest>> GetListSkinTestsByCustomerIdAsync(string customerId)
         {
             var skinTest = _unitOfWork.Repository<SkinTest>().GetAll()
                 .Include(c => c.SkinType)
@@ -62,29 +62,28 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
                 {
                     await _unitOfWork.Complete();
                 }
-
-                var skinAnswers = await _unitOfWork.Repository<SkinAnswer>()
-                    .ListAsync(filter: a => answerIds.Contains(a.Id), orderBy: null, includeProperties: null);
-
-                var newSkinTest = new SkinTest
-                {
-                    CustomerId = customerId,
-                    SkinTypeId = skinTypeId,
-                    CreateDate = DateTime.UtcNow,
-                    SkinTestStatus = "Active",
-                    SkinTestAnswer = skinAnswers.Select(a => new SkinTestAnswer
-                    {
-                        SkinAnswer = a,
-                        QuestionId = a.QuestionId
-                    }).ToList()
-                };
-
-                await _unitOfWork.Repository<SkinTest>().AddAsync(newSkinTest);
-                await _unitOfWork.Complete();
-
-                return newSkinTest;
             }
-            return null;
-		}
+
+            var skinAnswers = await _unitOfWork.Repository<SkinAnswer>()
+                .ListAsync(filter: a => answerIds.Contains(a.Id), orderBy: null, includeProperties: null);
+
+            var newSkinTest = new SkinTest
+            {
+                CustomerId = customerId,
+                SkinTypeId = skinTypeId,
+                CreateDate = DateTime.UtcNow,
+                SkinTestStatus = "Active",
+                SkinTestAnswer = skinAnswers.Select(a => new SkinTestAnswer
+                {
+                    SkinAnswer = a,
+                    QuestionId = a.QuestionId
+                }).ToList()
+            };
+
+            await _unitOfWork.Repository<SkinTest>().AddAsync(newSkinTest);
+            await _unitOfWork.Complete();
+
+            return newSkinTest;
+        }
     }
 }

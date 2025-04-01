@@ -60,12 +60,33 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var order = _mapper.Map<Order>(orderModel);
-                await _orderService.UpdateOrderAsync(order);
+                var existingOrder = await _orderService.GetOrderByIdAsync(orderModel.Id);
+                if (existingOrder == null)
+                {
+                    return NotFound("Order not found.");
+                }
+
+                if (orderModel.OrderStatus != null)
+                {
+                    existingOrder.OrderStatus = orderModel.OrderStatus;
+                }
+
+                if (orderModel.StaffId != null)
+                {
+                    existingOrder.StaffId = orderModel.StaffId;
+                }
+
+                await _orderService.UpdateOrderAsync(existingOrder);
                 return Ok("Order updated successfully.");
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+
+
 
         [HttpDelete("deleteOrder/{id}")]
         public async Task<IActionResult> Delete(int id)

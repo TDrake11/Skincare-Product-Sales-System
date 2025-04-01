@@ -56,9 +56,8 @@ namespace Skincare_Product_Sales_System.Controllers
             try
             {
                 var skinQ = _mapper.Map<SkinQuestion>(skinQModel);
-
                 await _skinQuestionService.AddSkinQuestionAsync(skinQ);
-                return CreatedAtAction(nameof(GetSkinQuestionById), new { id = skinQ.Id }, _mapper.Map<SkinQuestionModel>(skinQ));
+                return Ok("Category created successfully");
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
@@ -68,7 +67,7 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                string? normalizedStatus = skinQModel.SkinQuestionStatus.ToLower() switch
+                string? normalizedStatus = skinQModel.SkinQuestionStatus?.ToLower() switch
                 {
                     "active" => "Active",
                     "inactive" => "Inactive",
@@ -97,11 +96,6 @@ namespace Skincare_Product_Sales_System.Controllers
         {
             try
             {
-                var skinQ = await _skinQuestionService.GetSkinQuestionByIdAsync(id);
-                if (skinQ == null)
-                {
-                    return Ok("SkinQuestion not found");
-                }
                 await _skinQuestionService.DeleteSkinQuestionAsync(id);
                 return Ok("SkinQuestion deleted successfully.");
             }

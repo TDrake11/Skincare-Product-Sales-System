@@ -19,7 +19,7 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestAnswerServi
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<SkinTestAnswer>> GetListSkinTestAnswers()
+        public async Task<IEnumerable<SkinTestAnswer>> GetListSkinTestAnswersAsync()
         {
             var skinTAs = _unitOfWork.Repository<SkinTestAnswer>().GetAll()
                 .Include(sta => sta.SkinTest)
@@ -29,7 +29,7 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestAnswerServi
             return await skinTAs.ToListAsync();
         }
 
-        public async Task<List<SkinTestAnswer>> GetListSkinTestAnswersBySkinTestId(int skinTestId)
+        public async Task<List<SkinTestAnswer>> GetListSkinTestAnswersBySkinTestIdAsync(int skinTestId)
         {
             var skinTest = _unitOfWork.Repository<SkinTestAnswer>().GetAll()
                 .Include(sta => sta.SkinTest)
