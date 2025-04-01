@@ -10,7 +10,9 @@ namespace Skincare_Product_Sales_System.Models
         public double TotalPrice { get; set; }
         public string? OrderStatus { get; set; }
         public string? CustomerId { get; set; }
+        public string? CustomerName { get; set; }
         public string? StaffId { get; set; }
+        public string? StaffName { get;set; }
     }
 
     public class CartModel
