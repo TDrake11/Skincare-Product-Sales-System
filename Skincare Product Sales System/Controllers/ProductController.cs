@@ -126,7 +126,7 @@ namespace Skincare_Product_Sales_System.Controllers
 				{
 					return NotFound("Product not found");
 				}
-				product = _mapper.Map<Product>(productModel);
+
 
 				// Xử lý cập nhật ảnh nếu có ảnh mới
 				if (productModel.AttachmentFile != null && productModel.AttachmentFile.Length > 0)
@@ -149,7 +149,12 @@ namespace Skincare_Product_Sales_System.Controllers
 					// Cập nhật đường dẫn ảnh mới
 					product.Image = $"/Uploads/Products/{product.Id}/{fileName}";
 				}
-
+				else
+				{
+					productModel.Image = product.Image;
+				}
+				// Cập nhật dữ liệu từ productModel vào product đã có
+				_mapper.Map(productModel, product);
 				await _productService.UpdateProduct(product);
 				return Ok(new { message = "Product updated successfully", product });
 			}
