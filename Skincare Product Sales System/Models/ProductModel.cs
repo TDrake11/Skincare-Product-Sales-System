@@ -36,6 +36,6 @@ namespace Skincare_Product_Sales_System.Models
 		public string? ProductStatus { get; set; }
 		public int? CategoryId { get; set; }
 		public int? SkinTypeId { get; set; }
-		public int? StaffId { get; set; }
+		public string? StaffId { get; set; }
 	}
 }
