@@ -57,6 +57,14 @@ namespace Skincare_Product_Sales_System.Controllers
 			var cartModel = _mapper.Map<CartModel>(order);
 			var cartDetails = await _orderDetailService.GetOrderDetailByOrderIdAsync(order.Id);
 			var cartDetailModels = _mapper.Map<List<CartDetailModel>>(cartDetails);
+			var baseUrl = $"{Request.Scheme}://{Request.Host}";
+			foreach (var orderDetail in cartDetailModels)
+			{
+				if (!string.IsNullOrEmpty(orderDetail.Image))
+				{
+					orderDetail.Image = $"{baseUrl}{orderDetail.Image}";
+				}
+			}
 			cartModel.ListOrderDetail = cartDetailModels;
 			return Ok(cartModel);
 		}
