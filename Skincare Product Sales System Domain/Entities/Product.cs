@@ -10,8 +10,8 @@ namespace Skincare_Product_Sales_System_Domain.Entities
 {
 	public class Product : BaseEntity
 	{
-		public string ProductName { get; set; }
-		public string Description { get; set; }
+		public string? ProductName { get; set; }
+		public string? Description { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public DateTime ExpiredDate { get; set; }
 		public double Price { get; set; }

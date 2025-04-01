@@ -269,7 +269,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin,Staff")]
 		[HttpGet("GetAllUsers")]
 		public async Task<IActionResult> GetAllUsers()
 		{
@@ -288,7 +288,7 @@ namespace Skincare_Product_Sales_System.Controllers
 
 			return Ok(userProfiles);
 		}
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin,Staff")]
 		[HttpPost("CreateStaffAccount")]
 		public async Task<IActionResult> CreateStaffAccount([FromBody] RegisterModel registerModel)
 		{
