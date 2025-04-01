@@ -35,9 +35,12 @@ namespace Skincare_Product_Sales_System.Controllers
                 {
                     var user = await _userManager.FindByIdAsync(order.CustomerId);
                     var staff = await _userManager.FindByIdAsync(order.StaffId);
-
+                    if(staff != null)
+                    {
+						order.StaffName = staff.FirstName + " " + staff.LastName;
+					}
                     order.CustomerName = user.FirstName + " " + user.LastName;
-                    order.StaffName = staff.FirstName + " " + staff.LastName;
+                    
                 }
                 return Ok(orderModel);
             }
@@ -77,15 +80,8 @@ namespace Skincare_Product_Sales_System.Controllers
                     return NotFound("Order not found.");
                 }
 
-                if (orderModel.OrderStatus != null)
-                {
-                    existingOrder.OrderStatus = orderModel.OrderStatus;
-                }
-
-                if (orderModel.StaffId != null)
-                {
-                    existingOrder.StaffId = orderModel.StaffId;
-                }
+                existingOrder.OrderStatus = orderModel.OrderStatus;
+                existingOrder.StaffId = orderModel.StaffId;
 
                 await _orderService.UpdateOrderAsync(existingOrder);
                 return Ok("Order updated successfully.");
