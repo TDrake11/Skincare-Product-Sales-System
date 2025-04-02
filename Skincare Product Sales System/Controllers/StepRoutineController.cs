@@ -22,7 +22,7 @@ namespace Skincare_Product_Sales_System.Controllers
             _stepRoutineService = stepRoutineService;
             _mapper = mapper;
         }
-		[Authorize(Roles = "Admin")]
+		[Authorize(Roles = "Admin,Customer")]
 		[HttpGet("listStepRoutines")]
         public async Task<IActionResult> GetAllStepRoutines()
         {
