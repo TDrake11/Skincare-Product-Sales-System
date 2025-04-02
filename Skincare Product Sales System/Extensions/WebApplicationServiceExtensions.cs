@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Skincare_Product_Sales_System.Helpers;
 using Skincare_Product_Sales_System_Application.Service.StepRoutineService;
 using Skincare_Product_Sales_System_Application.Services.CategoryService;
@@ -16,7 +17,6 @@ using Skincare_Product_Sales_System_Application.Services.StepRoutineServices;
 using Skincare_Product_Sales_System_Application.Services.TokenService;
 using Skincare_Product_Sales_System_Domain.Interfaces;
 using Skincare_Product_Sales_System_Infrastructure.Data;
-using Skincare_Product_Sales_System_Infrastructure.Extensions;
 
 namespace Skincare_Product_Sales_System.Extensions
 {
@@ -24,7 +24,6 @@ namespace Skincare_Product_Sales_System.Extensions
 	{
 		public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration config)
 		{
-			services.AddInfrastructure(config);
 			services.AddControllers();
 			services.AddEndpointsApiExplorer();
 			services.AddAuthenticationService(config);
@@ -40,24 +39,29 @@ namespace Skincare_Product_Sales_System.Extensions
 				});
 
 				options.AddSecurityRequirement(new OpenApiSecurityRequirement
+			{
 				{
+					new OpenApiSecurityScheme
 					{
-						new OpenApiSecurityScheme
+						Reference = new OpenApiReference
 						{
-							Reference = new OpenApiReference
-							{
-								Type = ReferenceType.SecurityScheme,
-								Id = "Bearer"
-							}
-						},
-						[]
-					}
-				});
+							Type = ReferenceType.SecurityScheme,
+							Id = "Bearer"
+						}
+					},
+					new string[] { }
+				}
+			});
 			});
 
 			services.AddAutoMapper(typeof(MappingProfile));
 			services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
+			// Đăng ký DbContext với vòng đời Scoped
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+
+			// Các service khác
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<ITokenService, TokenService>();
@@ -74,7 +78,9 @@ namespace Skincare_Product_Sales_System.Extensions
 			services.AddScoped<ISkinTestAnswerService, SkinTestAnswerService>();
 			services.AddScoped<ISkinCareRoutineService, SkinCareRoutineService>();
 			services.AddScoped<IStepRoutineService, StepRoutineService>();
+
 			return services;
 		}
 	}
+
 }

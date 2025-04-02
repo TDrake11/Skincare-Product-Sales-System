@@ -55,10 +55,8 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 			await _unitOfWork.Complete();
 		}
 
-		public async Task DeleteProduct(int id)
+		public async Task DeleteProduct(Product product)
 		{
-			var product = _unitOfWork.Repository<Product>().GetById(id);
-
 			if (product != null)
 			{
 				product.ProductStatus = ProductStatus.Inactive.ToString();

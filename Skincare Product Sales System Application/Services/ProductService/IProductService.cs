@@ -14,6 +14,6 @@ namespace Skincare_Product_Sales_System_Application.Services.ProductService
 		Product GetProductDeatilById(int id);
 		Task CreateProduct(Product product);
 		Task  UpdateProduct( Product product);
-		Task DeleteProduct(int id);
+		Task DeleteProduct(Product product);
 	}
 }
