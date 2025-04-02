@@ -58,7 +58,6 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
                 throw new InvalidOperationException("RoutineId cannot be null");
             }
 
-            //Dùng GenericRepository để kiểm tra StepNumber trùng với trạng thái Active
             var existingActiveStep = await _unitOfWork.Repository<StepRoutine>()
                .ListAsync(
                    filter: s => s.RoutineId == stepRoutine.RoutineId
@@ -73,16 +72,14 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
                 throw new InvalidOperationException($"StepNumber {stepRoutine.StepNumber} has existed in RoutineId {stepRoutine.RoutineId}");
             }
 
-            // Thêm StepRoutine mới
             stepRoutine.Status = StepRoutineStatus.Active.ToString();
             await _unitOfWork.Repository<StepRoutine>().AddAsync(stepRoutine);
             await _unitOfWork.Complete();
             
-            // Kêu TotalSteps trong SkinCareRoutine (cộng thêm 1 thay vì truy vấn toàn bộ)
             var routine = await _unitOfWork.Repository<SkinCareRoutine>().GetByIdAsync((int)stepRoutine.RoutineId);
             if (routine != null)
             {
-                routine.TotalSteps += 1;  // Cộng trực tiếp
+                routine.TotalSteps += 1;
                 _unitOfWork.Repository<SkinCareRoutine>().Update(routine);
                 await _unitOfWork.Complete();
             }
@@ -108,7 +105,7 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
                     .ListAsync(
                         filter: s => s.RoutineId == stepRoutine.RoutineId
                                      && s.StepNumber == stepRoutine.StepNumber
-                                     && s.Id != stepRoutine.Id // Đảm bảo không so với chính nó
+                                     && s.Id != stepRoutine.Id
                                      && s.Status == StepRoutineStatus.Active.ToString(),
                         orderBy: null,
                         includeProperties: null
@@ -141,11 +138,6 @@ namespace Skincare_Product_Sales_System_Application.Service.StepRoutineService
             else
             {
                 throw new Exception("StepRoutine not found");
-            }
-
-            if (stepRoutine.RoutineId == null)
-            {
-                throw new InvalidOperationException("RoutineId cannot be null");
             }
 
             var routine = await _unitOfWork.Repository<SkinCareRoutine>().GetByIdAsync((int)stepRoutine.RoutineId);

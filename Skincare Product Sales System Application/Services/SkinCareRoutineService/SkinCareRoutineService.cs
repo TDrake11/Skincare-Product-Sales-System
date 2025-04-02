@@ -62,7 +62,6 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinCareRoutineServ
                 throw new Exception("SkinCareRoutine not found");
             }
 
-            skinCareRoutine.TotalSteps = existingSkinCareRoutine.TotalSteps;
             existingSkinCareRoutine.RoutineName = skinCareRoutine.RoutineName;
             existingSkinCareRoutine.Description = skinCareRoutine.Description;
             existingSkinCareRoutine.SkinTypeId = skinCareRoutine.SkinTypeId;
