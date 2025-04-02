@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Skincare_Product_Sales_System.Extensions;
 using Skincare_Product_Sales_System_Domain.Entities;
+
 namespace Skincare_Product_Sales_System
 {
 	public class Program
