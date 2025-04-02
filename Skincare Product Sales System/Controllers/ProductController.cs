@@ -168,11 +168,12 @@ namespace Skincare_Product_Sales_System.Controllers
 
 
 		[HttpDelete("deleteProduct/{id}")]
-		public  IActionResult DeleteProduct(int id)
+		public  async Task<IActionResult> DeleteProduct(int id)
 		{
 			try
 			{
-				_productService.DeleteProduct(id);
+				var product = _productService.GetProductById(id);
+				await _productService.DeleteProduct(product);
 				return Ok("Product deleted successfully");
 			}
 			catch (Exception ex)
