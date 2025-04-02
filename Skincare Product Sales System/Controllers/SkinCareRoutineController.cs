@@ -24,7 +24,6 @@ namespace Skincare_Product_Sales_System.Controllers
             _skinCareRoutineService = skinCareRoutineService;
             _mapper = mapper;
         }
-		[Authorize(Roles = "Admin,Customer")]
 		[HttpGet("listSkinCareRoutines")]
         public async Task<IActionResult> GetAllSkinCareRoutines()
         {
@@ -39,7 +38,6 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-		[Authorize(Roles = "Admin,Customer")]
 		[HttpGet("getSkinCareRoutineById/{id}")]
         public async Task<IActionResult> GetSkinCareRoutineById(int id)
         {
@@ -59,7 +57,6 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-		[Authorize(Roles = "Admin,Customer")]
 		[HttpGet("getSkinCareRoutinesBySkinTypeId/{skinTypeId}")]
         public async Task<IActionResult> GetSkinCareRoutineBySkinTypeId(int skinTypeId)
         {

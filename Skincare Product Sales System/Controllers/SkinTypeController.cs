@@ -24,7 +24,6 @@ namespace Skincare_Product_Sales_System.Controllers
             _skinTypeService = skinTypeService;
             _mapper = mapper;
         }
-		[Authorize(Roles = "Admin,Customer")]
 		[HttpGet("listSkinType")]
         public async Task<IActionResult> GetListSkinTypes()
         {

@@ -22,7 +22,6 @@ namespace Skincare_Product_Sales_System.Controllers
             _skinAnswerService = skinAnswerService;
             _mapper = mapper;
         }
-        [Authorize(Roles = "Admin,Customer")]
         [HttpGet("ListSkinAnswer")]
         public async Task<IActionResult> GetAllSkinAnswer()
         {
@@ -34,7 +33,6 @@ namespace Skincare_Product_Sales_System.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
-        [Authorize(Roles = "Admin,Customer")]
 		[HttpGet("getSkinAnswerById/{id}")]
         public async Task<IActionResult> GetSkinAnswerById(int id)
         {
@@ -53,7 +51,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles = "Admin,Customer")]
+
 		[HttpGet("getSkinAnswersBySkinTypeId/{skinTypeId}")]
         public async Task<IActionResult> GetSkinAnswersBySkinTypeId(int skinTypeId)
         {
@@ -73,7 +71,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-		[Authorize(Roles = "Admin,Customer")]
+
 		[HttpGet("getSkinAnswersBySkinQuestionId/{skinQuestionId}")]
         public async Task<IActionResult> GetSkinAnswersBySkinQuestionId(int skinQuestionId)
         {

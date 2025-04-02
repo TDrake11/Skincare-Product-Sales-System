@@ -10,7 +10,7 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-    [Authorize(Roles = "Admin,Customer")]
+    
 	[Route("api/[controller]")]
     [ApiController]
     public class SkinQuestionController : ControllerBase
@@ -50,8 +50,8 @@ namespace Skincare_Product_Sales_System.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
-
-        [HttpPost("createSkinQuestion")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("createSkinQuestion")]
         public async Task<IActionResult> CreateSkinQuestion(CreateSkinQuestionModel skinQModel)
         {
             try
@@ -62,8 +62,8 @@ namespace Skincare_Product_Sales_System.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
-
-        [HttpPut("updateSkinQuestion")]
+		[Authorize(Roles = "Admin")]
+		[HttpPut("updateSkinQuestion")]
         public async Task<IActionResult> UpdateSkinQuestion([FromBody] UpdateSkinQuestionModel skinQModel)
         {
             try
@@ -91,8 +91,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpDelete("deleteSkinQuestion/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("deleteSkinQuestion/{id}")]
         public async Task<IActionResult> DeleteSkinQuestion(int id)
         {
             try

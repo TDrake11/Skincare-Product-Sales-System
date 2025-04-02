@@ -22,7 +22,7 @@ namespace Skincare_Product_Sales_System.Controllers
             _stepRoutineService = stepRoutineService;
             _mapper = mapper;
         }
-		[Authorize(Roles = "Admin,Customer")]
+
 		[HttpGet("listStepRoutines")]
         public async Task<IActionResult> GetAllStepRoutines()
         {
@@ -37,7 +37,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-		[Authorize(Roles = "Admin")]
+
 		[HttpGet("getStepRoutine/{id}")]
         public async Task<IActionResult> GetStepRoutineById(int id)
         {
@@ -56,7 +56,6 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize(Roles ="Admin,Customer")]
         [HttpGet("getStepRoutineByRoutineId/{routineId}")]
         public async Task<IActionResult> GetStepRoutinesByRoutineId(int routineId)
         {

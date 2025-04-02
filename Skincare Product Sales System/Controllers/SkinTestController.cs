@@ -25,7 +25,7 @@ namespace Skincare_Product_Sales_System.Controllers
             _mapper = mapper;
             _userManager = userManager;
 		}
-		[Authorize(Roles = "Admin")]
+		[Authorize]
 		[HttpGet("listSkinTestServices")]
         public async Task<IActionResult> GetAllSkinTestServices()
         {

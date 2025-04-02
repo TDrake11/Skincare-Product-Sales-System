@@ -21,7 +21,6 @@ namespace Skincare_Product_Sales_System.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
-		[Authorize(Roles = "Admin,Customer")]
 		[HttpGet("getCategories")]
         public async Task<IActionResult> GetAllCategories()
         {

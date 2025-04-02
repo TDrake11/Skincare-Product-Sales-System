@@ -10,7 +10,6 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
@@ -95,7 +94,7 @@ namespace Skincare_Product_Sales_System.Controllers
             }
         }
 
-        [HttpPost("createComment")]
+		[HttpPost("createComment")]
         public async Task<IActionResult> CreateComment(CreateCommentModel commentModel)
         {
             try
@@ -124,8 +123,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpDelete("deleteComment/{id}")]
+		[Authorize(Roles = "Staff")]
+		[HttpDelete("deleteComment/{id}")]
         public async Task<IActionResult> DeleteComment(int id)
         {
             try
