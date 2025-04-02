@@ -74,7 +74,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-
+		[Authorize(Roles = "Admin")]
 		[HttpPost("createProduct")]
 		public async Task<IActionResult> CreateProduct([FromForm] ProductModel productModel)
 		{
@@ -115,7 +115,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-
+		[Authorize(Roles = "Admin,Staff")]
 		[HttpPut("updateProduct")]
 		public async Task<IActionResult> UpdateProduct([FromForm] ProductUpdateModel productModel)
 		{
@@ -166,7 +166,7 @@ namespace Skincare_Product_Sales_System.Controllers
 			}
 		}
 
-
+		[Authorize(Roles = "Admin,Staff")]
 		[HttpDelete("deleteProduct/{id}")]
 		public  async Task<IActionResult> DeleteProduct(int id)
 		{

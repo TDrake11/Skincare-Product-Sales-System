@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -20,8 +21,8 @@ namespace Skincare_Product_Sales_System.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
-
-        [HttpGet("getCategories")]
+		[Authorize(Roles = "Admin,Customer")]
+		[HttpGet("getCategories")]
         public async Task<IActionResult> GetAllCategories()
         {
             try
@@ -35,8 +36,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("createCategory")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("createCategory")]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequest request)
         {
             try
@@ -50,8 +51,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPut("updateCategory")]
+		[Authorize(Roles = "Admin")]
+		[HttpPut("updateCategory")]
         public async Task<IActionResult> UpdateCategory([FromBody] CategoryModel updateCategory)
         {
             try
@@ -78,8 +79,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpDelete("deleteCategory/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("deleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             try

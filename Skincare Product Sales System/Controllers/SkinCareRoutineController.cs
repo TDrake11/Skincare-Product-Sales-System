@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -10,7 +11,8 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-    [Route("api/[controller]")]
+
+	[Route("api/[controller]")]
     [ApiController]
     public class SkinCareRoutineController : ControllerBase
     {
@@ -22,8 +24,8 @@ namespace Skincare_Product_Sales_System.Controllers
             _skinCareRoutineService = skinCareRoutineService;
             _mapper = mapper;
         }
-
-        [HttpGet("listSkinCareRoutines")]
+		[Authorize(Roles = "Admin,Customer")]
+		[HttpGet("listSkinCareRoutines")]
         public async Task<IActionResult> GetAllSkinCareRoutines()
         {
             try
@@ -37,8 +39,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("getSkinCareRoutineById/{id}")]
+		[Authorize(Roles = "Admin,Customer")]
+		[HttpGet("getSkinCareRoutineById/{id}")]
         public async Task<IActionResult> GetSkinCareRoutineById(int id)
         {
             try
@@ -57,8 +59,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-        [HttpGet("getSkinCareRoutinesBySkinTypeId/{skinTypeId}")]
+		[Authorize(Roles = "Admin,Customer")]
+		[HttpGet("getSkinCareRoutinesBySkinTypeId/{skinTypeId}")]
         public async Task<IActionResult> GetSkinCareRoutineBySkinTypeId(int skinTypeId)
         {
             try
@@ -76,8 +78,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("createSkinCareRoutine")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("createSkinCareRoutine")]
         public async Task<IActionResult> CreateSkinCareRoutine(CreateSkinCareRoutineModel skinRTModel)
         {
             try
@@ -91,8 +93,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPut("updateSkinCareRoutine")]
+		[Authorize(Roles = "Admin")]
+		[HttpPut("updateSkinCareRoutine")]
         public async Task<IActionResult> UpdateSkinCareRoutine([FromBody] UpdateSkinCareRoutineModel skinRTModel)
         {
             try
@@ -119,8 +121,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpDelete("deleteSkinCareRoutine/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("deleteSkinCareRoutine/{id}")]
         public async Task<IActionResult> DeleteSkinCareRoutine(int id)
         {
             try

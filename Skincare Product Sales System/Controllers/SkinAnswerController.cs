@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -21,7 +22,7 @@ namespace Skincare_Product_Sales_System.Controllers
             _skinAnswerService = skinAnswerService;
             _mapper = mapper;
         }
-
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet("ListSkinAnswer")]
         public async Task<IActionResult> GetAllSkinAnswer()
         {
@@ -33,8 +34,8 @@ namespace Skincare_Product_Sales_System.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
-
-        [HttpGet("getSkinAnswerById/{id}")]
+        [Authorize(Roles = "Admin,Customer")]
+		[HttpGet("getSkinAnswerById/{id}")]
         public async Task<IActionResult> GetSkinAnswerById(int id)
         {
             try
@@ -52,8 +53,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("getSkinAnswersBySkinTypeId/{skinTypeId}")]
+        [Authorize(Roles = "Admin,Customer")]
+		[HttpGet("getSkinAnswersBySkinTypeId/{skinTypeId}")]
         public async Task<IActionResult> GetSkinAnswersBySkinTypeId(int skinTypeId)
         {
             try
@@ -72,8 +73,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("getSkinAnswersBySkinQuestionId/{skinQuestionId}")]
+		[Authorize(Roles = "Admin,Customer")]
+		[HttpGet("getSkinAnswersBySkinQuestionId/{skinQuestionId}")]
         public async Task<IActionResult> GetSkinAnswersBySkinQuestionId(int skinQuestionId)
         {
             try
@@ -93,8 +94,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("createSkinAnswer")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("createSkinAnswer")]
         public async Task<IActionResult> CreateSkinAnswer(CreateSkinAnswerModel skinAModel)
         {
             try
@@ -108,8 +109,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPut("updateSkinAnswer")]
+		[Authorize(Roles = "Admin")]
+		[HttpPut("updateSkinAnswer")]
         public async Task<IActionResult> UpdateSkinAnswer([FromBody] UpdateSkinAnswerModel skinAModel)
         {
             try
@@ -136,8 +137,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message); 
             }
         }
-
-        [HttpDelete("deleteSkinAnswer/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("deleteSkinAnswer/{id}")]
         public async Task<IActionResult> DeleteSkinAnswer(int id)
         {
             try

@@ -85,5 +85,11 @@ namespace Skincare_Product_Sales_System_Application.Services.SkinTestService
 
             return newSkinTest;
         }
-    }
+
+        public async Task AddSkinTestAsync(SkinTest skinTest)
+		{
+			await _unitOfWork.Repository<SkinTest>().AddAsync(skinTest);
+			await _unitOfWork.Complete();
+		}
+	}
 }

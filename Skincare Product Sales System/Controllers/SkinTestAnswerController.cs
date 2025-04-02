@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -7,6 +8,7 @@ using Skincare_Product_Sales_System_Application.Services.SkinTypeService;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
+    [Authorize(Roles ="Admin,Customer")]
 	[Route("api/[controller]")]
     [ApiController]
     public class SkinTestAnswerController : ControllerBase

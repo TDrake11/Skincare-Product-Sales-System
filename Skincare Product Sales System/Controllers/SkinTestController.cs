@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
 using Skincare_Product_Sales_System_Application.Services.SkinCareRoutineService;
@@ -8,20 +10,23 @@ using Skincare_Product_Sales_System_Domain.Entities;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SkinTestController : ControllerBase
     {
         private readonly ISkinTestService _skinTestService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public SkinTestController(ISkinTestService skinTestService, IMapper mapper)
+        public SkinTestController(ISkinTestService skinTestService, IMapper mapper, UserManager<User> userManager)
         {
             _skinTestService = skinTestService;
             _mapper = mapper;
-        }
-
-        [HttpGet("listSkinTestServices")]
+            _userManager = userManager;
+		}
+		[Authorize(Roles = "Admin")]
+		[HttpGet("listSkinTestServices")]
         public async Task<IActionResult> GetAllSkinTestServices()
         {
             try
@@ -35,8 +40,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("getSkinTestsByCustomerId/{customerId}")]
+		[Authorize(Roles = "Admin,Customer")]
+		[HttpGet("getSkinTestsByCustomerId/{customerId}")]
         public async Task<IActionResult> GetListSkinTestsByCustomerId(string customerId)
         {
             try
@@ -54,26 +59,29 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("createSkinTest")]
-        public async Task<IActionResult> CreateSkinTest([FromBody] CreateSkinTestModel request)
+		[Authorize]
+		[HttpPost("createSkinTest")]
+        public async Task<IActionResult> CreateSkinTest(int skinTypeId)
         {
-            if (request == null || string.IsNullOrEmpty(request.CustomerId) || request.AnswerIds == null || !request.AnswerIds.Any())
-        {
-                return BadRequest("Invalid request data.");
-            }
-
             try
             {
-                var newSkinTest = await _skinTestService.CreateSkinTestAsync(request.CustomerId, request.SkinTypeId, request.AnswerIds);
+				var user = await _userManager.GetUserAsync(User);
+				var skinTest = new SkinTest
+				{
+					CustomerId = user.Id,
+					SkinTypeId = skinTypeId,
+					CreateDate = DateTime.Now
+				};
+				await _skinTestService.AddSkinTestAsync(skinTest);
+                return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
 
-                return Ok("SkinTest created successfully");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
+
+		}
 
     }
 }

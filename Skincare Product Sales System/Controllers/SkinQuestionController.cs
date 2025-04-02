@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -9,7 +10,8 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize(Roles = "Admin,Customer")]
+	[Route("api/[controller]")]
     [ApiController]
     public class SkinQuestionController : ControllerBase
     {
@@ -21,7 +23,6 @@ namespace Skincare_Product_Sales_System.Controllers
             _skinQuestionService = skinQuestionService;
             _mapper = mapper;
         }
-
         [HttpGet("ListSkinQuestions")]
         public async Task<IActionResult> GetAllSkinQuestions()
         {

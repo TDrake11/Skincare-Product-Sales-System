@@ -7,8 +7,8 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-	//[Authorize(Roles = "Admin")]
-	//[ApiController]
+	[Authorize(Roles = "Admin")]
+	[ApiController]
 	[Route("api/Dashboard")]
 	public class DashboardController : Controller
 	{

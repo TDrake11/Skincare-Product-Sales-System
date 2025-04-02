@@ -290,7 +290,7 @@ namespace Skincare_Product_Sales_System.Controllers
 		}
 
 		
-		[Authorize(Roles = "Admin,Staff")]
+		[Authorize(Roles = "Admin")]
 		[HttpPost("CreateStaffAccount")]
 		public async Task<IActionResult> CreateStaffAccount([FromBody] RegisterModel registerModel)
 		{

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,8 @@ namespace Skincare_Product_Sales_System.Controllers
             _mapper = mapper;
             _userManager = userManager;
         }
-
-        [HttpGet("ListOrders")]
+		[Authorize]
+		[HttpGet("ListOrders")]
         public async Task<IActionResult> GetAllOrder()
         {
             try
@@ -49,8 +50,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }    
         }
-
-        [HttpGet("getOrderById/{id}")]
+		[Authorize]
+		[HttpGet("getOrderById/{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
             try
@@ -68,8 +69,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPut("updateOrder")]
+		[Authorize(Roles = "Admin,Staff")]
+		[HttpPut("updateOrder")]
         public async Task<IActionResult> Update([FromBody] UpdateOrderModel orderModel)
         {
             try
@@ -94,8 +95,8 @@ namespace Skincare_Product_Sales_System.Controllers
 
 
 
-
-        [HttpDelete("deleteOrder/{id}")]
+		[Authorize(Roles = "Customer")]
+		[HttpDelete("deleteOrder/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try

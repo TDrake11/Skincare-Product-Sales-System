@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -9,7 +10,7 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [ApiController]
     public class StepRoutineController : ControllerBase
     {
@@ -21,8 +22,8 @@ namespace Skincare_Product_Sales_System.Controllers
             _stepRoutineService = stepRoutineService;
             _mapper = mapper;
         }
-
-        [HttpGet("listStepRoutines")]
+		[Authorize(Roles = "Admin")]
+		[HttpGet("listStepRoutines")]
         public async Task<IActionResult> GetAllStepRoutines()
         {
             try
@@ -36,8 +37,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("getStepRoutine/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpGet("getStepRoutine/{id}")]
         public async Task<IActionResult> GetStepRoutineById(int id)
         {
             try
@@ -55,7 +56,7 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles ="Admin,Customer")]
         [HttpGet("getStepRoutineByRoutineId/{routineId}")]
         public async Task<IActionResult> GetStepRoutinesByRoutineId(int routineId)
         {
@@ -74,8 +75,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("createStepRoutine")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("createStepRoutine")]
         public async Task<IActionResult> CreateStepRoutine(CreateStepRoutineModel stepRoutineModel)
         {
             try
@@ -89,8 +90,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPut("updateStepRoutine")]
+		[Authorize(Roles = "Admin")]
+		[HttpPut("updateStepRoutine")]
         public async Task<IActionResult> UpdateStepRoutine([FromBody] UpdateStepRoutineModel stepRoutineModel)
         {
             try
@@ -117,8 +118,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpDelete("deleteStepRoutine/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("deleteStepRoutine/{id}")]
         public async Task<IActionResult> DeleteStepRoutine(int id)
         {
             try

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skincare_Product_Sales_System.Models;
@@ -10,6 +11,7 @@ using Skincare_Product_Sales_System_Domain.Enums;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SkinTypeController : ControllerBase
@@ -22,8 +24,8 @@ namespace Skincare_Product_Sales_System.Controllers
             _skinTypeService = skinTypeService;
             _mapper = mapper;
         }
-
-        [HttpGet("listSkinType")]
+		[Authorize(Roles = "Admin,Customer")]
+		[HttpGet("listSkinType")]
         public async Task<IActionResult> GetListSkinTypes()
         {
             try
@@ -37,8 +39,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("createSkinType")]
+		[Authorize(Roles = "Admin")]
+		[HttpPost("createSkinType")]
         public async Task<IActionResult> Create(CreateSkinTypeModel skinTypeModel)
         {
             try
@@ -52,8 +54,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPut("updateSkinType")]
+		[Authorize(Roles = "Admin")]
+		[HttpPut("updateSkinType")]
         public async Task<IActionResult> Update([FromBody] SkinTypeModel skinTypeModel)
         {
             try
@@ -80,8 +82,8 @@ namespace Skincare_Product_Sales_System.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpDelete("deleteSkinType/{id}")]
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("deleteSkinType/{id}")]
         public async Task<IActionResult> DeleteSkinType(int id)
         {
             try

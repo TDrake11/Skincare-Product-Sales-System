@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 namespace Skincare_Product_Sales_System.Controllers
 {
-	[Authorize]
+	[Authorize(Roles ="Customer")]
 	[Route("api/cart")]
 	[ApiController]
 	public class CartController : ControllerBase
